@@ -5,6 +5,6 @@ import jsx from "@vitejs/plugin-vue-jsx";
 export default defineConfig({
   plugins: [vue(), jsx()],
   define: {
-    __Test__: true
+    __Test__:false
   },
 });

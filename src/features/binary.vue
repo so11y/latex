@@ -19,7 +19,13 @@ const store = inject(StoreContainProvideKey)!;
 const labels = ["lhs", "rhs"];
 
 provide(FakeFiledInject, {
-  labels
+  labels,
+  onActiveFocus(_, f, index) {
+    handleActive({
+      source: f,
+      index
+    });
+  }
 })
 
 const { onCanAddChildren, handleActive, onWaylayAddChildren } = useMoreHandle({
