@@ -1,7 +1,7 @@
 import { NInput, useDialog, useMessage } from "naive-ui";
 import { StoreContainProvideKey, StoreValue } from "../components/storeContain";
 import { ContainLatexComponentStore } from "../components/types";
-import { h, inject, ref, unref } from "vue";
+import { inject, ref, unref } from "vue";
 
 export interface UseFiledProps {
   type: "string" | "number"
@@ -38,13 +38,10 @@ export function useFiled(options: UseFiledProps = { type: "string" }) {
     const contain = unref(v) as ContainLatexComponentStore;
     dialog.info({
       title: chooseType.title,
-      content: () =>
-        h(NInput, {
-          value: value.value,
-          "onUpdate:value"(e) {
-            value.value = e;
-          },
-        }),
+      content: () => {
+        return <NInput v-model:value={value.value} />
+
+      },
       positiveText: "确定",
       negativeText: "不确定",
       onPositiveClick: () => {

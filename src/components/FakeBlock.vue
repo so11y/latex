@@ -23,6 +23,7 @@ input {
 
 
 
+
 <template>
   <input :placeholder="placeholder" type="text" @click="handleActive" />
 </template>
@@ -81,6 +82,7 @@ onUnmounted(() => {
   store.removeComponent(uid);
 });
 </script>
+
 
 
 

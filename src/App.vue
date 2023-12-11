@@ -142,6 +142,9 @@ defineOptions({
 
 
 
+
+
+
 <template>
   <NDialogProvider>
     <NNotificationProvider>
@@ -170,6 +173,11 @@ defineOptions({
             handleStore.putActiveChildren('Median', '中位数', 'SingleContain')
             ">
             Median
+          </NButton>
+          <NButton @click="
+            handleStore.putActiveChildren('Absolute', '绝对值', 'SingleContain')
+            ">
+            Absolute
           </NButton>
           <NButton @click="
             handleStore.putActiveChildren('Min', '最小值', 'SingleContain')
@@ -283,12 +291,50 @@ defineOptions({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <style lang="scss">
 * {
   padding: 0;
   margin: 0;
 }
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

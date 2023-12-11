@@ -10,7 +10,7 @@ import Bracket from "./bracket.vue";
 import FakeBlock from "../components/fakeBlock.vue";
 import NumberContain from "./numberContain.vue"
 
-const RootContain = (props: LatexComponent) =>
+export const RootContain = (props: Partial<LatexComponent>) =>
   h(Contain, {
     latexName: "Root",
     ...(props as any),
