@@ -20,6 +20,8 @@ const handleType = {
   is_number() {
     return {
       validate(v: string) {
+
+
         return /^-?\d+(\.\d+)?$/.test(v);
       },
       title: "输入数字",
