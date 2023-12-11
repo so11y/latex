@@ -16,7 +16,7 @@ import { decode } from "../convert";
 export type StoreValue = ComputedRef<ContainLatexComponentStore>;
 export type Store = Record<string, StoreValue>;
 export interface StoreContainProvide {
-  getIncreaseUid(): string;
+  getIncreaseUid(peek?:    boolean): string;
   getComponent(id: string): ContainLatexComponentStore;
   getComponentOrginl(id: string): StoreValue;
   getActiveId(): string;

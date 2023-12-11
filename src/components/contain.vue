@@ -243,7 +243,6 @@ function paste(e: ClipboardEvent) {
   }
   const content = e.clipboardData!.getData("text/plain");
   try {
-    console.log("--");
     // store.setActiveId(uid)
     const data = JSON.parse(content);
     newId(data, store, uid);
