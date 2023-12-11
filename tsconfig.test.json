@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "noEmit": true,
   },
   "extends": "./tsconfig.json",
   "include": [
     "./tests/*.tsx",
+    "./tests/**/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.vue",
     "vite-env.d.ts",
     "./tests/**/*.tsx",
+    "./tests/**/*.json"
   ]
 }

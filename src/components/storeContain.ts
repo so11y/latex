@@ -12,11 +12,12 @@ import {
 } from "vue";
 import type { ContainProvide, ContainLatexComponentStore } from "./types";
 import { decode } from "../convert";
+import { uniqueId } from "lodash-es"
 
 export type StoreValue = ComputedRef<ContainLatexComponentStore>;
 export type Store = Record<string, StoreValue>;
 export interface StoreContainProvide {
-  getIncreaseUid(peek?:    boolean): string;
+  getIncreaseUid(peek?: boolean): string;
   getComponent(id: string): ContainLatexComponentStore;
   getComponentOrginl(id: string): StoreValue;
   getActiveId(): string;
@@ -32,9 +33,12 @@ export interface StoreContainProvide {
   ): void;
   toStringLatex: Ref<string>;
   encode(id?: string): Record<string, any>;
-  decode(v: Record<string, any>): void;
+  decode(v: Record<string, any>): Promise<void>;
 }
 function generateCombinedId() {
+  if (__Test__) {
+    return uniqueId();
+  }
   const timestamp = new Date().getTime(); // 获取当前时间戳
   const randomId = Math.random().toString(36).substring(2); // 生成随机字符串
   const combinedId = randomId + '_' + timestamp; // 结合随机字符串和时间戳
@@ -64,7 +68,7 @@ function handleToString(store: Store) {
 export default defineComponent({
   setup(_, { slots }) {
     const store = reactive<Store>({});
-    let increaseId = generateCombinedId();
+    let increaseId: string;
     let activeId: string = "-2";
 
     const toStringLatex = handleToString(store);
@@ -153,7 +157,6 @@ export default defineComponent({
       toStringLatex,
       encode(id = "-1") {
         const s = actions.getComponent(id).encode();
-        console.log(s);
         return s;
       },
       decode(v: Record<string, any>) {
@@ -166,7 +169,7 @@ export default defineComponent({
         } else {
           v.config.parentId = activeId;
         }
-        decode(v, actions);
+        return decode(v, actions);
       },
     } as StoreContainProvide;
     provide(StoreContainProvideKey, actions);
@@ -174,4 +177,4 @@ export default defineComponent({
       return slots.default!(actions);
     };
   },
-});
+})

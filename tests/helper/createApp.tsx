@@ -5,7 +5,7 @@ import Latex from "../../src/features/latex.vue"
 import feature, { RootContain } from "../../src/features/index"
 
 export function createSimpleApp(
-  slot?: (v: StoreContainProvide) => JSX.Element,
+  slot?: (v: StoreContainProvide) => JSX.Element | null,
 ) {
   return mount(() => <NDialogProvider>
     <NNotificationProvider>
@@ -14,7 +14,7 @@ export function createSimpleApp(
           {{
             default: (v: StoreContainProvide) => {
               return <>
-                <Latex />
+                {/* <Latex /> */}
                 {slot && slot(v)}
                 <RootContain id="-1" alias="入口" />
               </>

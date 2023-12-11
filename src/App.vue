@@ -8,133 +8,188 @@ import {
   NButton,
 } from "naive-ui";
 let a = {
-  "type": "BinaryExpression",
+  "type": "ConditionalExpression",
   "config": {
-    "id": "t8rx7l1kz0o_1702110495894",
-    "latexName": "Div",
+    "id": "1",
+    "latexName": "Conditional",
     "parentId": "-1",
-    "alias": "除",
-    "componentName": "Binary",
-    "data": {
-      "operator": "{\\div}"
-    }
+    "alias": "if",
+    "componentName": "Conditional"
   },
-  "operator": "Div",
-  "left": {
-    "type": "CallExpression",
-    "config": {
-      "id": "tg6wn1wkqhl_1702110501440",
-      "latexName": "Count",
-      "parentId": "t8rx7l1kz0o_1702110495894",
-      "alias": "数据量",
-      "componentName": "SingleContain"
-    },
-    "callee": "Count",
-    "argument": {
-      "type": "Literal",
-      "config": {
-        "id": "rrjhl5ovtal_1702110505413",
-        "latexName": "nn",
-        "parentId": "tg6wn1wkqhl_1702110501440",
-        "alias": "nn",
-        "componentName": "Filed"
-      },
-      "value": "nn"
-    }
-  },
-  "right": {
+  "test": {
     "type": "BinaryExpression",
     "config": {
-      "id": "8cmcsrul6g3_1702110532763",
-      "latexName": "Minus",
-      "parentId": "t8rx7l1kz0o_1702110495894",
-      "alias": "减",
-      "componentName": "Binary",
+      "id": "2",
+      "latexName": "Eq",
+      "parentId": "1",
+      "alias": "==",
+      "componentName": "Logical",
       "data": {
-        "operator": "-"
+        "operator": "\\equiv"
       }
     },
-    "operator": "Minus",
+    "operator": "Eq",
+    "left": {
+      "type": "CallExpression",
+      "config": {
+        "id": "3",
+        "latexName": "Absolute",
+        "parentId": "2",
+        "alias": "绝对值",
+        "componentName": "SingleContain"
+      },
+      "callee": "Absolute",
+      "argument": {
+        "type": "Literal",
+        "config": {
+          "id": "4",
+          "latexName": "aa",
+          "parentId": "3",
+          "alias": "aa",
+          "componentName": "Filed"
+        },
+        "value": "aa"
+      }
+    },
+    "right": {
+      "type": "CallExpression",
+      "config": {
+        "id": "5",
+        "latexName": "Median",
+        "parentId": "2",
+        "alias": "中位数",
+        "componentName": "SingleContain"
+      },
+      "callee": "Median",
+      "argument": {
+        "type": "Literal",
+        "config": {
+          "id": "6",
+          "latexName": "bb",
+          "parentId": "5",
+          "alias": "bb",
+          "componentName": "Filed"
+        },
+        "value": "bb"
+      }
+    }
+  },
+  "consequent": {
+    "type": "BinaryExpression",
+    "config": {
+      "id": "7",
+      "latexName": "Div",
+      "parentId": "1",
+      "alias": "除",
+      "componentName": "Binary",
+      "data": {
+        "operator": "{\\div}"
+      }
+    },
+    "operator": "Div",
     "left": {
       "type": "NumberLiteral",
       "config": {
-        "id": "dbcu4czeur9_1702110538590",
-        "latexName": "10",
-        "parentId": "jw8quca1jg_1702110535611",
-        "alias": "10",
+        "id": "9",
+        "latexName": "3",
+        "parentId": "8",
+        "alias": "3",
         "componentName": "NumberFiled",
         "bracket": {
-          "id": "jw8quca1jg_1702110535611",
+          "id": "8",
           "latexName": "Number",
-          "parentId": "8cmcsrul6g3_1702110532763",
+          "parentId": "7",
           "alias": "数值",
           "componentName": "NumberContain"
         }
       },
-      "value": "10"
+      "value": "3"
     },
     "right": {
-      "type": "BinaryExpression",
+      "type": "CallExpression",
       "config": {
-        "id": "ffy4e6metfa_1702110557152",
-        "latexName": "Plus",
-        "parentId": "rdpyrod4sx_1702110542131",
-        "alias": "加",
-        "componentName": "Binary",
-        "data": {
-          "operator": "+"
+        "id": "10",
+        "latexName": "Median",
+        "parentId": "7",
+        "alias": "中位数",
+        "componentName": "SingleContain"
+      },
+      "callee": "Median",
+      "argument": {
+        "type": "Literal",
+        "config": {
+          "id": "11",
+          "latexName": "cc",
+          "parentId": "10",
+          "alias": "cc",
+          "componentName": "Filed"
         },
+        "value": "cc"
+      }
+    }
+  },
+  "alternate": {
+    "type": "BinaryExpression",
+    "config": {
+      "id": "12",
+      "latexName": "Plus",
+      "parentId": "1",
+      "alias": "加",
+      "componentName": "Binary",
+      "data": {
+        "operator": "+"
+      }
+    },
+    "operator": "Plus",
+    "left": {
+      "type": "CallExpression",
+      "config": {
+        "id": "13",
+        "latexName": "Last",
+        "parentId": "12",
+        "alias": "最后一个点",
+        "componentName": "SingleContain"
+      },
+      "callee": "Last",
+      "argument": {
+        "type": "Literal",
+        "config": {
+          "id": "14",
+          "latexName": "dd",
+          "parentId": "13",
+          "alias": "dd",
+          "componentName": "Filed"
+        },
+        "value": "dd"
+      }
+    },
+    "right": {
+      "type": "NumberLiteral",
+      "config": {
+        "id": "16",
+        "latexName": "1",
+        "parentId": "15",
+        "alias": "1",
+        "componentName": "NumberFiled",
         "bracket": {
-          "id": "rdpyrod4sx_1702110542131",
-          "latexName": "Bracket",
-          "parentId": "8cmcsrul6g3_1702110532763",
-          "alias": "括号",
-          "componentName": "Bracket"
+          "id": "15",
+          "latexName": "Number",
+          "parentId": "12",
+          "alias": "数值",
+          "componentName": "NumberContain"
         }
       },
-      "operator": "Plus",
-      "left": {
-        "type": "NumberLiteral",
-        "config": {
-          "id": "p7ommnsyyeq_1702110560378",
-          "latexName": "1",
-          "parentId": "gb5m9pv2jnn_1702110558470",
-          "alias": "1",
-          "componentName": "NumberFiled",
-          "bracket": {
-            "id": "gb5m9pv2jnn_1702110558470",
-            "latexName": "Number",
-            "parentId": "ffy4e6metfa_1702110557152",
-            "alias": "数值",
-            "componentName": "NumberContain"
-          }
-        },
-        "value": "1"
-      },
-      "right": {
-        "type": "NumberLiteral",
-        "config": {
-          "id": "yjtghwt37al_1702110564268",
-          "latexName": "2",
-          "parentId": "4a0pz85j52q_1702110561708",
-          "alias": "2",
-          "componentName": "NumberFiled",
-          "bracket": {
-            "id": "4a0pz85j52q_1702110561708",
-            "latexName": "Number",
-            "parentId": "ffy4e6metfa_1702110557152",
-            "alias": "数值",
-            "componentName": "NumberContain"
-          }
-        },
-        "value": "2"
-      }
+      "value": "1"
     }
   }
 }
 defineOptions({
   name: "App",
 });
+
+function  decode(v:string) {
+ console.log(v);
+}
 </script>
 
 
@@ -228,7 +283,7 @@ defineOptions({
             handleStore.putActiveChildren('Conditional', 'if', 'Conditional')
             ">Conditional</NButton>
           <NButton @click="handleStore.putActiveChildren('Bracket', '括号', 'Bracket')">Bracket</NButton>
-          <NButton @click="handleStore.encode()">encode</NButton>
+          <NButton @click="decode(handleStore.encode())">encode</NButton>
           <NButton @click="handleStore.decode(a)">decode</NButton>
           <div>
             <NButton @click="

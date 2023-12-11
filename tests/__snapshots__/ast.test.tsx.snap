@@ -1,0 +1,427 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ast  > ConditionalExpressionAst  1`] = `
+"<div data-v-73788115="" data-id="-1" class="latex-contain column column_contain">
+  <div data-v-73788115="" style="color: #CC99FF;" class="latex-contain__title">
+    <div data-v-73788115="" class="remove">x</div> Root<span data-v-73788115="" class="bracket">(</span>
+  </div>
+  <div data-v-73788115="" class="latex_gap column">
+    <div data-v-73788115="" data-id="1" class="latex-contain column column_contain">
+      <div data-v-73788115="" style="color: #66CCFF;" class="latex-contain__title">
+        <div data-v-73788115="" class="remove">x</div> Conditional<span data-v-73788115="" class="bracket">(</span>
+      </div>
+      <div data-v-73788115="" class="latex_gap column">
+        <div data-v-73788115="" data-id="2" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Eq<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="3">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Absolute<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="4">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> aa
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="5">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Median<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="6">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> bb
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+        <div data-v-73788115="" data-id="7" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Div<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="8">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="9">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> 3
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="10">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Median<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="11">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> cc
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+        <div data-v-73788115="" data-id="12" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Plus<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="13">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Last<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="14">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> dd
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="15">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="16">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> 1
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+      </div><span><!--v-if--></span><span><!--v-if--></span><span><!--v-if--></span>
+      <div data-v-73788115="" style="color: #66CCFF;" class="bracket bracket-end"> ) </div>
+    </div>
+  </div>
+  <!--v-if-->
+  <div data-v-73788115="" style="color: #CC99FF;" class="bracket bracket-end"> ) </div>
+</div>"
+`;
+
+exports[`ast  > NestBracket 1`] = `
+"<div data-v-73788115="" class="latex-contain" data-id="-1">
+  <div data-v-73788115="" style="color: #CC99FF;" class="latex-contain__title">
+    <div data-v-73788115="" class="remove">x</div> Root<span data-v-73788115="" class="bracket">(</span>
+  </div>
+  <div data-v-73788115="" class="latex_gap">
+    <div data-v-73788115="" class="latex-contain" data-id="1">
+      <div data-v-73788115="" style="color: #66CCFF;" class="latex-contain__title">
+        <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+      </div>
+      <div data-v-73788115="" class="latex_gap">
+        <div data-v-73788115="" class="latex-contain" data-id="2">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap">
+            <div data-v-73788115="" class="latex-contain" data-id="3">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="4">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+                  </div>
+                  <div data-v-73788115="" class="latex_gap">
+                    <div data-v-73788115="" class="latex-contain" data-id="5">
+                      <div data-v-73788115="" class="latex-contain__title">
+                        <div data-v-73788115="" class="remove">x</div> 3
+                        <!--v-if-->
+                      </div>
+                      <!--v-if-->
+                    </div>
+                  </div><span><!--v-if--></span>
+                  <div data-v-73788115="" class="bracket bracket-end"> ) </div>
+                </div>
+              </div>
+              <!--v-if-->
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div>
+          <!--v-if-->
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+      </div>
+      <!--v-if-->
+      <div data-v-73788115="" style="color: #66CCFF;" class="bracket bracket-end"> ) </div>
+    </div>
+  </div>
+  <!--v-if-->
+  <div data-v-73788115="" style="color: #CC99FF;" class="bracket bracket-end"> ) </div>
+</div>"
+`;
+
+exports[`ast  > ast('BinaryExpression') 1`] = `
+"<div data-v-73788115="" data-id="-1" class="latex-contain column column_contain">
+  <div data-v-73788115="" style="color: #CC99FF;" class="latex-contain__title">
+    <div data-v-73788115="" class="remove">x</div> Root<span data-v-73788115="" class="bracket">(</span>
+  </div>
+  <div data-v-73788115="" class="latex_gap column">
+    <div data-v-73788115="" data-id="1" class="latex-contain column column_contain">
+      <div data-v-73788115="" style="color: #66CCFF;" class="latex-contain__title">
+        <div data-v-73788115="" class="remove">x</div> Plus<span data-v-73788115="" class="bracket">(</span>
+      </div>
+      <div data-v-73788115="" class="latex_gap column">
+        <div data-v-73788115="" class="latex-contain" data-id="2">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap">
+            <div data-v-73788115="" class="latex-contain" data-id="3">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> 1
+                <!--v-if-->
+              </div>
+              <!--v-if-->
+            </div>
+          </div><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+        <div data-v-73788115="" class="latex-contain" data-id="4">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap">
+            <div data-v-73788115="" class="latex-contain" data-id="5">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> 2
+                <!--v-if-->
+              </div>
+              <!--v-if-->
+            </div>
+          </div><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+      </div><span><!--v-if--></span><span><!--v-if--></span>
+      <div data-v-73788115="" style="color: #66CCFF;" class="bracket bracket-end"> ) </div>
+    </div>
+  </div>
+  <!--v-if-->
+  <div data-v-73788115="" style="color: #CC99FF;" class="bracket bracket-end"> ) </div>
+</div>"
+`;
+
+exports[`ast  > ast('ConditionalExpressionAst') 1`] = `
+"<div data-v-73788115="" data-id="-1" class="latex-contain column column_contain">
+  <div data-v-73788115="" style="color: #CC99FF;" class="latex-contain__title">
+    <div data-v-73788115="" class="remove">x</div> Root<span data-v-73788115="" class="bracket">(</span>
+  </div>
+  <div data-v-73788115="" class="latex_gap column">
+    <div data-v-73788115="" data-id="1" class="latex-contain column column_contain">
+      <div data-v-73788115="" style="color: #66CCFF;" class="latex-contain__title">
+        <div data-v-73788115="" class="remove">x</div> Conditional<span data-v-73788115="" class="bracket">(</span>
+      </div>
+      <div data-v-73788115="" class="latex_gap column">
+        <div data-v-73788115="" data-id="2" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Eq<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="3">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Absolute<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="4">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> aa
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="5">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Median<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="6">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> bb
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+        <div data-v-73788115="" data-id="7" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Div<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="8">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="9">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> 3
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="10">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Median<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="11">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> cc
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+        <div data-v-73788115="" data-id="12" class="latex-contain column column_contain">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Plus<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap column">
+            <div data-v-73788115="" class="latex-contain" data-id="13">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Last<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="14">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> dd
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+            <div data-v-73788115="" class="latex-contain" data-id="15">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="16">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> 1
+                    <!--v-if-->
+                  </div>
+                  <!--v-if-->
+                </div>
+              </div><span><!--v-if--></span>
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div><span><!--v-if--></span><span><!--v-if--></span>
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+      </div><span><!--v-if--></span><span><!--v-if--></span><span><!--v-if--></span>
+      <div data-v-73788115="" style="color: #66CCFF;" class="bracket bracket-end"> ) </div>
+    </div>
+  </div>
+  <!--v-if-->
+  <div data-v-73788115="" style="color: #CC99FF;" class="bracket bracket-end"> ) </div>
+</div>"
+`;
+
+exports[`ast  > ast('NestBracket') 1`] = `
+"<div data-v-73788115="" class="latex-contain" data-id="-1">
+  <div data-v-73788115="" style="color: #CC99FF;" class="latex-contain__title">
+    <div data-v-73788115="" class="remove">x</div> Root<span data-v-73788115="" class="bracket">(</span>
+  </div>
+  <div data-v-73788115="" class="latex_gap">
+    <div data-v-73788115="" class="latex-contain" data-id="1">
+      <div data-v-73788115="" style="color: #66CCFF;" class="latex-contain__title">
+        <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+      </div>
+      <div data-v-73788115="" class="latex_gap">
+        <div data-v-73788115="" class="latex-contain" data-id="2">
+          <div data-v-73788115="" style="color: #003366;" class="latex-contain__title">
+            <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+          </div>
+          <div data-v-73788115="" class="latex_gap">
+            <div data-v-73788115="" class="latex-contain" data-id="3">
+              <div data-v-73788115="" style="color: #330066;" class="latex-contain__title">
+                <div data-v-73788115="" class="remove">x</div> Bracket<span data-v-73788115="" class="bracket">(</span>
+              </div>
+              <div data-v-73788115="" class="latex_gap">
+                <div data-v-73788115="" class="latex-contain" data-id="4">
+                  <div data-v-73788115="" class="latex-contain__title">
+                    <div data-v-73788115="" class="remove">x</div> Number<span data-v-73788115="" class="bracket">(</span>
+                  </div>
+                  <div data-v-73788115="" class="latex_gap">
+                    <div data-v-73788115="" class="latex-contain" data-id="5">
+                      <div data-v-73788115="" class="latex-contain__title">
+                        <div data-v-73788115="" class="remove">x</div> 3
+                        <!--v-if-->
+                      </div>
+                      <!--v-if-->
+                    </div>
+                  </div><span><!--v-if--></span>
+                  <div data-v-73788115="" class="bracket bracket-end"> ) </div>
+                </div>
+              </div>
+              <!--v-if-->
+              <div data-v-73788115="" style="color: #330066;" class="bracket bracket-end"> ) </div>
+            </div>
+          </div>
+          <!--v-if-->
+          <div data-v-73788115="" style="color: #003366;" class="bracket bracket-end"> ) </div>
+        </div>
+      </div>
+      <!--v-if-->
+      <div data-v-73788115="" style="color: #66CCFF;" class="bracket bracket-end"> ) </div>
+    </div>
+  </div>
+  <!--v-if-->
+  <div data-v-73788115="" style="color: #CC99FF;" class="bracket bracket-end"> ) </div>
+</div>"
+`;

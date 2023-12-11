@@ -1,0 +1,50 @@
+{
+  "type": "BinaryExpression",
+  "config": {
+    "id": "1",
+    "latexName": "Plus",
+    "parentId": "-1",
+    "alias": "加",
+    "componentName": "Binary",
+    "data": {
+      "operator": "+"
+    }
+  },
+  "operator": "Plus",
+  "left": {
+    "type": "NumberLiteral",
+    "config": {
+      "id": "3",
+      "latexName": "1",
+      "parentId": "2",
+      "alias": "1",
+      "componentName": "NumberFiled",
+      "bracket": {
+        "id": "2",
+        "latexName": "Number",
+        "parentId": "1",
+        "alias": "数值",
+        "componentName": "NumberContain"
+      }
+    },
+    "value": "1"
+  },
+  "right": {
+    "type": "NumberLiteral",
+    "config": {
+      "id": "5",
+      "latexName": "2",
+      "parentId": "4",
+      "alias": "2",
+      "componentName": "NumberFiled",
+      "bracket": {
+        "id": "4",
+        "latexName": "Number",
+        "parentId": "1",
+        "alias": "数值",
+        "componentName": "NumberContain"
+      }
+    },
+    "value": "2"
+  }
+}

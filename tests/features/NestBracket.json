@@ -1,0 +1,39 @@
+ {
+  "type": "NumberLiteral",
+  "config": {
+      "id": "5",
+      "latexName": "3",
+      "parentId": "4",
+      "alias": "3",
+      "componentName": "NumberFiled",
+      "bracket": {
+          "id": "4",
+          "latexName": "Number",
+          "parentId": "3",
+          "alias": "数值",
+          "componentName": "NumberContain",
+          "bracket": {
+              "id": "3",
+              "latexName": "Bracket",
+              "parentId": "2",
+              "alias": "括号",
+              "componentName": "Bracket",
+              "bracket": {
+                  "id": "2",
+                  "latexName": "Bracket",
+                  "parentId": "1",
+                  "alias": "括号",
+                  "componentName": "Bracket",
+                  "bracket": {
+                      "id": "1",
+                      "latexName": "Bracket",
+                      "parentId": "-1",
+                      "alias": "括号",
+                      "componentName": "Bracket"
+                  }
+              }
+          }
+      }
+  },
+  "value": "3"
+}

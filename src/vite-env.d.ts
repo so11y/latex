@@ -6,3 +6,4 @@ declare module '*.vue' {
   export default component
 }
 
+declare const __Test__: boolean

@@ -5,6 +5,9 @@ export default mergeConfig(
   //@ts-ignore
   viteConfig,
   defineConfig({
+    define: {
+      __Test__: true
+    },
     test: {
       environment: "happy-dom",
     },
