@@ -7,7 +7,7 @@ monaco.languages.register({ id: "latex" });
 monaco.languages.registerCompletionItemProvider("latex", {
   provideCompletionItems: (model, position) => {
     const word = model.getWordUntilPosition(position);
-    const  range = {
+    const range = {
       startLineNumber: position.lineNumber,
       endLineNumber: position.lineNumber,
       startColumn: word.startColumn,
@@ -66,7 +66,7 @@ monaco.languages.setMonarchTokensProvider("latex", {
   },
 });
 
-export const useMonacoEditor = (language = "javascript") => {
+export const useMonacoEditor = (language = "javascript", value: string = "") => {
   let monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null;
   let initReadOnly = false;
   const el = ref<HTMLElement | null>(null);
@@ -88,15 +88,18 @@ export const useMonacoEditor = (language = "javascript") => {
     editorOption: monaco.editor.IStandaloneEditorConstructionOptions = {}
   ) => {
     if (!el.value) return;
-    const javascriptModel = monaco.editor.createModel("", language);
     initReadOnly = !!editorOption.readOnly;
+    const model = monaco.editor.createModel(value, language);
     // 创建
     monacoEditor = monaco.editor.create(el.value, {
-      language,
+      model,
       theme: "vs-dark",
     });
 
-    return monacoEditor;
+    return {
+      monacoEditor,
+      model
+    };
   };
 
   // 卸载

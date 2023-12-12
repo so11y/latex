@@ -1,42 +1,119 @@
-import { parse, Node, Program } from "acorn";
+import { parse, Node, Identifier } from "acorn";
 import { walk } from "estree-walker";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-const validateType = {
-  Program(node: Program) {},
-};
+import { ValidateTypeResult, extractTokenAndNumbers, throwNode } from "./helper"
+import { keys as latexNames } from "../use/constName"
 
-const whiterAst = {
+
+const validateType: Record<string, (node: any, parent: any, prop: string, index: number) => ValidateTypeResult> = {
   ExpressionStatement(node: Node, parent: Node) {
     return {
+      node,
       through: parent.type === "Program",
       message: "-----------",
     };
   },
+  BinaryExpression(node: Node) {
+    return {
+      node,
+      through: true,
+      message: null
+    }
+  },
+  CallExpression(node: Node) {
+    return {
+      node,
+      through: true,
+      message: null
+    }
+  },
+  Program: throwNode,
+  Identifier(node: Identifier) {
+    const maybeKnowkey = latexNames.includes(node.name)
+    return {
+      message: maybeKnowkey ? "未知字符" : null,
+      through: maybeKnowkey,
+      node
+    }
+  },
+  NumericLiteral: throwNode,
+  Literal: throwNode
 };
+const keys = Object.keys(validateType);
 
-export function validate(value: string) {
-  const ast = parse(value, {
-    ecmaVersion: "latest",
-    sourceType: "script",
-  });
+export function handleValidate(value: string, model: monaco.editor.ITextModel) {
 
-  const keys = Object.keys(validateType);
-  const whiterKeys = Object.keys(whiterAst);
-  const diagnosisNodes: Array<Node> = [];
-  const markers: Array<monaco.editor.IMarkerData> = [];
-  //@ts-ignore
-  walk(ast, {
-    enter(node, parent, prop, index) {
-      if (whiterKeys.includes(node.type)) {
-        const isThrough = (whiterAst as any)[node.type](node, parent);
-        if (!isThrough.through) {
-          //TODO 把错误转为markers 添加到markers
+  const { diagnosisNodes } = validate(value);
+
+
+  const markers = diagnosisNodes.map(node => {
+    const { loc } = node.node;
+    return {
+      message: "未知字符",
+      severity: monaco.MarkerSeverity.Error,
+      startLineNumber: loc!.start.line,
+      startColumn: loc!.start.column,
+      endLineNumber: loc!.end.line,
+      endColumn: loc!.end.column
+    }
+  })
+
+  monaco.editor.setModelMarkers(model, "owner", markers);
+}
+
+function validate(value: string) {
+  const diagnosisNodes: Array<ValidateTypeResult> = [];
+
+  try {
+    const ast = parse(value, {
+      ecmaVersion: "latest",
+      sourceType: "script",
+      locations: true,
+    });
+    //@ts-ignore
+    walk(ast, {
+      enter(node, parent, prop, index) {
+        if (!keys.includes(node.type)) {
+          diagnosisNodes.push({
+            node: node as Node,
+            through: false,
+            message: "未知字符"
+          });
+          this.skip();
+          return
         }
+        const validate: ValidateTypeResult = (validateType as any)[node.type](node, parent)
+        if (validate.through === false) {
+          diagnosisNodes.push(validate);
+          this.skip()
+        }
+      },
+    });
+
+  } catch (error) {
+    if (diagnosisNodes.length === 0 && (error as Error).message.startsWith("Unexpected token")) {
+
+      const loc = extractTokenAndNumbers((error as Error).message)
+      if (loc) {
+        const { firstNumber, secondNumber } = loc
+        const postion = {
+          line: firstNumber,
+          column: secondNumber
+        }
+        diagnosisNodes.push({
+          node: {
+            loc: {
+              start: postion,
+              end: postion
+            }
+          }
+        } as any)
+
       }
-      if (!keys.includes(node.type)) {
-        diagnosisNodes.push(node as Node);
-      }
-    },
-  });
-  console.log(diagnosisNodes);
+    }
+    console.log("ingore parsae error")
+  }
+  return {
+    diagnosisNodes
+  }
 }

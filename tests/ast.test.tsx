@@ -6,7 +6,7 @@ import { createSimpleApp } from "./helper/createApp";
 import { StoreContainProvide } from "../src/components/storeContain";
 import { nextTick } from "vue";
 
-async function astTest(json: Record<string, any>) {
+async function asTest(json: Record<string, any>) {
   let store: StoreContainProvide;
   const app = createSimpleApp((s) => {
     store = s;

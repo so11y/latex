@@ -7,7 +7,8 @@
 import { onMounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
 import EditorWorker from "./EditorWorker.vue"
-import {validate} from "./validateAst"
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { handleValidate } from "./validateAst"
 
 const props = defineProps({
   width: {
@@ -43,20 +44,21 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
 );
 
 onMounted(() => {
-  const monacoEditor = createEditor(props.editorOptions);
+  const uri = monaco.Uri.parse("inmemory://test");
+  const { model, monacoEditor } = createEditor(props.editorOptions,);
+  const value = `1 +  3 / 5 + Count(3)`;
+
 
   monacoEditor!.onDidChangeModelContent(() => {
 
-    validate(monacoEditor!.getValue())
+    handleValidate(monacoEditor!.getValue(), model)
     emits("update:modelValue", monacoEditor!.getValue());
   });
   monacoEditor!.onDidBlurEditorText(() => {
     emits("blur");
   });
   updateVal(
-    `Plus(1,
-    Div(2,3)
-)`
+    value
   );
 });
 </script>
