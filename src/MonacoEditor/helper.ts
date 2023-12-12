@@ -16,7 +16,7 @@ export function throwNode(node: Node): ValidateTypeResult {
 
 export function extractTokenAndNumbers(str: string) {
   // 匹配 "(1:22)" 格式的模式
-  const regex = /\((\d+):(\d+)\)/;
+  const regex = /\((\d+):(\d+)\)$/;
 
   // 使用正则表达式进行匹配
   const match = str.match(regex);

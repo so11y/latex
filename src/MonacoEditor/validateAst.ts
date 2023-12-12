@@ -1,11 +1,17 @@
 import { parse, Node, Identifier } from "acorn";
 import { walk } from "estree-walker";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { ValidateTypeResult, extractTokenAndNumbers, throwNode } from "./helper"
-import { keys as latexNames } from "../use/constName"
+import {
+  ValidateTypeResult,
+  extractTokenAndNumbers,
+  throwNode,
+} from "./helper";
+import { keys as latexNames } from "../use/constName";
 
-
-const validateType: Record<string, (node: any, parent: any, prop: string, index: number) => ValidateTypeResult> = {
+const validateType: Record<
+  string,
+  (node: any, parent: any, prop: string, index: number) => ValidateTypeResult
+> = {
   ExpressionStatement(node: Node, parent: Node) {
     return {
       node,
@@ -17,46 +23,57 @@ const validateType: Record<string, (node: any, parent: any, prop: string, index:
     return {
       node,
       through: true,
-      message: null
-    }
+      message: null,
+    };
   },
   CallExpression(node: Node) {
     return {
       node,
       through: true,
-      message: null
-    }
+      message: null,
+    };
   },
   Program: throwNode,
-  Identifier(node: Identifier) {
-    const maybeKnowkey = latexNames.includes(node.name)
-    return {
-      message: maybeKnowkey ? "未知字符" : null,
-      through: maybeKnowkey,
-      node
+  Identifier(node: Identifier, parent: Node) {
+    const maybeKnow = latexNames.includes(node.name);
+    const parentIsCallExpression = parent.type === "CallExpression";
+    function handleMessage() {
+      if (maybeKnow && parentIsCallExpression) {
+        return null;
+      }
+      if (maybeKnow === false) {
+        return "未知字符";
+      }
+      if (parentIsCallExpression === false) {
+        return `需要调用函数方式书写${node.name}(word)`;
+      }
+      return "未知字符";
     }
+    return {
+      message: handleMessage(),
+      through: maybeKnow && parentIsCallExpression,
+      node,
+    };
   },
   NumericLiteral: throwNode,
-  Literal: throwNode
+  Literal: throwNode,
 };
 const keys = Object.keys(validateType);
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
-
   const { diagnosisNodes } = validate(value);
 
-
-  const markers = diagnosisNodes.map(node => {
+  const markers = diagnosisNodes.map((node) => {
     const { loc } = node.node;
     return {
-      message: "未知字符",
+      message: node.message ?? "未知字符",
       severity: monaco.MarkerSeverity.Error,
       startLineNumber: loc!.start.line,
       startColumn: loc!.start.column,
       endLineNumber: loc!.end.line,
-      endColumn: loc!.end.column
-    }
-  })
+      endColumn: loc!.end.column,
+    };
+  });
 
   monaco.editor.setModelMarkers(model, "owner", markers);
 }
@@ -77,43 +94,43 @@ function validate(value: string) {
           diagnosisNodes.push({
             node: node as Node,
             through: false,
-            message: "未知字符"
+            message: "未知字符",
           });
           this.skip();
-          return
+          return;
         }
-        const validate: ValidateTypeResult = (validateType as any)[node.type](node, parent)
+        const validate: ValidateTypeResult = (validateType as any)[node.type](
+          node,
+          parent
+        );
         if (validate.through === false) {
           diagnosisNodes.push(validate);
-          this.skip()
+          this.skip();
         }
       },
     });
-
   } catch (error) {
-    if (diagnosisNodes.length === 0 && (error as Error).message.startsWith("Unexpected token")) {
-
-      const loc = extractTokenAndNumbers((error as Error).message)
+    if (diagnosisNodes.length === 0) {
+      const loc = extractTokenAndNumbers((error as Error).message);
       if (loc) {
-        const { firstNumber, secondNumber } = loc
+        const { firstNumber, secondNumber } = loc;
         const postion = {
           line: firstNumber,
-          column: secondNumber
-        }
+          column: secondNumber,
+        };
         diagnosisNodes.push({
           node: {
             loc: {
               start: postion,
-              end: postion
-            }
-          }
-        } as any)
-
+              end: postion,
+            },
+          },
+        } as any);
       }
     }
-    console.log("ingore parsae error")
+    console.log("ingore parsae error");
   }
   return {
-    diagnosisNodes
-  }
+    diagnosisNodes,
+  };
 }

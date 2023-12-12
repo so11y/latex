@@ -44,16 +44,14 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
 );
 
 onMounted(() => {
-  const uri = monaco.Uri.parse("inmemory://test");
-  const { model, monacoEditor } = createEditor(props.editorOptions,);
+  const { model, monacoEditor } = createEditor(props.editorOptions)!;
   const value = `1 +  3 / 5 + Count(3)`;
 
-
   monacoEditor!.onDidChangeModelContent(() => {
-
     handleValidate(monacoEditor!.getValue(), model)
     emits("update:modelValue", monacoEditor!.getValue());
   });
+
   monacoEditor!.onDidBlurEditorText(() => {
     emits("blur");
   });
