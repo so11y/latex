@@ -6,23 +6,21 @@
     "dev": "vite"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.2.0",
-    "@vitejs/plugin-vue-jsx": "^3.0.2",
-    "@vue/test-utils": "^2.4.3",
-    "naive-ui": "^2.35.0",
-    "sass": "^1.69.5",
-    "typescript": "^4.6.4",
-    "vite": "^3.2.3",
-    "vitest": "^1.0.4",
-    "vue": "^3.2.41",
-    "vue-tsc": "^1.0.9"
-  },
-  "license": "MIT",
-  "dependencies": {
     "@types/katex": "^0.16.7",
     "@types/lodash-es": "^4.17.12",
-    "katex": "^0.16.9",
-    "lodash-es": "^4.17.21"
+    "@vitejs/plugin-vue": "^4.5.2",
+    "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vue/test-utils": "^2.4.3",
+    "sass": "^1.69.5",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.7",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {
+    "vue": "^3.3.11",
+    "naive-ui": "^2.35.0",
+    "lodash-es": "^4.17.21",
+    "katex": "^0.16.9"
   },
   "author": {
     "name": "zrrz",
