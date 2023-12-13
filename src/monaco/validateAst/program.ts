@@ -1,6 +1,5 @@
-import { NOOP } from "../util";
+import { NOOP } from "../util/functional"
 import { ValidateSchemaBase } from "./types";
-import { Program } from "acorn";
 
 export type ProgramSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Program";

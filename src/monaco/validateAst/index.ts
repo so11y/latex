@@ -6,7 +6,7 @@ import { validateWalk } from "./validate";
 import { Node } from "acorn";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
-  const { ast, diagnosisNodes } = validate(value);
+  let { ast, diagnosisNodes } = validate(value);
   const markers: monaco.editor.IMarkerData[] = [];
   nomadizeMarkers(diagnosisNodes);
   function nomadizeMarkers(nodes: ValidateSchemaGuardMate<Node>[]) {
@@ -25,6 +25,9 @@ export function handleValidate(value: string, model: monaco.editor.ITextModel) {
         });
       }
     }
+  }
+  if (markers.length) {
+    ast = null;
   }
   monaco.editor.setModelMarkers(model, "owner", markers);
   return {

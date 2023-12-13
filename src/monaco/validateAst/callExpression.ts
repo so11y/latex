@@ -50,7 +50,7 @@ function validateArguments(
 ) {
   const {
     config = {
-      accept: DefaultAccept,
+      accept: DefaultAccept as any,
     },
   } = latexConfig;
   const crateErrorMessage = curry(cratedNotThrough)(parent);
@@ -59,6 +59,9 @@ function validateArguments(
   }
   const errorNodes = n.filter((node, index) => {
     const current = config.accept[index];
+    if (current.validate) {
+      return current.validate(node, n) === false
+    }
     if (current?.notCheck !== true) {
       const isSameType = node.type !== current.type;
       if (isSameType) {
@@ -83,16 +86,16 @@ function validateArguments(
 
 export const CallExpressionSchema: CallExpressionSchemeType = {
   type: "CallExpression",
-  validate(node: CallExpression, parent: Node, prop, index) {
+  validate(node: CallExpression) {
     const { callee, arguments: _arguments } = node;
     const safeCalleeName = validateCalleeName(callee);
     if (safeCalleeName.through) {
       const config =
         LatexCallConfig[
-          safeCalleeName.node.name as keyof typeof LatexCallConfig
+        safeCalleeName.node.name as keyof typeof LatexCallConfig
         ];
       return validateArguments(_arguments, node, config);
     }
     return safeCalleeName;
   },
-};
+}

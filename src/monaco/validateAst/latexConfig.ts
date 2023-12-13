@@ -1,4 +1,7 @@
 import { BinaryExpressionSchema } from "./binaryExpression";
+import { BinaryExpression } from "acorn"
+import { operators } from "../util"
+import { LogicalExpressionSchema } from "./logicalExpression";
 export interface LatexCallConfig {
   name: string;
   alias: string;
@@ -7,6 +10,7 @@ export interface LatexCallConfig {
     readonly accept: Array<{
       type?: string;
       notCheck?: boolean;
+      validate: (node: any, parent: any) => boolean
       literalType?: "string" | "number";
     }>;
   };
@@ -52,7 +56,15 @@ export const LatexCallConfig = {
     config: {
       accept: [
         {
-          type: BinaryExpressionSchema.type,
+          validate(node: BinaryExpression) {
+            if (node.type !== BinaryExpressionSchema.type) {
+              return false;
+            }
+            if (operators[node.operator as keyof typeof operators].name !== LogicalExpressionSchema.type) {
+              return false
+            }
+            return true;
+          }
         },
         {
           notCheck: true,
@@ -64,5 +76,8 @@ export const LatexCallConfig = {
     },
   } as LatexCallConfig,
 };
-
+export const SpecialLatexNames = [
+  LatexCallConfig.Conditional.astName
+]
 export const LatexNames = Object.keys(LatexCallConfig);
+

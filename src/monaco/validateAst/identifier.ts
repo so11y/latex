@@ -1,4 +1,6 @@
+import { CallExpressionSchema } from "./callExpression";
 import { LatexNames } from "./latexConfig";
+import { LogicalExpressionSchema } from "./logicalExpression";
 import { ValidateSchemaBase } from "./types";
 import { Identifier } from "acorn";
 
@@ -10,7 +12,7 @@ export const IdentifierSchema: IdentifierSchemeType = {
   type: "Identifier",
   validate(node: Identifier, parent) {
     const maybeKnow = LatexNames.includes(node.name);
-    const parentIsCallExpression = !!parent && parent.type === "CallExpression";
+    const parentIsCallExpression = !!parent && CallExpressionSchema.type === parent.type;
     function handleMessage() {
       if (maybeKnow && parentIsCallExpression) {
         return null;

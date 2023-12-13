@@ -3,6 +3,7 @@ import { CallExpression, Literal, Node } from "acorn";
 import { CallExpressionSchema, validateCalleeName } from "./callExpression";
 import { BinaryExpressionSchema } from "./binaryExpression";
 import { LatexCallConfig } from "./latexConfig";
+import { isString, isNumber } from "lodash-es"
 
 export type LiteralSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Literal";
@@ -11,18 +12,16 @@ export type LiteralSchemeType = Omit<ValidateSchemaBase, "type"> & {
 export const LiteralSchema: LiteralSchemeType = {
   type: "Literal",
   validate(node: Literal, parent: Node, _, index) {
-    const isString = typeof node.value === "string";
-    const isNumber = typeof node.value === "number";
     const parentNotIsCallExpression =
       !!parent && parent.type !== CallExpressionSchema.type;
     const parentNotIsBinaryExpression =
       !!parent && parent.type !== BinaryExpressionSchema.type;
 
-    if (isString && parentNotIsCallExpression) {
+    if (isString(node.value) && parentNotIsCallExpression) {
       return cratedNotThrough(node, "字符串只能出现在调用里");
     }
 
-    if (isNumber) {
+    if (isNumber(node.value)) {
       const parentIsCall = parentNotIsCallExpression === false;
 
       if (parentIsCall) {

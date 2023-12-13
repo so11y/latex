@@ -4,6 +4,7 @@ import { IdentifierSchema } from "./identifier";
 import { LiteralSchema } from "./literal";
 import { ProgramSchema } from "./program";
 import { BinaryExpressionSchema } from "./binaryExpression";
+import { LogicalExpressionSchema } from "./logicalExpression"
 import { Node } from "acorn";
 import { walk } from "estree-walker";
 import { ValidateSchemaBase, ValidateSchemaGuardMate } from "./types";
@@ -31,6 +32,7 @@ const { typeKeys, mappings } = buildTypeNames([
   LiteralSchema,
   ProgramSchema,
   BinaryExpressionSchema,
+  LogicalExpressionSchema
 ]);
 
 export function validateWalk(

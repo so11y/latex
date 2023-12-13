@@ -13,7 +13,41 @@ export function extractTokenAndNumbers(str: string) {
   }
 }
 
-
-export function NOOP(){
-  return undefined
+export const operators = {
+  "+": {
+    latexOperator: "+",
+    name:  "BinaryExpression"
+  },
+  "-": {
+    latexOperator: "-",
+    name: "BinaryExpression"
+  },
+  "*": {
+    latexOperator: "*",
+    name: "BinaryExpression"
+  },
+  "/": {
+    latexOperator: '{\\div}',
+    name: "BinaryExpression"
+  },
+  "==": {
+    latexOperator: "\\equiv",
+   name: "LogicalExpression"
+  },
+  "!=": {
+    latexOperator: "\\ne",
+    name: "LogicalExpression"
+  },
+  ">": {
+    latexOperator: ">",
+    name: "LogicalExpression"
+  },
+  "<": {
+    latexOperator: "<",
+    name: "LogicalExpression"
+  },
+  ">=": {
+    latexOperator: "\\ge",
+    name: "LogicalExpression"
+  }
 }
