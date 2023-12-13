@@ -83,6 +83,7 @@ function validateArguments(
       accept,
     };
   }
+  //验证accept参数，如果不通过返回错误信息
   function nomadizeValidateResult(config: ReturnType<typeof nomadizeAccept>) {
     const test = config.accept.validate(config.node, n);
     if (test !== true) {
