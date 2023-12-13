@@ -1,11 +1,13 @@
 import { CallExpression, LogicalExpression, BinaryExpression } from "acorn";
 import { AstType } from "./types";
 import { LogicalOperators, isLogicalOperators, isSafeOperators } from "../util";
-import { LatexValidateConfig } from "./latexConfig";
-const ErrorMessage = [
+import { LatexValidateConfig, LatexCallConfig } from "./latexConfig";
+
+const ErrorMessage: Array<string> = [
   `只能是使用逻辑表达式符号 ${LogicalOperators.join(" ")}`,
   "真结果需要是函数调用并且不能再返回逻辑表达式了",
   "真结果需要是函数调用并且不能再返回逻辑表达式了",
+  `不支持在直接嵌套Conditional函数,但是可以在搭配逻辑表达式使用`,
 ];
 function validateConditional(node: CallExpression) {
   if (node.type !== "CallExpression") {
@@ -28,9 +30,18 @@ function trueAndFalseResult(node: CallExpression, message: string) {
   return true;
 }
 
-export default [
+const ConditionalCallAccept = [
   {
-    validate(node: LogicalExpression | BinaryExpression) {
+    validate(node: LogicalExpression | BinaryExpression | CallExpression) {
+      if (
+        node.type === AstType.CallExpression &&
+        (node as any).callee.name === "Conditional"
+      ) {
+        return {
+          test: false,
+          message: ErrorMessage[3],
+        };
+      }
       const notLogicOrBinary = [
         AstType.BinaryExpression,
         AstType.LogicalExpression,
@@ -74,3 +85,12 @@ export default [
     },
   },
 ] as Array<LatexValidateConfig>;
+
+export default {
+  name: "If",
+  astName: "Conditional",
+  alias: "条件",
+  config: {
+    accept: ConditionalCallAccept,
+  },
+} as Required<LatexCallConfig>;

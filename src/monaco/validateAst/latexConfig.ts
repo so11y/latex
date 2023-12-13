@@ -1,5 +1,4 @@
-import ConditionalCallAccept from "./ConditionalCallExpression";
-
+import ConditionalCallConfig from "./ConditionalCallExpression";
 export interface LatexValidateConfig {
   validate: (
     node: any,
@@ -54,14 +53,7 @@ export const LatexCallConfig = {
     name: "Last",
     alias: "最后一个点",
   } as LatexCallConfig,
-  Conditional: {
-    name: "If",
-    astName: "Conditional",
-    alias: "条件",
-    config: {
-      accept: ConditionalCallAccept,
-    },
-  } as LatexCallConfig,
+  Conditional: ConditionalCallConfig,
 };
 
 export const LatexNames = Object.keys(LatexCallConfig);
