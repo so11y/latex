@@ -31,6 +31,7 @@ function trueAndFalseResult(node: CallExpression, message: string) {
 export default [
   {
     validate(node: LogicalExpression | BinaryExpression) {
+      console.log("???");
       const notLogicOrBinary = [
         AstType.BinaryExpression,
         AstType.LogicalExpression,

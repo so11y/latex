@@ -25,9 +25,7 @@ function validateValues(node: Node) {
 function maybeErrorNode(node: Node) {
   const crateErrorMessage = curry(cratedNotThrough)(node);
   if (!validateValues(node)) {
-    return crateErrorMessage(
-      "二元表达式两边需要是数值或者函数调用表达式或者二元表达式"
-    );
+    return crateErrorMessage("运算两边需要是数值或者函数调用表达式或者运算");
   }
 }
 export const BinaryExpressionSchema: BinaryExpressionSchemeType = {
