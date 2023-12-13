@@ -2,7 +2,8 @@ import { BinaryExpression, Node } from "acorn";
 import { CallExpressionSchema } from "./callExpression";
 import { LiteralSchema } from "./literal";
 import { ValidateSchemaBase, cratedNotThrough } from "./types";
-import {  curry, isNumber } from "lodash-es";
+import { curry, isNumber } from "lodash-es";
+import { isSafeOperators, operators } from "../util/index";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };
@@ -33,6 +34,12 @@ export const BinaryExpressionSchema: BinaryExpressionSchemeType = {
   type: "BinaryExpression",
   validate(node: BinaryExpression) {
     const { left, right } = node;
+    const crateErrorMessage = curry(cratedNotThrough)(node);
+
+    const { test, message } = isSafeOperators(node.operator);
+    if (!test) {
+      return crateErrorMessage(message);
+    }
 
     return [maybeErrorNode(left), maybeErrorNode(right)].find(Boolean);
   },

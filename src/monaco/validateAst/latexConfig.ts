@@ -1,17 +1,23 @@
 import ConditionalCallAccept from "./ConditionalCallExpression";
 
+export interface LatexValidateConfig {
+  validate: (
+    node: any,
+    parent: any
+  ) =>
+    | true
+    | {
+        test: false;
+        message: string;
+      };
+}
+
 export interface LatexCallConfig {
   name: string;
   alias: string;
   astName?: string;
-  readonly config?: {
-    message?: string;
-    readonly accept: Array<{
-      type?: string;
-      notCheck?: boolean;
-      validate: (node: any, parent: any) => boolean;
-      literalType?: "string" | "number";
-    }>;
+  config?: {
+    accept: Array<LatexValidateConfig>;
   };
 }
 

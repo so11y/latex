@@ -1,4 +1,5 @@
 import {
+  AstType,
   ValidateSchemaBase,
   ValidateSchemaGuardMate,
   cratedNotThrough,
@@ -14,19 +15,35 @@ import {
   Literal,
 } from "acorn";
 import { curry } from "lodash-es";
-import { LiteralSchema } from "./literal";
-import { LatexCallConfig, LatexNames } from "./latexConfig";
+import {
+  LatexCallConfig,
+  LatexNames,
+  LatexValidateConfig,
+} from "./latexConfig";
 
 export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "CallExpression";
 };
 
-const DefaultAccept = [
+const DefaultAccept: Array<LatexValidateConfig> = [
   {
-    type: LiteralSchema.type,
-    message: `参数类型不匹配`,
-    literalType: "string",
-    notCheck: false,
+    validate(node: any) {
+      const notSameType = node.type !== AstType.Literal;
+      if (notSameType) {
+        return {
+          test: false,
+          message: `参数类型不匹配`,
+        };
+      }
+      const isSomeType = typeof (node as Literal).value !== "string";
+      if (isSomeType) {
+        return {
+          test: false,
+          message: `参数需要是字符串`,
+        };
+      }
+      return true;
+    },
   },
 ];
 
@@ -51,7 +68,7 @@ function validateArguments(
 ) {
   const {
     config = {
-      accept: DefaultAccept as any,
+      accept: DefaultAccept,
     },
   } = latexConfig;
   const crateErrorMessage = curry(cratedNotThrough)(parent);
@@ -66,31 +83,34 @@ function validateArguments(
       accept,
     };
   }
-  //过滤错误的节点
-  function filterErrorNodes({
-    node,
-    accept,
-  }: ReturnType<typeof nomadizeAccept>) {
-    if (accept.validate) {
-      return accept.validate(node, n) === false;
+  function nomadizeValidateResult(config: ReturnType<typeof nomadizeAccept>) {
+    const test = config.accept.validate(config.node, n);
+    if (test !== true) {
+      return {
+        test: false,
+        node: config.node,
+        message: test.message,
+      };
     }
-    if (accept?.notCheck !== true) {
-      const isSameType = node.type !== accept.type;
-      if (isSameType) {
-        return true;
-      }
-      if (accept.literalType) {
-        return typeof (node as Literal).value !== accept.literalType;
-      }
-    }
-    return false;
+    return {
+      ...config,
+      test: true,
+    };
   }
-  const errorNodes = n.map(nomadizeAccept).filter(filterErrorNodes);
+  //过滤错误的节点
+  function filterErrorNodes(config: ReturnType<typeof nomadizeValidateResult>) {
+    return config.test === false;
+  }
+
+  const errorNodes = n
+    .map(nomadizeAccept)
+    .map(nomadizeValidateResult)
+    .filter(filterErrorNodes);
   if (errorNodes.length) {
     return crateErrorMessage(
       null,
-      errorNodes.map(({ node, accept }) => {
-        return cratedNotThrough(node, accept.message);
+      errorNodes.map(({ node, message }) => {
+        return cratedNotThrough(node, message!);
       })
     );
   }

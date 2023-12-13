@@ -1,6 +1,5 @@
 import { CallExpressionSchema } from "./callExpression";
 import { LatexNames } from "./latexConfig";
-import { LogicalExpressionSchema } from "./logicalExpression";
 import { ValidateSchemaBase } from "./types";
 import { Identifier } from "acorn";
 

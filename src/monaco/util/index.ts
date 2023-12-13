@@ -53,3 +53,22 @@ export const operators = {
     name: AstType.LogicalExpression,
   },
 };
+
+export function isSafeOperators(operator: string) {
+  if (!operators[operator as keyof typeof operators]) {
+    return {
+      test: false,
+      message: "不支持位运算等符号",
+    };
+  }
+  return {
+    test: true,
+  };
+}
+
+export function isLogicalOperators(operator: string) {
+  return (
+    operators[operator as keyof typeof operators].name !==
+    AstType.LogicalExpression
+  );
+}
