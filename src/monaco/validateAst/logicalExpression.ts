@@ -1,7 +1,6 @@
 import { LogicalExpression } from "acorn";
 import { ValidateSchemaBase, cratedNotThrough } from "./types";
 import ConditionalCallConfig from "./ConditionalCallExpression";
-import { curry } from "lodash-es";
 export type LogicalExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "LogicalExpression";
 };
