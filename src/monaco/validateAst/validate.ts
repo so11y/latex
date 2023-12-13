@@ -47,15 +47,9 @@ export function validateWalk(
         this.skip();
         return;
       }
-
       const schemas = mappings.get(node.type)!;
-      const validate: ValidateSchemaGuardMate = schemas.validate(
-        node,
-        parent,
-        prop,
-        index
-      );
-      if (validate.through === false) {
+      const validate = schemas.validate(node, parent, prop, index);
+      if (validate && validate.through === false) {
         diagnosisNodes.push(validate);
         this.skip();
       }

@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { LatexNames } from "../validateAst/callExpression";
+import { LatexNames } from "../validateAst/latexConfig";
 export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
   provideCompletionItems: (model, position) => {
     const word = model.getWordUntilPosition(position);

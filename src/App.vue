@@ -6,7 +6,7 @@ import {
   NMessageProvider,
 } from "naive-ui";
 import { ref } from "vue";
-import MonacoEditor from "./MonacoEditor/index.vue";
+import MonacoEditor from "./monaco/index.vue";
 const content = ref("");
 defineOptions({
   name: "App",

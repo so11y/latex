@@ -1,6 +1,6 @@
+import { LatexNames } from "./latexConfig";
 import { ValidateSchemaBase } from "./types";
 import { Identifier } from "acorn";
-import { LatexNames } from "./callExpression";
 
 export type IdentifierSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Identifier";

@@ -3,27 +3,34 @@ import { parse } from "acorn";
 import { extractTokenAndNumbers } from "../util";
 import { ValidateSchemaGuardMate } from "./types";
 import { validateWalk } from "./validate";
+import { Node } from "acorn";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
-  const { diagnosisNodes } = validate(value);
-  const markers = diagnosisNodes.map((node) => {
-    const { loc } = node.node;
-    return {
-      message: node.message ?? "未知字符",
-      severity: monaco.MarkerSeverity.Error,
-      startLineNumber: loc!.start.line,
-      startColumn: loc!.start.column,
-      endLineNumber: loc!.end.line,
-      endColumn: loc!.end.column,
-    };
-  });
-
+  const diagnosisNodes = validate(value);
+  const markers: monaco.editor.IMarkerData[] = [];
+  nomadizeMarkers(diagnosisNodes);
+  function nomadizeMarkers(nodes: ValidateSchemaGuardMate<Node>[]) {
+    for (const node of nodes) {
+      if (node.errorNodes?.length) {
+        nomadizeMarkers(node.errorNodes);
+      } else {
+        const { loc } = node.node;
+        markers.push({
+          message: node.message ?? "未知字符",
+          severity: monaco.MarkerSeverity.Error,
+          startLineNumber: loc!.start.line,
+          startColumn: loc!.start.column + 1,
+          endLineNumber: loc!.end.line,
+          endColumn: loc!.end.column + 1,
+        });
+      }
+    }
+  }
   monaco.editor.setModelMarkers(model, "owner", markers);
 }
 
 function validate(value: string) {
   const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
-
   try {
     const ast = parse(value, {
       ecmaVersion: "latest",
@@ -33,77 +40,23 @@ function validate(value: string) {
     validateWalk(ast, diagnosisNodes);
   } catch (error) {
     if (diagnosisNodes.length === 0) {
-      const loc = extractTokenAndNumbers((error as Error).message);
-      if (loc) {
-        const { firstNumber, secondNumber } = loc;
-        const postion = {
-          line: firstNumber,
-          column: secondNumber,
-        };
-        diagnosisNodes.push({
-          node: {
-            loc: {
-              start: postion,
-              end: postion,
-            },
-          },
-        } as any);
+      const position = extractTokenAndNumbers((error as Error).message);
+      if (position) {
+        diagnosisNodes.push(cratedFakeNodeError(position));
       }
     }
     console.log("ignore parse error");
   }
-  return {
-    diagnosisNodes,
-  };
+  return diagnosisNodes;
 }
 
-// const validateType: Record<
-//   string,
-//   (node: any, parent: any, prop: string, index: number) => ValidateTypeResult
-// > = {
-//   ExpressionStatement(node: Node, parent: Node) {
-//     return {
-//       node,
-//       through: parent.type === "Program",
-//       message: "-----------",
-//     };
-//   },
-//   BinaryExpression(node: Node) {
-//     return {
-//       node,
-//       through: true,
-//       message: null,
-//     };
-//   },
-//   CallExpression(node: Node) {
-//     return {
-//       node,
-//       through: true,
-//       message: null,
-//     };
-//   },
-//   Program: throwNode,
-//   Identifier(node: Identifier, parent: Node) {
-//     const maybeKnow = latexNames.includes(node.name);
-//     const parentIsCallExpression = parent.type === "CallExpression";
-//     function handleMessage() {
-//       if (maybeKnow && parentIsCallExpression) {
-//         return null;
-//       }
-//       if (maybeKnow === false) {
-//         return "未知字符";
-//       }
-//       if (parentIsCallExpression === false) {
-//         return `需要调用函数方式书写${node.name}(word)`;
-//       }
-//       return "未知字符";
-//     }
-//     return {
-//       message: handleMessage(),
-//       through: maybeKnow && parentIsCallExpression,
-//       node,
-//     };
-//   },
-//   NumericLiteral: throwNode,
-//   Literal: throwNode,
-// };
+function cratedFakeNodeError(position: any) {
+  return {
+    node: {
+      loc: {
+        start: position,
+        end: position,
+      },
+    },
+  } as any;
+}

@@ -4,8 +4,8 @@ export function extractTokenAndNumbers(str: string) {
   if (match) {
     const extracted = {
       token: match[0],
-      firstNumber: parseInt(match[1]),
-      secondNumber: parseInt(match[2]),
+      line: parseInt(match[1]),
+      column: parseInt(match[2]),
     };
     return extracted;
   } else {

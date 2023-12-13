@@ -1,11 +1,13 @@
 <template>
   <div ref="el" :style="{ width, height }"></div>
+  <EditorWorker/>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
 import { handleValidate } from "./validateAst";
+import EditorWorker from "./editorWorker.vue"
 
 const props = defineProps({
   width: {

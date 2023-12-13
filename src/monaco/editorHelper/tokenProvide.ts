@@ -1,5 +1,5 @@
-import { LatexNames } from "../validateAst/callExpression";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import { LatexNames } from "../validateAst/latexConfig";
 export const tokenProvide: monaco.languages.IMonarchLanguage = {
   operators: ["+", "-", "*", "/"],
   keywords: LatexNames,
