@@ -5,21 +5,20 @@ import {
   NNotificationProvider,
   NMessageProvider,
 } from "naive-ui";
-import { ref } from "vue";
+import { ref, shallowRef } from "vue";
 import MonacoEditor from "./monaco/index.vue";
-const content = ref("");
-defineOptions({
-  name: "App",
-});
+const content = ref("1 +  3 / 5 + Count(3)");
+const ast = shallowRef();
 </script>
 
 <template>
   <NDialogProvider>
     <NNotificationProvider>
       <NMessageProvider>
-        <Latex />
+        <Latex :ast="ast"/>
         <monaco-editor
-          v-model:modelValue="content"
+          v-model="content"
+          v-model:ast="ast"
           language="latex"
           :editorOptions="{
             lineNumbers: 'on',

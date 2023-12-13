@@ -12,3 +12,8 @@ export function extractTokenAndNumbers(str: string) {
     return null;
   }
 }
+
+
+export function NOOP(){
+  return undefined
+}

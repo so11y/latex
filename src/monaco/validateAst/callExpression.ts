@@ -54,8 +54,8 @@ function validateArguments(
     },
   } = latexConfig;
   const crateErrorMessage = curry(cratedNotThrough)(parent);
-  if (n.length > config.accept.length) {
-    return crateErrorMessage(`只可接受${config.accept.length}个参数`);
+  if (n.length !== config.accept.length) {
+    return crateErrorMessage(`参数个数不匹配需要${config.accept.length}个参数`);
   }
   const errorNodes = n.filter((node, index) => {
     const current = config.accept[index];

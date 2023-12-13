@@ -44,4 +44,3 @@ export function cratedThrough<T = Node>(node: T) {
     through: true,
   };
 }
-

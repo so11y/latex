@@ -1,13 +1,14 @@
 <template>
   <div ref="el" :style="{ width, height }"></div>
-  <EditorWorker/>
+  <EditorWorker />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
 import { handleValidate } from "./validateAst";
-import EditorWorker from "./editorWorker.vue"
+import EditorWorker from "./editorWorker.vue";
+import { Program } from "acorn";
 
 const props = defineProps({
   width: {
@@ -34,9 +35,12 @@ const props = defineProps({
     type: Object as PropType<object>,
     default: () => ({}),
   },
+  ast: {
+    type: Object as PropType<Program>,
+  },
 });
 
-const emits = defineEmits(["blur", "update:modelValue"]);
+const emits = defineEmits(["blur", "update:modelValue", "update:ast"]);
 
 const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
   props.language
@@ -44,16 +48,16 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
 
 onMounted(() => {
   const { model, monacoEditor } = createEditor(props.editorOptions)!;
-  const value = `1 +  3 / 5 + Count(3)`;
 
   monacoEditor!.onDidChangeModelContent(() => {
-    handleValidate(monacoEditor!.getValue(), model);
+    const { ast } = handleValidate(monacoEditor!.getValue(), model);
+    emits("update:ast", ast);
     emits("update:modelValue", monacoEditor!.getValue());
   });
 
   monacoEditor!.onDidBlurEditorText(() => {
     emits("blur");
   });
-  updateVal(value);
+  updateVal(props.modelValue);
 });
 </script>

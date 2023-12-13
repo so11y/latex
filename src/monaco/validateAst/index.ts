@@ -1,12 +1,12 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { parse } from "acorn";
+import { parse, Program } from "acorn";
 import { extractTokenAndNumbers } from "../util";
 import { ValidateSchemaGuardMate } from "./types";
 import { validateWalk } from "./validate";
 import { Node } from "acorn";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
-  const diagnosisNodes = validate(value);
+  const { ast, diagnosisNodes } = validate(value);
   const markers: monaco.editor.IMarkerData[] = [];
   nomadizeMarkers(diagnosisNodes);
   function nomadizeMarkers(nodes: ValidateSchemaGuardMate<Node>[]) {
@@ -27,12 +27,16 @@ export function handleValidate(value: string, model: monaco.editor.ITextModel) {
     }
   }
   monaco.editor.setModelMarkers(model, "owner", markers);
+  return {
+    ast,
+  };
 }
 
 function validate(value: string) {
   const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
+  let ast: Program | null = null;
   try {
-    const ast = parse(value, {
+    ast = parse(value, {
       ecmaVersion: "latest",
       sourceType: "script",
       locations: true,
@@ -47,7 +51,10 @@ function validate(value: string) {
     }
     console.log("ignore parse error");
   }
-  return diagnosisNodes;
+  return {
+    diagnosisNodes,
+    ast,
+  };
 }
 
 function cratedFakeNodeError(position: any) {
