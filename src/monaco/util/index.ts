@@ -1,3 +1,5 @@
+import { AstType } from "../validateAst/types";
+
 export function extractTokenAndNumbers(str: string) {
   const regex = /\((\d+):(\d+)\)$/;
   const match = str.match(regex);
@@ -16,38 +18,38 @@ export function extractTokenAndNumbers(str: string) {
 export const operators = {
   "+": {
     latexOperator: "+",
-    name:  "BinaryExpression"
+    name: AstType.BinaryExpression,
   },
   "-": {
     latexOperator: "-",
-    name: "BinaryExpression"
+    name: AstType.BinaryExpression,
   },
   "*": {
     latexOperator: "*",
-    name: "BinaryExpression"
+    name: AstType.BinaryExpression,
   },
   "/": {
-    latexOperator: '{\\div}',
-    name: "BinaryExpression"
+    latexOperator: "{\\div}",
+    name: AstType.BinaryExpression,
   },
   "==": {
     latexOperator: "\\equiv",
-   name: "LogicalExpression"
+    name: AstType.LogicalExpression,
   },
   "!=": {
     latexOperator: "\\ne",
-    name: "LogicalExpression"
+    name: AstType.LogicalExpression,
   },
   ">": {
     latexOperator: ">",
-    name: "LogicalExpression"
+    name: AstType.LogicalExpression,
   },
   "<": {
     latexOperator: "<",
-    name: "LogicalExpression"
+    name: AstType.LogicalExpression,
   },
   ">=": {
     latexOperator: "\\ge",
-    name: "LogicalExpression"
-  }
-}
+    name: AstType.LogicalExpression,
+  },
+};

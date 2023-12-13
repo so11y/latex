@@ -44,3 +44,12 @@ export function cratedThrough<T = Node>(node: T) {
     through: true,
   };
 }
+
+
+export enum AstType  {
+  BinaryExpression = "BinaryExpression",
+  LogicalExpression = "LogicalExpression",
+  CallExpression = "CallExpression",
+  Literal = "Literal",
+  Identifier = "Identifier",
+}

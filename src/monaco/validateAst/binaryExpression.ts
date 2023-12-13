@@ -2,8 +2,7 @@ import { BinaryExpression, Node } from "acorn";
 import { CallExpressionSchema } from "./callExpression";
 import { LiteralSchema } from "./literal";
 import { ValidateSchemaBase, cratedNotThrough } from "./types";
-import { SpecialLatexNames } from "./latexConfig";
-import { create, curry, isNumber } from "lodash-es";
+import {  curry, isNumber } from "lodash-es";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };
@@ -17,11 +16,8 @@ function validateValues(node: Node) {
   if (BinaryExpressionSchema.type === node.type) {
     return true;
   }
-  //只能是函数调用表达式不包含特殊的latex函数
-  if (
-    CallExpressionSchema.type === node.type &&
-    !SpecialLatexNames.includes((node as any).callee.name)
-  ) {
+  //只能是函数调用表达式
+  if (CallExpressionSchema.type === node.type) {
     return true;
   }
 }

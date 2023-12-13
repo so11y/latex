@@ -24,6 +24,7 @@ export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
 const DefaultAccept = [
   {
     type: LiteralSchema.type,
+    message: `参数类型不匹配`,
     literalType: "string",
     notCheck: false,
   },
@@ -57,27 +58,39 @@ function validateArguments(
   if (n.length !== config.accept.length) {
     return crateErrorMessage(`参数个数不匹配需要${config.accept.length}个参数`);
   }
-  const errorNodes = n.filter((node, index) => {
-    const current = config.accept[index];
-    if (current.validate) {
-      return current.validate(node, n) === false
+  //标准化accept参数
+  function nomadizeAccept(node: Expression | SpreadElement, index: number) {
+    const accept = config.accept[index];
+    return {
+      node,
+      accept,
+    };
+  }
+  //过滤错误的节点
+  function filterErrorNodes({
+    node,
+    accept,
+  }: ReturnType<typeof nomadizeAccept>) {
+    if (accept.validate) {
+      return accept.validate(node, n) === false;
     }
-    if (current?.notCheck !== true) {
-      const isSameType = node.type !== current.type;
+    if (accept?.notCheck !== true) {
+      const isSameType = node.type !== accept.type;
       if (isSameType) {
         return true;
       }
-      if (current.literalType) {
-        return typeof (node as Literal).value !== current.literalType;
+      if (accept.literalType) {
+        return typeof (node as Literal).value !== accept.literalType;
       }
     }
     return false;
-  });
+  }
+  const errorNodes = n.map(nomadizeAccept).filter(filterErrorNodes);
   if (errorNodes.length) {
     return crateErrorMessage(
       null,
-      errorNodes.map((node) => {
-        return cratedNotThrough(node, `参数类型不匹配`);
+      errorNodes.map(({ node, accept }) => {
+        return cratedNotThrough(node, accept.message);
       })
     );
   }
@@ -92,10 +105,10 @@ export const CallExpressionSchema: CallExpressionSchemeType = {
     if (safeCalleeName.through) {
       const config =
         LatexCallConfig[
-        safeCalleeName.node.name as keyof typeof LatexCallConfig
+          safeCalleeName.node.name as keyof typeof LatexCallConfig
         ];
       return validateArguments(_arguments, node, config);
     }
     return safeCalleeName;
   },
-}
+};
