@@ -54,6 +54,10 @@ export const operators = {
   },
 };
 
+export const LogicalOperators = Object.keys(operators).filter((node) => {
+  return isLogicalOperators(node);
+});
+
 export function isSafeOperators(operator: string) {
   if (!operators[operator as keyof typeof operators]) {
     return {
