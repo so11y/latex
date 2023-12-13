@@ -1,15 +1,13 @@
 <template>
-  <div ref="el">${{ store.toStringLatex.value }}$</div>
+  <div ref="el">${{}}$</div>
 </template>
 <script setup lang="ts">
 import renderMathInElement from "katex/contrib/auto-render";
 import { inject, nextTick, ref, unref, watch } from "vue";
-import { StoreContainProvideKey } from "../components/storeContain";
 
-const store = inject(StoreContainProvideKey)!;
 const el = ref<HTMLElement>();
 watch(
-  () => unref(store.toStringLatex),
+  () => 1,
   async () => {
     await nextTick();
     renderMathInElement(el.value!, {
@@ -36,4 +34,3 @@ watch(
   }
 );
 </script>
-

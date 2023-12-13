@@ -1,14 +1,11 @@
 <template>
   <div ref="el" :style="{ width, height }"></div>
-  <EditorWorker />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
-import EditorWorker from "./EditorWorker.vue"
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { handleValidate } from "./validateAst"
+import { handleValidate } from "./validateAst";
 
 const props = defineProps({
   width: {
@@ -48,15 +45,13 @@ onMounted(() => {
   const value = `1 +  3 / 5 + Count(3)`;
 
   monacoEditor!.onDidChangeModelContent(() => {
-    handleValidate(monacoEditor!.getValue(), model)
+    handleValidate(monacoEditor!.getValue(), model);
     emits("update:modelValue", monacoEditor!.getValue());
   });
 
   monacoEditor!.onDidBlurEditorText(() => {
     emits("blur");
   });
-  updateVal(
-    value
-  );
+  updateVal(value);
 });
 </script>
