@@ -18,7 +18,7 @@ export function handleValidate(value: string, model: monaco.editor.ITextModel) {
         const { loc } = node.node;
         markers.push({
           message: node.message ?? "未知字符",
-          severity: monaco.MarkerSeverity.Error,
+          severity: node.severity ?? monaco.MarkerSeverity.Error,
           startLineNumber: loc!.start.line,
           startColumn: loc!.start.column + 1,
           endLineNumber: loc!.end.line,

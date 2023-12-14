@@ -8,7 +8,7 @@ type WalkHandleThis = ThisParameterType<SyncHandler>;
 
 const normalizeServerAst = {
   [AstType.Program](this: WalkHandleThis, node: Program) {
-    console.log("---", node);
+    // console.log("---", node);
   },
   [AstType.BinaryExpression](
     this: WalkHandleThis,
@@ -30,8 +30,7 @@ const normalizeServerAst = {
 };
 
 export function walkLocalAstToServerAst(root: Program) {
-  console.log(root, "root");
-  let a = walk(root, {
+  walk(root, {
     enter(node) {
       switch (node.type) {
         case AstType.BinaryExpression:
@@ -48,5 +47,4 @@ export function walkLocalAstToServerAst(root: Program) {
       }
     },
   });
-  console.log(a);
 }

@@ -7,11 +7,14 @@ import {
 } from "naive-ui";
 import { ref, shallowRef } from "vue";
 import MonacoEditor from "./monaco/index.vue";
-const content = ref(`Conditional(
-    1==1 && 2 >= 3 ? Max("1") : Max("b"),
-    Max("aa"),
-    Min("1")
-)`);
+// const content = ref(`Conditional(
+//     1==1 && 2 >= 3 ? Max("1") : Max("b"),
+//     Max("aa"),
+//     Min("1")
+// )`);
+
+const content = ref(`1==1 && 2 >= 3`);
+
 const ast = shallowRef();
 </script>
 

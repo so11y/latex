@@ -1,11 +1,14 @@
 import { Node } from "estree";
 import { SyncHandler } from "estree-walker";
+import { isObject, isString } from "lodash-es";
+import * as monaco from "monaco-editor";
 
 export interface ValidateSchemaGuardMate<T = Node> {
   node: T;
   through: boolean;
   message?: string | null | undefined;
   errorNodes?: Array<ValidateSchemaGuardMate>;
+  severity?: monaco.MarkerSeverity;
 }
 
 type ValidateHandle = SyncHandler extends (
@@ -28,14 +31,40 @@ export interface ValidateSchemaBase {
 
 export function cratedNotThrough<T = Node>(
   node: T,
+  message: {
+    message: string;
+    severity: monaco.MarkerSeverity;
+  },
+  errorNodes?: Array<ValidateSchemaGuardMate>
+): ValidateSchemaGuardMate<T>;
+export function cratedNotThrough<T = Node>(
+  node: T,
   message: string | null,
+  errorNodes?: Array<ValidateSchemaGuardMate>
+): ValidateSchemaGuardMate<T>;
+export function cratedNotThrough<T = Node>(
+  node: T,
+  message: any,
   errorNodes: Array<ValidateSchemaGuardMate> = []
 ): ValidateSchemaGuardMate<T> {
+  const handleMessage = function () {
+    const _message = {
+      message: "",
+      severity: monaco.MarkerSeverity.Error,
+    };
+    if (isString(message)) {
+      _message.message = message;
+    } else if (isObject(message)) {
+      Object.assign(_message, message);
+    }
+    return _message;
+  };
+
   return {
     node,
     through: false,
-    message,
     errorNodes,
+    ...handleMessage(),
   };
 }
 export function cratedThrough<T = Node>(node: T) {

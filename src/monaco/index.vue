@@ -60,6 +60,7 @@ const stopTestCommand = monaco.editor.addCommand({
     }
 
     walkLocalAstToServerAst(ast! as any);
+    console.log(ast,'---');
   },
 });
 
