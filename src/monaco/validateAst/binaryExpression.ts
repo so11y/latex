@@ -34,8 +34,8 @@ export const BinaryExpressionSchema: BinaryExpressionSchemeType = {
     const { left, right } = node;
     const crateErrorMessage = curry(cratedNotThrough)(node);
 
-    const { test, message } = isSafeOperators(node.operator);
-    if (!test) {
+    const { through, message } = isSafeOperators(node.operator);
+    if (through === false) {
       return crateErrorMessage(message);
     }
 

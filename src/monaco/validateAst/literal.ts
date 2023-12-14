@@ -1,9 +1,8 @@
-import { ValidateSchemaBase, cratedNotThrough } from "./types";
-import { CallExpression, Literal, Node } from "acorn";
-import { CallExpressionSchema, validateCalleeName } from "./callExpression";
+import { AstType, ValidateSchemaBase, cratedNotThrough } from "./types";
+import { Literal, Node } from "acorn";
+import { CallExpressionSchema } from "./callExpression";
 import { BinaryExpressionSchema } from "./binaryExpression";
-import { LatexCallConfig } from "./latexConfig";
-import { isString, isNumber } from "lodash-es"
+import { isString, isNumber } from "lodash-es";
 
 export type LiteralSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Literal";
@@ -11,7 +10,7 @@ export type LiteralSchemeType = Omit<ValidateSchemaBase, "type"> & {
 
 export const LiteralSchema: LiteralSchemeType = {
   type: "Literal",
-  validate(node: Literal, parent: Node, _, index) {
+  validate(node: Literal, parent: Node) {
     const parentNotIsCallExpression =
       !!parent && parent.type !== CallExpressionSchema.type;
     const parentNotIsBinaryExpression =
@@ -22,16 +21,8 @@ export const LiteralSchema: LiteralSchemeType = {
     }
 
     if (isNumber(node.value)) {
-      const parentIsCall = parentNotIsCallExpression === false;
-
-      if (parentIsCall) {
-        const parentIsConditional = validateCalleeName(
-          (parent as CallExpression).callee,
-          [LatexCallConfig.Conditional.astName || ""]
-        );
-        if (index && index > 0 && parentIsCall && parentIsConditional.through) {
-          return;
-        }
+      if (parent.type === AstType.ConditionalExpression) {
+        return;
       }
 
       if (parentNotIsBinaryExpression) {

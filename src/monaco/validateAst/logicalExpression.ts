@@ -1,6 +1,6 @@
-import { LogicalExpression } from "acorn";
+import { LogicalExpression, Node } from "acorn";
 import { ValidateSchemaBase, cratedNotThrough } from "./types";
-import ConditionalCallConfig from "./ConditionalCallExpression";
+import { validateIsLogicalNode } from "./conditionalExpression";
 export type LogicalExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "LogicalExpression";
 };
@@ -9,20 +9,17 @@ export const LogicalExpressionSchema: LogicalExpressionSchemeType = {
   type: "LogicalExpression",
   validate(node: LogicalExpression) {
     const { left, right } = node;
-    const validate = ConditionalCallConfig.config.accept[0].validate;
-    const leftTest = validate(left, parent);
-    const rightTest = validate(right, parent);
-    if (leftTest !== true) {
+
+    const handleErrorNode = (node: Node) => {
+      if (validateIsLogicalNode(node) === true) {
+        return;
+      }
       return cratedNotThrough(
-        left,
+        node,
         "逻辑表达式两边需要是条件表达式 使用 && 或者 || 连接 "
       );
-    }
-    if (rightTest !== true) {
-      return cratedNotThrough(
-        right,
-        "逻辑表达式两边需要是条件表达式 使用 && 或者 || 连接 "
-      );
-    }
+    };
+
+    return [handleErrorNode(left), handleErrorNode(right)].find(Boolean);
   },
 };

@@ -32,7 +32,7 @@ const DefaultAccept: Array<LatexValidateConfig> = [
       if (notSameType) {
         return {
           test: false,
-          message: `参数类型不匹配`,
+          message: `参数需要是字符串`,
         };
       }
       const isSomeType = typeof (node as Literal).value !== "string";

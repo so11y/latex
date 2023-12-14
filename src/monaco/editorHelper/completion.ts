@@ -17,7 +17,7 @@ export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         range: range,
-        detail: LatexCallConfig[key as keyof typeof LatexCallConfig].alias,
+        // detail: LatexCallConfig[key as keyof typeof LatexCallConfig].alias,
       };
     });
     return { suggestions: suggestions };

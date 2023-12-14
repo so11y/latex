@@ -1,9 +1,10 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { parse, Program } from "acorn";
+import { Parser, Program } from "acorn";
 import { extractTokenAndNumbers } from "../util";
-import { ValidateSchemaGuardMate } from "./types";
+import { AstType, ValidateSchemaGuardMate } from "./types";
 import { validateWalk } from "./validate";
 import { Node } from "acorn";
+import { macroLatexCallConfig } from "./latexConfig";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
   let { ast, diagnosisNodes } = validate(value);
@@ -35,11 +36,37 @@ export function handleValidate(value: string, model: monaco.editor.ITextModel) {
   };
 }
 
+//@ts-ignore
+const parse = Parser.extend((_Parser: any) => {
+  return class extends _Parser {
+    parseSubscript(...arg: any) {
+      const node = super.parseSubscript(...arg);
+      if (
+        node.type === AstType.CallExpression &&
+        node.callee?.name === macroLatexCallConfig.Conditional.name
+      ) {
+        const [test, consequent, alternate] = node.arguments;
+        const { loc, start, end } = node;
+        return {
+          type: AstType.ConditionalExpression,
+          loc,
+          start,
+          end,
+          test,
+          consequent,
+          alternate,
+        };
+      }
+      return node;
+    }
+  };
+});
+
 function validate(value: string) {
   const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
   let ast: Program | null = null;
   try {
-    ast = parse(value, {
+    ast = parse.parse(value, {
       ecmaVersion: "latest",
       sourceType: "script",
       locations: true,

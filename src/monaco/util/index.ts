@@ -61,12 +61,12 @@ export const LogicalOperators = Object.keys(operators).filter((node) => {
 export function isSafeOperators(operator: string) {
   if (!operators[operator as keyof typeof operators]) {
     return {
-      test: false,
+      through: false,
       message: "不支持位运算等符号",
     };
   }
   return {
-    test: true,
+    through: true,
   };
 }
 

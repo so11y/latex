@@ -2,7 +2,7 @@ import { Node } from "acorn";
 import { CallExpressionSchema } from "./callExpression";
 import { BinaryExpressionSchema } from "./binaryExpression";
 import { generate, GENERATOR } from "astring";
-import { LatexCallConfig } from "./latexConfig";
+import { LatexCallConfig, macroLatexCallConfig } from "./latexConfig";
 import { operators } from "../util";
 import { ProgramSchema } from "./program";
 
@@ -27,16 +27,7 @@ export function toLatexString(node: Node) {
             name: config.alias,
           },
         };
-        if (config.name === LatexCallConfig.Conditional.name) {
-          const [test, consequent, alternate] = node.arguments;
-          this[test.type](test, state);
-          state.write(" ? ");
-          this[consequent.type](consequent, state);
-          state.write(" : ");
-          this[alternate.type](alternate, state);
-        } else {
-          GENERATOR.CallExpression.call(this, currentNode, state);
-        }
+        GENERATOR.CallExpression.call(this, currentNode, state);
       },
       [BinaryExpressionSchema.type]: function (
         this: any,

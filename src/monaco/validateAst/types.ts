@@ -29,7 +29,7 @@ export interface ValidateSchemaBase {
 export function cratedNotThrough<T = Node>(
   node: T,
   message: string | null,
-  errorNodes = []
+  errorNodes: Array<ValidateSchemaGuardMate> = []
 ): ValidateSchemaGuardMate<T> {
   return {
     node,
@@ -45,11 +45,11 @@ export function cratedThrough<T = Node>(node: T) {
   };
 }
 
-
-export enum AstType  {
+export enum AstType {
   BinaryExpression = "BinaryExpression",
   LogicalExpression = "LogicalExpression",
   CallExpression = "CallExpression",
   Literal = "Literal",
   Identifier = "Identifier",
+  ConditionalExpression = "ConditionalExpression",
 }
