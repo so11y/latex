@@ -52,4 +52,5 @@ export enum AstType {
   Literal = "Literal",
   Identifier = "Identifier",
   ConditionalExpression = "ConditionalExpression",
+  Program = "Program",
 }

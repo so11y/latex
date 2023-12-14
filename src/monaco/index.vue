@@ -4,11 +4,13 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, PropType } from "vue";
+import { onMounted, onUnmounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
-import { handleValidate } from "./analysis";
+import { handleValidate, validate } from "./analysis";
 import EditorWorker from "./editorWorker.vue";
+import * as monaco from "monaco-editor";
 import { Program } from "estree";
+import { useMessage } from "naive-ui";
 
 const props = defineProps({
   width: {
@@ -40,11 +42,22 @@ const props = defineProps({
   },
 });
 
+const message = useMessage();
 const emits = defineEmits(["blur", "update:modelValue", "update:ast"]);
 
 const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
   props.language
 );
+
+const stopTestCommand = monaco.editor.addCommand({
+  id: "LatexTest",
+  run() {
+    const { diagnosisNodes } = validate(props.modelValue);
+    if (diagnosisNodes.length) {
+      message.warning("存在错误，请根据提示修改");
+    }
+  },
+});
 
 onMounted(() => {
   const { model, monacoEditor } = createEditor(props.editorOptions)!;
@@ -60,5 +73,8 @@ onMounted(() => {
   });
   updateVal(props.modelValue);
 });
+
+onUnmounted(() => {
+  stopTestCommand.dispose();
+});
 </script>
-./analysis

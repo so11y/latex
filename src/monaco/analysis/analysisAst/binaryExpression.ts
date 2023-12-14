@@ -1,9 +1,8 @@
 import { BinaryExpression, Node } from "estree";
-import { CallExpressionSchema } from "./callExpression";
 import { LiteralSchema } from "./literal";
-import { ValidateSchemaBase, cratedNotThrough } from "../types";
+import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
 import { curry, isNumber } from "lodash-es";
-import { isSafeOperators, operators } from "../../util/index";
+import { isSafeOperators } from "../../util/index";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };
@@ -14,11 +13,15 @@ function validateValues(node: Node) {
     return true;
   }
   //只能是二元表达式
-  if (BinaryExpressionSchema.type === node.type) {
+  if (AstType.BinaryExpression === node.type) {
     return true;
   }
   //只能是函数调用表达式
-  if (CallExpressionSchema.type === node.type) {
+  if (AstType.CallExpression === node.type) {
+    return true;
+  }
+  //可以是三元表达式,因为三元表达式返回的结果是可以运算
+  if (AstType.ConditionalExpression === node.type) {
     return true;
   }
 }

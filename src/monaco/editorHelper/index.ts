@@ -1,8 +1,9 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from "monaco-editor";
 import { provideCompletionItems } from "./completion";
 import { tokenProvide } from "./tokenProvide";
 import { hoverProvider } from "./hoverProvider";
 import { inlayHintsProvider } from "./InlayHintsProvider";
+import { codeLensesProvide } from "./codeLenseProvide";
 
 export const setup = () => {
   monaco.languages.register({ id: "latex" });
@@ -17,5 +18,7 @@ export const setup = () => {
   monaco.languages.setLanguageConfiguration("latex", {
     brackets: [["(", ")"]],
   });
+
+  monaco.languages.registerCodeLensProvider("latex", codeLensesProvide);
   monaco.languages.setMonarchTokensProvider("latex", tokenProvide);
 };

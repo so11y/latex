@@ -1,5 +1,5 @@
 import { ref, onBeforeUnmount, nextTick } from "vue";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from "monaco-editor";
 import { setup } from "./editorHelper/index";
 
 setup();
@@ -31,6 +31,7 @@ export const useMonacoEditor = (language: string, value: string = "") => {
     // 创建
     monacoEditor = monaco.editor.create(el.value, {
       model,
+      fontSize:18,
       theme: "vs-dark",
     });
 

@@ -1,15 +1,13 @@
 import { Node } from "estree";
-import { CallExpressionSchema } from "./analysisAst/callExpression";
-import { BinaryExpressionSchema } from "./analysisAst/binaryExpression";
 import { generate, GENERATOR } from "astring";
 import { LatexCallConfig } from "./latexConfig";
 import { operators } from "../util";
-import { ProgramSchema } from "./analysisAst/program";
+import { AstType } from "./types";
 
 export function toLatexString(node: Node) {
   const code = generate(node, {
     generator: Object.assign({}, GENERATOR, {
-      [ProgramSchema.type](this: any, node: any, state: any) {
+      [AstType.Program](this: any, node: any, state: any) {
         const ordWrite = state.write;
         state.write = function (code: string) {
           switch (code) {
@@ -27,24 +25,32 @@ export function toLatexString(node: Node) {
         };
         GENERATOR.Program.call(this, node, state);
       },
-      [CallExpressionSchema.type](this: any, node: any, state: any) {
+      [AstType.CallExpression](this: any, node: any, state: any) {
         const config = (LatexCallConfig as any)[node.callee.name];
         const currentNode = {
           ...node,
           callee: {
             ...node.callee,
-            name: config.alias,
+            name: `\\text{${config.alias}}`,
           },
         };
         GENERATOR.CallExpression.call(this, currentNode, state);
       },
-      [BinaryExpressionSchema.type](this: any, node: any, state: any) {
+      [AstType.BinaryExpression](this: any, node: any, state: any) {
         const currentNode = {
           ...node,
           operator:
             operators[node.operator as keyof typeof operators].latexOperator,
         };
         GENERATOR.BinaryExpression.call(this, currentNode, state);
+      },
+      [AstType.LogicalExpression](this: any, node: any, state: any) {
+        const currentNode = {
+          ...node,
+          operator:
+            operators[node.operator as keyof typeof operators].latexOperator,
+        };
+        GENERATOR.LogicalExpression.call(this, currentNode, state);
       },
     }),
   });

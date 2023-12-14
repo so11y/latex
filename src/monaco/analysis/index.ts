@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from "monaco-editor";
 import { Parser, Program } from "acorn";
 import { extractTokenAndNumbers } from "../util";
 import { AstType, ValidateSchemaGuardMate } from "./types";
@@ -62,7 +62,7 @@ const parse = Parser.extend((_Parser: any) => {
   };
 });
 
-function validate(value: string) {
+export function validate(value: string) {
   const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
   let ast: Program | null = null;
   try {

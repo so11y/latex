@@ -52,6 +52,14 @@ export const operators = {
     latexOperator: "\\ge",
     name: AstType.LogicalExpression,
   },
+  "&&": {
+    latexOperator: "\\&\\&",
+    name: AstType.LogicalExpression,
+  },
+  "||": {
+    latexOperator: "\\|",
+    name: AstType.LogicalExpression,
+  },
 };
 
 export const LogicalOperators = Object.keys(operators).filter((node) => {
