@@ -1,0 +1,18 @@
+[
+  {
+    "title": "逻辑运算在三元表达式中",
+    "value": "1 > 1 && 2  != 2 ? Min('a') : Max('a')",
+    "expect": true
+  },
+  {
+    "title": "逻辑运算在三元表达式中",
+    "value": "1 - 1 && 2  != 2 ? Min('a') : Max('a')",
+    "expect": false
+  },
+  {
+    "title": "&& 号运算加逻辑 作为Root",
+    "value": "1 > 2 && 1 == 1",
+    "expect": false
+  },
+  { "title": "|| 号运算 作为Root", "value": "1 || 1", "expect": false }
+]

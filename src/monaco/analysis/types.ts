@@ -31,15 +31,15 @@ export interface ValidateSchemaBase {
 
 export function cratedNotThrough<T = Node>(
   node: T,
-  message: {
-    message: string;
-    severity: monaco.MarkerSeverity;
-  },
+  message: string | null,
   errorNodes?: Array<ValidateSchemaGuardMate>
 ): ValidateSchemaGuardMate<T>;
 export function cratedNotThrough<T = Node>(
   node: T,
-  message: string | null,
+  message: {
+    message: string;
+    severity: monaco.MarkerSeverity;
+  },
   errorNodes?: Array<ValidateSchemaGuardMate>
 ): ValidateSchemaGuardMate<T>;
 export function cratedNotThrough<T = Node>(

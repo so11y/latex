@@ -1,8 +1,6 @@
-import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
+import { ValidateSchemaBase, cratedNotThrough } from "../types";
 import { Literal, Node } from "estree";
 import { CallExpressionSchema } from "./callExpression";
-import { BinaryExpressionSchema } from "./binaryExpression";
-import { isString, isNumber } from "lodash-es";
 
 export type LiteralSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Literal";

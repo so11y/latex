@@ -1,0 +1,24 @@
+[
+  { "title": "三元表达式", "value": "1 ? 1 : 1", "expect": false },
+  { "title": "三元表达式", "value": "1 > 2 ? 1 : 1", "expect": false },
+  {
+    "title": "三元表达式",
+    "value": "1 > 2 ? Max('a') : Max('a')",
+    "expect": true
+  },
+  {
+    "title": "Conditional语法糖",
+    "value": "Conditional( 1>2 , Max('a') ,Max('a') )",
+    "expect": true
+  },
+  {
+    "title": "不支持三元表达式嵌套",
+    "value": "Conditional( 1 > 1 ? Min('b') : Min('b') , Max('a') , Max('a') )",
+    "expect": false
+  },
+  {
+    "title": "支持三元表达式嵌套搭配逻辑表达式",
+    "value": "Conditional( (1 > 1 ? Min('b') : Min('b')) > 1 , Max('a') , Max('a') )",
+    "expect": true
+  }
+]

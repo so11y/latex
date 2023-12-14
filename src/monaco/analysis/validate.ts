@@ -9,8 +9,11 @@ import { ConditionalExpressionSchema } from "./analysisAst/conditionalExpression
 import { NumberLiteralSchema } from "./analysisAst/numberLiteral";
 import { Node, CallExpression } from "estree";
 import { walk } from "estree-walker";
+import { Program } from "acorn";
 import { AstType, ValidateSchemaBase, ValidateSchemaGuardMate } from "./types";
 import { LatexNames, macroLatexCallConfig } from "./helper/latexConfig";
+import { extractTokenAndNumbers } from "./util";
+import { parse } from "./parse";
 
 function buildTypeNames(
   types: Array<Array<ValidateSchemaBase> | ValidateSchemaBase>
@@ -94,4 +97,40 @@ export function validateWalk(
       }
     },
   });
+}
+
+export function validate(value: string) {
+  const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
+  let ast: Program | null = null;
+  try {
+    ast = parse.parse(value, {
+      ecmaVersion: "latest",
+      sourceType: "script",
+      locations: true,
+    });
+    validateWalk(ast as Node, diagnosisNodes);
+  } catch (error) {
+    if (diagnosisNodes.length === 0) {
+      const position = extractTokenAndNumbers((error as Error).message);
+      if (position) {
+        diagnosisNodes.push(cratedFakeNodeError(position));
+      }
+    }
+    console.log("ignore parse error");
+  }
+  return {
+    diagnosisNodes,
+    ast,
+  };
+}
+
+function cratedFakeNodeError(position: any) {
+  return {
+    node: {
+      loc: {
+        start: position,
+        end: position,
+      },
+    },
+  } as any;
 }

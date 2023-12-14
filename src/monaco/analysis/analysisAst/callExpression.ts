@@ -12,12 +12,7 @@ import {
   Super,
   Node,
 } from "estree";
-import { curry } from "lodash-es";
-import {
-  LatexCallConfig,
-  LatexNames,
-  LatexValidateConfig,
-} from "../helper/latexConfig";
+import { LatexCallConfig, LatexNames } from "../helper/latexConfig";
 
 export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "CallExpression";
@@ -27,12 +22,11 @@ export function validateCalleeName(
   n: Expression | Super,
   names = LatexNames
 ): ValidateSchemaGuardMate<Identifier> {
-  const crateErrorMessage = curry(cratedNotThrough)(n);
   if (n.type !== "Identifier") {
-    return crateErrorMessage("未知语法调用");
+    return cratedNotThrough(n as any, "未知语法调用");
   }
   if (!names.includes(n.name)) {
-    return crateErrorMessage("未知调用函数");
+    return cratedNotThrough(n, "未知调用函数");
   }
   return cratedThrough(n);
 }
@@ -43,9 +37,11 @@ function validateArguments(
   latexConfig: LatexCallConfig
 ) {
   const { config } = latexConfig;
-  const crateErrorMessage = curry(cratedNotThrough)(parent);
   if (n.length !== config.accept.length) {
-    return crateErrorMessage(`参数个数不匹配需要${config.accept.length}个参数`);
+    return cratedNotThrough(
+      parent,
+      `参数个数不匹配需要${config.accept.length}个参数`
+    );
   }
   //标准化accept参数
   function nomadizeAccept(node: Expression | SpreadElement, index: number) {
@@ -83,7 +79,8 @@ function validateArguments(
     .map(nomadizeValidateResult)
     .filter(filterErrorNodes);
   if (errorNodes.length) {
-    return crateErrorMessage(
+    return cratedNotThrough(
+      parent,
       null,
       errorNodes.map(({ node, message }) => {
         return cratedNotThrough(node, message!);

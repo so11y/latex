@@ -6,7 +6,8 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
-import { handleValidate, validate } from "./analysis";
+import { handleValidate } from "./analysis";
+import { validate } from "./analysis/validate";
 import EditorWorker from "./editorWorker.vue";
 import * as monaco from "monaco-editor";
 import { Program } from "estree";
@@ -50,19 +51,19 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
   props.language
 );
 
-const stopTestCommand = monaco.editor.addCommand({
-  id: "LatexTest",
-  run() {
-    const { diagnosisNodes, ast } = validate(props.modelValue);
-    if (diagnosisNodes.length) {
-      message.warning("存在错误，请根据提示修改");
-      return;
-    }
+// const stopTestCommand = monaco.editor.addCommand({
+//   id: "LatexTest",
+//   run() {
+//     const { diagnosisNodes, ast } = validate(props.modelValue);
+//     if (diagnosisNodes.length) {
+//       message.warning("存在错误，请根据提示修改");
+//       return;
+//     }
 
-    walkLocalAstToServerAst(ast! as any);
-    console.log(ast,'---');
-  },
-});
+//     walkLocalAstToServerAst(ast! as any);
+//     console.log(ast,'---');
+//   },
+// });
 
 onMounted(() => {
   const { model, monacoEditor } = createEditor(props.editorOptions)!;
@@ -80,6 +81,6 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  stopTestCommand.dispose();
+  // stopTestCommand.dispose();
 });
 </script>

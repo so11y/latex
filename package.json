@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/acorn": "^6.0.0",
+    "@types/estree": "^1.0.5",
     "@types/katex": "^0.16.7",
     "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^4.5.2",
@@ -20,6 +21,8 @@
     "acorn": "^8.11.2",
     "astring": "^1.8.6",
     "estree-walker": "^3.0.3",
+    "happy-dom": "^12.10.3",
+    "monaco-editor": "^0.45.0",
     "sass": "^1.69.5",
     "typescript": "^5.3.3",
     "vite": "^5.0.7",
@@ -28,7 +31,6 @@
   "dependencies": {
     "katex": "^0.16.9",
     "lodash-es": "^4.17.21",
-    "monaco-editor": "^0.45.0",
     "naive-ui": "^2.35.0",
     "vue": "^3.3.11"
   }

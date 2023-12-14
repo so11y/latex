@@ -1,6 +1,5 @@
 import { BinaryExpression, Node } from "estree";
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
-import { curry } from "lodash-es";
 import { isSafeOperators } from "../helper/operators";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
@@ -25,20 +24,21 @@ function validateValues(node: Node) {
   }
 }
 function maybeErrorNode(node: Node) {
-  const crateErrorMessage = curry(cratedNotThrough)(node);
   if (!validateValues(node)) {
-    return crateErrorMessage("运算两边需要是数值或者函数调用表达式或者运算");
+    return cratedNotThrough(
+      node,
+      "运算两边需要是数值或者函数调用表达式或者运算"
+    );
   }
 }
 export const BinaryExpressionSchema: BinaryExpressionSchemeType = {
   type: "BinaryExpression",
   validate(node: BinaryExpression) {
     const { left, right } = node;
-    const crateErrorMessage = curry(cratedNotThrough)(node);
 
     const { through, message } = isSafeOperators(node.operator);
     if (through === false) {
-      return crateErrorMessage(message);
+      return cratedNotThrough(node, message!);
     }
 
     return [maybeErrorNode(left), maybeErrorNode(right)].find(Boolean);

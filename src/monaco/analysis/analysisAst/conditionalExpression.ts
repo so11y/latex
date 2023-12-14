@@ -40,6 +40,10 @@ function trueAndFalseResult(
 export function validateIsLogicalNode(
   node: Node
 ): true | ValidateSchemaGuardMate {
+  if (node.type === AstType.ConditionalExpression) {
+    return cratedNotThrough(node, ErrorMessage[3]);
+  }
+
   const notLogicOrBinaryOrConditional = [
     AstType.BinaryExpression,
     AstType.LogicalExpression,
@@ -47,11 +51,7 @@ export function validateIsLogicalNode(
   ].every((type) => node.type !== type);
 
   if (notLogicOrBinaryOrConditional) {
-    return {
-      through: false,
-      node,
-      message: ErrorMessage[0],
-    };
+    return cratedNotThrough(node, ErrorMessage[0]);
   }
 
   if (AstType.BinaryExpression === node.type) {
@@ -59,19 +59,11 @@ export function validateIsLogicalNode(
       (node as BinaryExpression).operator
     );
     if (through === false) {
-      return {
-        through: false,
-        node,
-        message: message!,
-      };
+      return cratedNotThrough(node, message!);
     }
     //如果是二元表达式那么它的操作符必须是逻辑表达式
     if (isLogicalOperators((node as BinaryExpression).operator) === false) {
-      return {
-        through: false,
-        node,
-        message: ErrorMessage[0],
-      };
+      return cratedNotThrough(node, ErrorMessage[0]);
     }
   }
 

@@ -1,0 +1,168 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`binaryExpression > != 号运算 作为Root__(7) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`binaryExpression > &  不支持的运算符__(8) 1`] = `
+[
+  {
+    "message": "不支持位运算等符号",
+  },
+]
+`;
+
+exports[`binaryExpression > * 号运算__(2) 1`] = `[]`;
+
+exports[`binaryExpression > **  不支持的运算符__(10) 1`] = `
+[
+  {
+    "message": "不支持位运算等符号",
+  },
+]
+`;
+
+exports[`binaryExpression > + 号运算__(0) 1`] = `[]`;
+
+exports[`binaryExpression > / 号运算__(3) 1`] = `[]`;
+
+exports[`binaryExpression > <= 号运算 作为Root__(5) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`binaryExpression > >= 号运算 作为Root__(6) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`binaryExpression > |  不支持的运算符__(9) 1`] = `
+[
+  {
+    "message": "不支持位运算等符号",
+  },
+]
+`;
+
+exports[`binaryExpression > - 号运算__(1) 1`] = `[]`;
+
+exports[`binaryExpression > 复杂运算在三元表达式中__(4) 1`] = `[]`;
+
+exports[`conditionalExpression > Conditional语法糖__(3) 1`] = `[]`;
+
+exports[`conditionalExpression > 三元表达式__(0) 1`] = `
+[
+  {
+    "message": "只能是使用三元和逻辑表达式符号 == != > < >= <= && ||",
+  },
+  {
+    "message": "真结果需要是函数调用并且不能再返回逻辑表达式了",
+  },
+  {
+    "message": "假结果需要是函数调用并且不能再返回逻辑表达式了",
+  },
+]
+`;
+
+exports[`conditionalExpression > 三元表达式__(1) 1`] = `
+[
+  {
+    "message": "真结果需要是函数调用并且不能再返回逻辑表达式了",
+  },
+  {
+    "message": "假结果需要是函数调用并且不能再返回逻辑表达式了",
+  },
+]
+`;
+
+exports[`conditionalExpression > 三元表达式__(2) 1`] = `[]`;
+
+exports[`conditionalExpression > 不支持三元表达式嵌套__(4) 1`] = `
+[
+  {
+    "message": "不支持在直接嵌套Conditional函数和三元表达式,但是可以在搭配逻辑表达式使用",
+  },
+]
+`;
+
+exports[`conditionalExpression > 支持三元表达式嵌套搭配逻辑表达式__(5) 1`] = `[]`;
+
+exports[`literal > 一个字符__(1) 1`] = `
+[
+  {
+    "message": "字符串只能出现在调用里",
+  },
+]
+`;
+
+exports[`literal > 一个数值__(0) 1`] = `
+[
+  {
+    "message": "数字需要与运算符号配合",
+  },
+]
+`;
+
+exports[`literal > 数值在 !=  逻辑符中__(2) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`literal > 数值在 *  运算符中__(7) 1`] = `[]`;
+
+exports[`literal > 数值在 +  运算符中__(4) 1`] = `[]`;
+
+exports[`literal > 数值在 /  运算符中__(6) 1`] = `[]`;
+
+exports[`literal > 数值在 -  运算符中__(5) 1`] = `[]`;
+
+exports[`literal > 数值在函数中作为字符串__(9) 1`] = `[]`;
+
+exports[`literal > 数值在函数中作为数值__(3) 1`] = `
+[
+  {
+    "message": "参数需要是字符串",
+  },
+]
+`;
+
+exports[`literal > 数值在括号中__(8) 1`] = `[]`;
+
+exports[`logicalExpression > && 号运算加逻辑 作为Root__(2) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`logicalExpression > || 号运算 作为Root__(3) 1`] = `
+[
+  {
+    "message": "当前最终运算得出的可能是一个布尔值，请检查",
+  },
+]
+`;
+
+exports[`logicalExpression > 逻辑运算在三元表达式中__(0) 1`] = `[]`;
+
+exports[`logicalExpression > 逻辑运算在三元表达式中__(1) 1`] = `
+[
+  {
+    "message": "逻辑表达式两边需要是条件表达式 使用 && 或者 || 连接 ",
+  },
+]
+`;

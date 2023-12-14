@@ -81,7 +81,7 @@ export function isSafeOperators(operator: string) {
 
 export function isLogicalOperators(operator: string) {
   return (
-    operators[operator as keyof typeof operators].name ===
+    operators[operator as keyof typeof operators]?.name ===
     AstType.LogicalExpression
   );
 }
