@@ -6,10 +6,11 @@ import { ProgramSchema } from "./analysisAst/program";
 import { BinaryExpressionSchema } from "./analysisAst/binaryExpression";
 import { LogicalExpressionSchema } from "./analysisAst/logicalExpression";
 import { ConditionalExpressionSchema } from "./analysisAst/conditionalExpression";
+import { NumberLiteralSchema } from "./analysisAst/numberLiteral";
 import { Node, CallExpression } from "estree";
 import { walk } from "estree-walker";
 import { AstType, ValidateSchemaBase, ValidateSchemaGuardMate } from "./types";
-import { LatexNames, macroLatexCallConfig } from "./latexConfig";
+import { LatexNames, macroLatexCallConfig } from "./helper/latexConfig";
 
 function buildTypeNames(
   types: Array<Array<ValidateSchemaBase> | ValidateSchemaBase>
@@ -36,6 +37,7 @@ const { typeKeys, mappings } = buildTypeNames([
   BinaryExpressionSchema,
   LogicalExpressionSchema,
   ConditionalExpressionSchema,
+  NumberLiteralSchema,
 ]);
 
 let hintsCallExpressionNodes: Array<CallExpression> = [];

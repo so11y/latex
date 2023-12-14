@@ -1,4 +1,4 @@
-import { NOOP } from "../../util/functional"
+import { NOOP } from "../util/functional"
 import { ValidateSchemaBase } from "../types";
 
 export type ProgramSchemeType = Omit<ValidateSchemaBase, "type"> & {

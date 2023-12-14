@@ -17,7 +17,7 @@ import {
   LatexCallConfig,
   LatexNames,
   LatexValidateConfig,
-} from "../latexConfig";
+} from "../helper/latexConfig";
 
 export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "CallExpression";

@@ -1,7 +1,7 @@
 import * as monaco from "monaco-editor";
 import { getCallExpressionNodes } from "../analysis/validate";
 import { Identifier } from "estree";
-import { AllLatex, LatexCallConfig } from "../analysis/latexConfig";
+import { AllLatex, LatexCallConfig } from "../analysis/helper/latexConfig";
 
 export const inlayHintsProvider: monaco.languages.InlayHintsProvider = {
   provideInlayHints() {

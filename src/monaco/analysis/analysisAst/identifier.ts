@@ -1,5 +1,5 @@
 import { CallExpressionSchema } from "./callExpression";
-import { LatexNames } from "../latexConfig";
+import { LatexNames } from "../helper/latexConfig";
 import { ValidateSchemaBase } from "../types";
 import { Identifier } from "estree";
 

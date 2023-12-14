@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor";
-import { AllLatex, LatexNames } from "../analysis/latexConfig";
+import { AllLatex, LatexNames } from "../analysis/helper/latexConfig";
 
 export const hoverProvider: monaco.languages.HoverProvider = {
   provideHover: function (model, position) {

@@ -11,6 +11,7 @@ import EditorWorker from "./editorWorker.vue";
 import * as monaco from "monaco-editor";
 import { Program } from "estree";
 import { useMessage } from "naive-ui";
+import { walkLocalAstToServerAst } from "./analysis/astToServer";
 
 const props = defineProps({
   width: {
@@ -52,10 +53,13 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
 const stopTestCommand = monaco.editor.addCommand({
   id: "LatexTest",
   run() {
-    const { diagnosisNodes } = validate(props.modelValue);
+    const { diagnosisNodes, ast } = validate(props.modelValue);
     if (diagnosisNodes.length) {
       message.warning("存在错误，请根据提示修改");
+      return;
     }
+
+    walkLocalAstToServerAst(ast! as any);
   },
 });
 

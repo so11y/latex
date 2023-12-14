@@ -1,64 +1,65 @@
-import { AstType } from "../analysis/types";
-
-export function extractTokenAndNumbers(str: string) {
-  const regex = /\((\d+):(\d+)\)$/;
-  const match = str.match(regex);
-  if (match) {
-    const extracted = {
-      token: match[0],
-      line: parseInt(match[1]),
-      column: parseInt(match[2]),
-    };
-    return extracted;
-  } else {
-    return null;
-  }
-}
+import { AstType } from "../types";
 
 export const operators = {
   "+": {
     latexOperator: "+",
     name: AstType.BinaryExpression,
+    alias: "Plus",
   },
   "-": {
     latexOperator: "-",
     name: AstType.BinaryExpression,
+    alias: "Minus",
   },
   "*": {
     latexOperator: "*",
     name: AstType.BinaryExpression,
+    alias: "Times",
   },
   "/": {
     latexOperator: "{\\div}",
     name: AstType.BinaryExpression,
+    alias: "Div",
   },
   "==": {
     latexOperator: "\\equiv",
     name: AstType.LogicalExpression,
+    alias: "Eq",
   },
   "!=": {
     latexOperator: "\\ne",
     name: AstType.LogicalExpression,
+    alias: "NEq",
   },
   ">": {
     latexOperator: ">",
     name: AstType.LogicalExpression,
+    alias: "Gt",
   },
   "<": {
     latexOperator: "<",
     name: AstType.LogicalExpression,
+    alias: "Lt",
   },
   ">=": {
     latexOperator: "\\ge",
     name: AstType.LogicalExpression,
+    alias: "EGt",
+  },
+  "<=": {
+    latexOperator: "\\ge",
+    name: AstType.LogicalExpression,
+    alias: "ELt",
   },
   "&&": {
     latexOperator: "\\&\\&",
     name: AstType.LogicalExpression,
+    alias:"And"
   },
   "||": {
     latexOperator: "\\|",
     name: AstType.LogicalExpression,
+    alias:"Or"
   },
 };
 

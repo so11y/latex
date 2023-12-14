@@ -1,12 +1,12 @@
 import { Node, ConditionalExpression, BinaryExpression } from "estree";
 import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "../types";
+
+import { ValidateSchemaBase } from "../types";
 import {
   LogicalOperators,
   isLogicalOperators,
   isSafeOperators,
-} from "../../util";
-
-import { ValidateSchemaBase } from "../types";
+} from "../helper/operators";
 
 export type ConditionalExpressionSchemeType = Omit<
   ValidateSchemaBase,

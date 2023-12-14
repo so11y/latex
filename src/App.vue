@@ -8,9 +8,9 @@ import {
 import { ref, shallowRef } from "vue";
 import MonacoEditor from "./monaco/index.vue";
 const content = ref(`Conditional(
-    1 ? 2 : 3,
+    1==1 && 2 >= 3 ? Max("1") : Max("b"),
     Max("aa"),
-    Min("bb")
+    Min("1")
 )`);
 const ast = shallowRef();
 </script>

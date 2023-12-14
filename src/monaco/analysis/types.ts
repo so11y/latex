@@ -53,4 +53,5 @@ export enum AstType {
   Identifier = "Identifier",
   ConditionalExpression = "ConditionalExpression",
   Program = "Program",
+  NumberLiteral = "NumberLiteral", //不是acorn的标准，为服务端需要。
 }

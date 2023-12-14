@@ -1,8 +1,8 @@
 import { Node } from "estree";
 import { generate, GENERATOR } from "astring";
-import { LatexCallConfig } from "./latexConfig";
-import { operators } from "../util";
+import { LatexCallConfig } from "./helper/latexConfig";
 import { AstType } from "./types";
+import { operators } from "./helper/operators";
 
 export function toLatexString(node: Node) {
   const code = generate(node, {
@@ -51,6 +51,9 @@ export function toLatexString(node: Node) {
             operators[node.operator as keyof typeof operators].latexOperator,
         };
         GENERATOR.LogicalExpression.call(this, currentNode, state);
+      },
+      [AstType.NumberLiteral](this: any, node: any, state: any) {
+        GENERATOR.Literal.call(this, node, state);
       },
     }),
   });

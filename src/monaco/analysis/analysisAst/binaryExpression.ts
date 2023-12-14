@@ -1,15 +1,14 @@
 import { BinaryExpression, Node } from "estree";
-import { LiteralSchema } from "./literal";
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
-import { curry, isNumber } from "lodash-es";
-import { isSafeOperators } from "../../util/index";
+import { curry } from "lodash-es";
+import { isSafeOperators } from "../helper/operators";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };
 
 function validateValues(node: Node) {
   //只能是数字
-  if (node.type === LiteralSchema.type && isNumber((node as any).value)) {
+  if (node.type === AstType.NumberLiteral) {
     return true;
   }
   //只能是二元表达式

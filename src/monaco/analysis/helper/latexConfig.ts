@@ -1,5 +1,5 @@
 import { Literal } from "estree";
-import { AstType } from "./types";
+import { AstType } from "../types";
 
 interface ConfigRecord {
   [key: string]: LatexCallConfig;
