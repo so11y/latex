@@ -9,7 +9,7 @@ import { useMonacoEditor } from "./index.hook";
 import { handleValidate } from "./analysis";
 import { validate } from "./analysis/validate";
 import EditorWorker from "./editorWorker.vue";
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { Program } from "estree";
 import { useMessage } from "naive-ui";
 import { walkLocalAstToServerAst } from "./analysis/astToServer";

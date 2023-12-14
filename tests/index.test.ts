@@ -1,11 +1,11 @@
 import { describe, expect, test } from "vitest";
 import { validate } from "../src/monaco/analysis/validate";
-import { nomadizeMarkers } from "../src/monaco/analysis/index";
 import LiteralText from "./text/literal.json";
 import { pick } from "lodash-es";
 import binaryExpressionText from "./text/binaryExpression.json";
 import logicalExpressionText from "./text/logicalExpression.json";
-import conditionalExpression from "./text/conditionalExpression.json"
+import conditionalExpression from "./text/conditionalExpression.json";
+import { nomadizeMarkers } from "../src/monaco/analysis/util/functional";
 
 function builderTest(name: string, json: Array<Record<string, any>>) {
   describe(name, () => {
@@ -16,7 +16,7 @@ function builderTest(name: string, json: Array<Record<string, any>>) {
         expect(markers.length === 0).toEqual(item.expect);
         expect(
           markers.map((marker) => pick(marker, ["message"]))
-        ).toMatchSnapshot()
+        ).toMatchSnapshot();
       });
     });
   });

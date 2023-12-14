@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { AllLatex, LatexNames } from "../analysis/helper/latexConfig";
 
 export const hoverProvider: monaco.languages.HoverProvider = {

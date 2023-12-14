@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { provideCompletionItems } from "./completion";
 import { tokenProvide } from "./tokenProvide";
 import { hoverProvider } from "./hoverProvider";

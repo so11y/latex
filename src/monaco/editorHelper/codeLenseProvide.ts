@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 
 export const codeLensesProvide: monaco.languages.CodeLensProvider = {
   provideCodeLenses(model, token) {

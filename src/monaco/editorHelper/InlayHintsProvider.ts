@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { getCallExpressionNodes } from "../analysis/validate";
 import { Identifier } from "estree";
 import { AllLatex, LatexCallConfig } from "../analysis/helper/latexConfig";

@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
 import { LatexNames, AllLatex } from "../analysis/helper/latexConfig";
 export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
   provideCompletionItems: (model, position) => {

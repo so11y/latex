@@ -1,6 +1,6 @@
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
 import { ExpressionStatement } from "estree";
-import * as monaco from "monaco-editor";
+import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js"
 import { isLogicalOperators } from "../helper/operators";
 
 export type ExpressionStatementSchemeType = Omit<ValidateSchemaBase, "type"> & {
