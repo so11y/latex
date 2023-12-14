@@ -1,10 +1,9 @@
 import {
-  AstType,
   ValidateSchemaBase,
   ValidateSchemaGuardMate,
   cratedNotThrough,
   cratedThrough,
-} from "./types";
+} from "../types";
 import {
   CallExpression,
   Expression,
@@ -12,40 +11,17 @@ import {
   SpreadElement,
   Super,
   Node,
-  Literal,
-} from "acorn";
+} from "estree";
 import { curry } from "lodash-es";
 import {
   LatexCallConfig,
   LatexNames,
   LatexValidateConfig,
-} from "./latexConfig";
+} from "../latexConfig";
 
 export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "CallExpression";
 };
-
-const DefaultAccept: Array<LatexValidateConfig> = [
-  {
-    validate(node: any) {
-      const notSameType = node.type !== AstType.Literal;
-      if (notSameType) {
-        return {
-          test: false,
-          message: `参数需要是字符串`,
-        };
-      }
-      const isSomeType = typeof (node as Literal).value !== "string";
-      if (isSomeType) {
-        return {
-          test: false,
-          message: `参数需要是字符串`,
-        };
-      }
-      return true;
-    },
-  },
-];
 
 export function validateCalleeName(
   n: Expression | Super,
@@ -66,11 +42,7 @@ function validateArguments(
   parent: Node,
   latexConfig: LatexCallConfig
 ) {
-  const {
-    config = {
-      accept: DefaultAccept,
-    },
-  } = latexConfig;
+  const { config } = latexConfig;
   const crateErrorMessage = curry(cratedNotThrough)(parent);
   if (n.length !== config.accept.length) {
     return crateErrorMessage(`参数个数不匹配需要${config.accept.length}个参数`);
@@ -84,17 +56,20 @@ function validateArguments(
     };
   }
   //验证accept参数，如果不通过返回错误信息
-  function nomadizeValidateResult(config: ReturnType<typeof nomadizeAccept>) {
-    const test = config.accept.validate(config.node, n);
+  function nomadizeValidateResult(
+    _config: ReturnType<typeof nomadizeAccept>,
+    index: number
+  ) {
+    const test = _config.accept.validate.call(config, _config.node, n, index);
     if (test !== true) {
       return {
         test: false,
-        node: config.node,
+        node: _config.node,
         message: test.message,
       };
     }
     return {
-      ...config,
+      ..._config,
       test: true,
     };
   }

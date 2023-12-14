@@ -1,16 +1,12 @@
+import { Node, ConditionalExpression, BinaryExpression } from "estree";
+import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "../types";
 import {
-  CallExpression,
-  LogicalExpression,
-  BinaryExpression,
-  Node,
-} from "acorn";
-import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "./types";
-import { LogicalOperators, isLogicalOperators, isSafeOperators } from "../util";
-import { LatexValidateConfig, LatexCallConfig } from "./latexConfig";
+  LogicalOperators,
+  isLogicalOperators,
+  isSafeOperators,
+} from "../../util";
 
-import { LatexNames } from "./latexConfig";
-import { ValidateSchemaBase } from "./types";
-import { ConditionalExpression } from "acorn";
+import { ValidateSchemaBase } from "../types";
 
 export type ConditionalExpressionSchemeType = Omit<
   ValidateSchemaBase,
@@ -82,12 +78,14 @@ export function validateIsLogicalNode(
   return true;
 }
 
-//
-
 export const ConditionalExpressionSchema: ConditionalExpressionSchemeType = {
   type: "ConditionalExpression",
   validate(node: ConditionalExpression) {
     const { test, consequent, alternate } = node;
+
+    if (![test, consequent, alternate].every(Boolean)) {
+      return cratedNotThrough(node, "需要三个参数");
+    }
 
     const errorNodes = [
       validateIsLogicalNode(test),

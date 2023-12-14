@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-import { LatexNames, LatexCallConfig } from "../validateAst/latexConfig";
+import { LatexNames, AllLatex } from "../analysis/latexConfig";
 export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
   provideCompletionItems: (model, position) => {
     const word = model.getWordUntilPosition(position);
@@ -17,7 +17,7 @@ export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
         insertTextRules:
           monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         range: range,
-        // detail: LatexCallConfig[key as keyof typeof LatexCallConfig].alias,
+        detail: AllLatex[key as keyof typeof AllLatex]?.alias,
       };
     });
     return { suggestions: suggestions };

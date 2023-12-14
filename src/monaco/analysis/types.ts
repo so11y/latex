@@ -1,4 +1,4 @@
-import { Node } from "acorn";
+import { Node } from "estree";
 import { SyncHandler } from "estree-walker";
 
 export interface ValidateSchemaGuardMate<T = Node> {

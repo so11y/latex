@@ -1,5 +1,5 @@
-import { LogicalExpression, Node } from "acorn";
-import { ValidateSchemaBase, cratedNotThrough } from "./types";
+import { LogicalExpression, Node } from "estree";
+import { ValidateSchemaBase, cratedNotThrough } from "../types";
 import { validateIsLogicalNode } from "./conditionalExpression";
 export type LogicalExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "LogicalExpression";

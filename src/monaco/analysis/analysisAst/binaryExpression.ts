@@ -1,9 +1,9 @@
-import { BinaryExpression, Node } from "acorn";
+import { BinaryExpression, Node } from "estree";
 import { CallExpressionSchema } from "./callExpression";
 import { LiteralSchema } from "./literal";
-import { ValidateSchemaBase, cratedNotThrough } from "./types";
+import { ValidateSchemaBase, cratedNotThrough } from "../types";
 import { curry, isNumber } from "lodash-es";
-import { isSafeOperators, operators } from "../util/index";
+import { isSafeOperators, operators } from "../../util/index";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };

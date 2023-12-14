@@ -1,4 +1,4 @@
-import { AstType } from "../validateAst/types";
+import { AstType } from "../analysis/types";
 
 export function extractTokenAndNumbers(str: string) {
   const regex = /\((\d+):(\d+)\)$/;

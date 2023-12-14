@@ -6,9 +6,9 @@
 <script lang="ts" setup>
 import { onMounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
-import { handleValidate } from "./validateAst";
+import { handleValidate } from "./analysis";
 import EditorWorker from "./editorWorker.vue";
-import { Program } from "acorn";
+import { Program } from "estree";
 
 const props = defineProps({
   width: {
@@ -61,3 +61,4 @@ onMounted(() => {
   updateVal(props.modelValue);
 });
 </script>
+./analysis

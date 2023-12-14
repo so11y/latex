@@ -1,4 +1,4 @@
-import { ValidateSchemaBase } from "./types";
+import { ValidateSchemaBase } from "../types";
 
 export type ExpressionStatementSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "ExpressionStatement";

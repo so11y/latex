@@ -3,7 +3,7 @@ import { Parser, Program } from "acorn";
 import { extractTokenAndNumbers } from "../util";
 import { AstType, ValidateSchemaGuardMate } from "./types";
 import { validateWalk } from "./validate";
-import { Node } from "acorn";
+import { Node } from "estree";
 import { macroLatexCallConfig } from "./latexConfig";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
@@ -71,7 +71,7 @@ function validate(value: string) {
       sourceType: "script",
       locations: true,
     });
-    validateWalk(ast, diagnosisNodes);
+    validateWalk(ast as Node, diagnosisNodes);
   } catch (error) {
     if (diagnosisNodes.length === 0) {
       const position = extractTokenAndNumbers((error as Error).message);
