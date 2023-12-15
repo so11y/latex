@@ -1,5 +1,3 @@
-import { LogicalOperators } from "./defineOperators";
-
 export function formatterError(_: TemplateStringsArray, ...arg: any[]) {
   const [message, ...temp] = arg;
   return temp.reduce((prev, next, index) => {
