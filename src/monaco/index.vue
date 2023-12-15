@@ -7,9 +7,9 @@
 import { onMounted, onUnmounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
 import { handleValidate } from "./analysis";
-import { validate } from "./analysis/validate";
+import { Latex } from "./analysis/validate";
 import EditorWorker from "./editorWorker.vue";
-import * as monaco from "monaco-editor"
+import * as monaco from "monaco-editor";
 import { Program } from "estree";
 import { useMessage } from "naive-ui";
 import { walkLocalAstToServerAst } from "./analysis/astToServer";
@@ -54,14 +54,16 @@ const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
 const stopTestCommand = monaco.editor.addCommand({
   id: "LatexTest",
   run() {
-    const { diagnosisNodes, ast } = validate(props.modelValue);
+    const { diagnosisNodes, ast } = Latex.getInstance().validate(
+      props.modelValue
+    );
     if (diagnosisNodes.length) {
       message.warning("存在错误，请根据提示修改");
       return;
     }
 
     walkLocalAstToServerAst(ast! as any);
-    console.log(ast, '---');
+    console.log(ast, "---");
   },
 });
 
@@ -84,8 +86,3 @@ onUnmounted(() => {
   stopTestCommand.dispose();
 });
 </script>
-
-
-
-
-

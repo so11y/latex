@@ -29,8 +29,6 @@ export function nomadizeMarkers(
   return markers;
 }
 
-
-
 export function extractTokenAndNumbers(str: string) {
   const regex = /\((\d+):(\d+)\)$/;
   const match = str.match(regex);
@@ -44,4 +42,15 @@ export function extractTokenAndNumbers(str: string) {
   } else {
     return null;
   }
+}
+
+export function cratedFakeNodeError(position: any) {
+  return {
+    node: {
+      loc: {
+        start: position,
+        end: position,
+      },
+    },
+  } as any;
 }

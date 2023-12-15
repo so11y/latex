@@ -4,11 +4,7 @@ import * as monaco from "monaco-editor";
 import { ErrorMessage } from "../helper/errorMessage";
 import { isLogicalOperators } from "../helper/defineOperators";
 
-export type ExpressionStatementSchemeType = Omit<ValidateSchemaBase, "type"> & {
-  type: "ExpressionStatement";
-};
-
-export const ExpressionStatementSchema: ExpressionStatementSchemeType = {
+export const ExpressionStatementSchema: ValidateSchemaBase = {
   type: "ExpressionStatement",
   validate(node: ExpressionStatement, parent) {
     const isProgram = parent.type === AstType.Program;

@@ -2,9 +2,6 @@ import { BinaryExpression, Node } from "estree";
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
 import { ErrorMessage } from "../helper/errorMessage";
 import { isSafeOperators } from "../helper/defineOperators";
-export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
-  type: "BinaryExpression";
-};
 
 function validateValues(node: Node) {
   //只能是数字
@@ -26,13 +23,10 @@ function validateValues(node: Node) {
 }
 function maybeErrorNode(node: Node) {
   if (!validateValues(node)) {
-    return cratedNotThrough(
-      node,
-      ErrorMessage.BinaryExpression.EqNumberOrCall
-    );
+    return cratedNotThrough(node, ErrorMessage.BinaryExpression.EqNumberOrCall);
   }
 }
-export const BinaryExpressionSchema: BinaryExpressionSchemeType = {
+export const BinaryExpressionSchema: ValidateSchemaBase = {
   type: "BinaryExpression",
   validate(node: BinaryExpression) {
     const { left, right } = node;

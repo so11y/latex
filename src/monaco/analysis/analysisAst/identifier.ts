@@ -2,17 +2,14 @@ import { CallExpressionSchema } from "./callExpression";
 import { LatexNames } from "../helper/latexConfig";
 import { ValidateSchemaBase } from "../types";
 import { Identifier } from "estree";
-import { ErrorMessage, formatterError } from "../helper/errorMessage"
+import { ErrorMessage, formatterError } from "../helper/errorMessage";
 
-export type IdentifierSchemeType = Omit<ValidateSchemaBase, "type"> & {
-  type: "Identifier";
-};
-
-export const IdentifierSchema: IdentifierSchemeType = {
+export const IdentifierSchema: ValidateSchemaBase = {
   type: "Identifier",
   validate(node: Identifier, parent) {
     const maybeKnow = LatexNames.includes(node.name);
-    const parentIsCallExpression = !!parent && CallExpressionSchema.type === parent.type;
+    const parentIsCallExpression =
+      !!parent && CallExpressionSchema.type === parent.type;
     function handleMessage() {
       if (maybeKnow && parentIsCallExpression) {
         return null;
@@ -21,7 +18,7 @@ export const IdentifierSchema: IdentifierSchemeType = {
         return ErrorMessage.Unknown.UnknownIdentifier;
       }
       if (parentIsCallExpression === false) {
-        return formatterError`${ErrorMessage.Identifier.CallKeyCode} ${node.name}`
+        return formatterError`${ErrorMessage.Identifier.CallKeyCode} ${node.name}`;
       }
       return ErrorMessage.Unknown.UnknownIdentifier;
     }

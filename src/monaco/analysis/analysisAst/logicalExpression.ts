@@ -2,11 +2,8 @@ import { LogicalExpression, Node } from "estree";
 import { ValidateSchemaBase, cratedNotThrough } from "../types";
 import { validateIsLogicalNode } from "./conditionalExpression";
 import { ErrorMessage } from "../helper/errorMessage";
-export type LogicalExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
-  type: "LogicalExpression";
-};
 
-export const LogicalExpressionSchema: LogicalExpressionSchemeType = {
+export const LogicalExpressionSchema: ValidateSchemaBase = {
   type: "LogicalExpression",
   validate(node: LogicalExpression) {
     const { left, right } = node;
@@ -15,10 +12,7 @@ export const LogicalExpressionSchema: LogicalExpressionSchemeType = {
       if (validateIsLogicalNode(node) === true) {
         return;
       }
-      return cratedNotThrough(
-        node,
-        ErrorMessage.LogicalExpression.OnlyLogical
-      );
+      return cratedNotThrough(node, ErrorMessage.LogicalExpression.OnlyLogical);
     };
 
     return [handleErrorNode(left), handleErrorNode(right)].find(Boolean);

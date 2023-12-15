@@ -1,11 +1,11 @@
-import * as monaco from "monaco-editor"
-import { getCallExpressionNodes } from "../analysis/validate";
+import * as monaco from "monaco-editor";
+import { Latex } from "../analysis/validate";
 import { Identifier } from "estree";
 import { AllLatex, LatexCallConfig } from "../analysis/helper/latexConfig";
 
 export const inlayHintsProvider: monaco.languages.InlayHintsProvider = {
   provideInlayHints() {
-    const nodes = getCallExpressionNodes();
+    const nodes = Latex.getInstance().hintsCallExpressionNodes;
     const hints = nodes.map((node) => {
       const { arguments: _arguments, callee, loc } = node;
       const name = (callee as Identifier).name as keyof typeof LatexCallConfig;

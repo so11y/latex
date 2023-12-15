@@ -1,5 +1,5 @@
-import { Literal } from "estree";
-import { AstType } from "../types";
+import { ValidateSchemaGuardMate } from "../types";
+import { DefaultAccept } from "../callAccept/defaultAccept";
 
 interface ConfigRecord {
   [key: string]: LatexCallConfig;
@@ -11,12 +11,7 @@ export interface LatexValidateConfig {
     node: any,
     parent: any,
     index: number
-  ) =>
-    | true
-    | {
-        test: false;
-        message: string;
-      };
+  ) => true | ValidateSchemaGuardMate;
 }
 
 export interface LatexCallConfig {
@@ -27,27 +22,6 @@ export interface LatexCallConfig {
     accept: Array<LatexValidateConfig>;
   };
 }
-const DefaultAccept: Array<LatexValidateConfig> = [
-  {
-    validate(node: any) {
-      const notSameType = node.type !== AstType.Literal;
-      if (notSameType) {
-        return {
-          test: false,
-          message: `参数需要是字符串`,
-        };
-      }
-      const isSomeType = typeof (node as Literal).value !== "string";
-      if (isSomeType) {
-        return {
-          test: false,
-          message: `参数需要是字符串`,
-        };
-      }
-      return true;
-    },
-  },
-];
 
 export const LatexCallConfig = {
   Count: cratedDefaultAccept("Count", "数据量"),

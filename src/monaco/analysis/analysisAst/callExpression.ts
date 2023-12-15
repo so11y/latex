@@ -14,17 +14,13 @@ import {
   Node,
 } from "estree";
 import { LatexCallConfig, LatexNames } from "../helper/latexConfig";
-import { ErrorMessage, formatterError } from "../helper/errorMessage"
-
-export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
-  type: "CallExpression";
-};
+import { ErrorMessage, formatterError } from "../helper/errorMessage";
 
 export function validateCalleeName(
   n: Expression | Super,
   names = LatexNames
 ): ValidateSchemaGuardMate<Identifier> {
-  if (n.type !== "Identifier") {
+  if (n.type !== AstType.Identifier) {
     return cratedNotThrough(n as any, ErrorMessage.Unknown.UnknownSyntax);
   }
   if (!names.includes(n.name)) {
@@ -42,7 +38,6 @@ function validateArguments(
   if (n.length !== config.accept.length) {
     return cratedNotThrough(
       parent,
-
       formatterError`${ErrorMessage.CallExpression.ArgLengthExpect} ${config.accept.length}`
     );
   }
@@ -61,20 +56,16 @@ function validateArguments(
   ) {
     const test = _config.accept.validate.call(config, _config.node, n, index);
     if (test !== true) {
-      return {
-        test: false,
-        node: _config.node,
-        message: test.message,
-      };
+      return cratedNotThrough(_config.node, test.message!);
     }
     return {
       ..._config,
-      test: true,
+      through: true,
     };
   }
   //过滤错误的节点
-  function filterErrorNodes(config: ReturnType<typeof nomadizeValidateResult>) {
-    return config.test === false;
+  function filterErrorNodes(config: ValidateSchemaGuardMate) {
+    return config.through === false;
   }
 
   const errorNodes = n
@@ -93,7 +84,7 @@ function validateArguments(
   return cratedThrough(parent);
 }
 
-export const CallExpressionSchema: CallExpressionSchemeType = {
+export const CallExpressionSchema: ValidateSchemaBase = {
   type: "CallExpression",
   validate(node: CallExpression) {
     const { callee, arguments: _arguments } = node;
@@ -101,7 +92,7 @@ export const CallExpressionSchema: CallExpressionSchemeType = {
     if (safeCalleeName.through) {
       const config =
         LatexCallConfig[
-        safeCalleeName.node.name as keyof typeof LatexCallConfig
+          safeCalleeName.node.name as keyof typeof LatexCallConfig
         ];
       return validateArguments(_arguments, node, config);
     }

@@ -9,13 +9,6 @@ import {
   isSafeOperators,
 } from "../helper/defineOperators";
 
-export type ConditionalExpressionSchemeType = Omit<
-  ValidateSchemaBase,
-  "type"
-> & {
-  type: "ConditionalExpression";
-};
-
 function trueAndFalseResult(
   node: Node,
   message: string
@@ -70,7 +63,7 @@ export function validateIsLogicalNode(
   return true;
 }
 
-export const ConditionalExpressionSchema: ConditionalExpressionSchemeType = {
+export const ConditionalExpressionSchema: ValidateSchemaBase = {
   type: "ConditionalExpression",
   validate(node: ConditionalExpression) {
     const { test, consequent, alternate } = node;
