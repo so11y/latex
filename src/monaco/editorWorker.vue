@@ -1,7 +1,7 @@
 <template></template>
 
 <script setup>
-iimport * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";i
+import * as monaco from "monaco-editor"
 import editorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 
 self.MonacoEnvironment = {

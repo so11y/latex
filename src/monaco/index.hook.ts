@@ -1,5 +1,5 @@
 import { ref, onBeforeUnmount, nextTick } from "vue";
-iimport * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";i
+import * as monaco from "monaco-editor"
 import { setup } from "./editorHelper/index";
 
 setup();

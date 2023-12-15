@@ -1,8 +1,7 @@
 import { Node } from "estree";
 import { SyncHandler } from "estree-walker";
 import { isObject, isString } from "lodash-es";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
-
+import * as monaco from "monaco-editor"
 export interface ValidateSchemaGuardMate<T = Node> {
   node: T;
   through: boolean;

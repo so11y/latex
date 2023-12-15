@@ -1,4 +1,4 @@
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js";
+import * as monaco from "monaco-editor"
 import { LatexNames } from "../analysis/helper/latexConfig";
 export const tokenProvide: monaco.languages.IMonarchLanguage = {
   operators: ["+", "-", "*", "/"],
