@@ -21,7 +21,7 @@ export const ErrorMessage = {
     ArgLengthExpect: "参数个数不匹配需要 $0 个参数",
   },
   ConditionalExpression: {
-    OnlyLogical: `只能是使用三元和逻辑表达式符号 ${LogicalOperators.join(" ")}`,
+    OnlyLogical: `只能是使用三元和逻辑表达式符号 $0`,
     OnlyTrueCall: "真结果需要是函数调用并且不能再返回逻辑表达式了",
     OnlyFalseCall: "假结果需要是函数调用并且不能再返回逻辑表达式了",
     NotNestConditionalExpression:

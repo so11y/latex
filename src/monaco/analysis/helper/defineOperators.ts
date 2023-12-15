@@ -1,5 +1,5 @@
 import { AstType } from "../types";
-import { isLogicalOperators } from "../util/functional";
+import { ErrorMessage } from "./errorMessage";
 
 export const operators = {
   "+": {
@@ -66,3 +66,22 @@ export const operators = {
 
 export const LogicalOperators =
   Object.keys(operators).filter(isLogicalOperators);
+
+export function isSafeOperators(operator: string) {
+  if (!operators[operator as keyof typeof operators]) {
+    return {
+      through: false,
+      message: ErrorMessage.Unknown.UnknownOperator,
+    };
+  }
+  return {
+    through: true,
+  };
+}
+
+export function isLogicalOperators(operator: string) {
+  return (
+    operators[operator as keyof typeof operators]?.name ===
+    AstType.LogicalExpression
+  );
+}

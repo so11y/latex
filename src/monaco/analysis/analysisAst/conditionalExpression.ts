@@ -2,8 +2,12 @@ import { Node, ConditionalExpression, BinaryExpression } from "estree";
 import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "../types";
 
 import { ValidateSchemaBase } from "../types";
-import { ErrorMessage } from "../helper/errorMessage";
-import { isLogicalOperators, isSafeOperators } from "../util/functional";
+import { ErrorMessage, formatterError } from "../helper/errorMessage";
+import {
+  LogicalOperators,
+  isLogicalOperators,
+  isSafeOperators,
+} from "../helper/defineOperators";
 
 export type ConditionalExpressionSchemeType = Omit<
   ValidateSchemaBase,
@@ -12,23 +16,12 @@ export type ConditionalExpressionSchemeType = Omit<
   type: "ConditionalExpression";
 };
 
-// const ErrorMessage: Array<string> = [
-//   `只能是使用三元和逻辑表达式符号 ${LogicalOperators.join(" ")}`,
-//   "真结果需要是函数调用并且不能再返回逻辑表达式了",
-//   "假结果需要是函数调用并且不能再返回逻辑表达式了",
-//   `不支持在直接嵌套Conditional函数和三元表达式,但是可以在搭配逻辑表达式使用`,
-// ];
-
 function trueAndFalseResult(
   node: Node,
   message: string
 ): true | ValidateSchemaGuardMate {
   if (node.type !== AstType.CallExpression) {
-    return {
-      through: false,
-      node,
-      message,
-    };
+    return cratedNotThrough(node, message);
   }
   return true;
 }
@@ -52,7 +45,9 @@ export function validateIsLogicalNode(
   if (notLogicOrBinary) {
     return cratedNotThrough(
       node,
-      ErrorMessage.ConditionalExpression.OnlyLogical
+      formatterError`${
+        ErrorMessage.ConditionalExpression.OnlyLogical
+      } ${LogicalOperators.join(" ")}`
     );
   }
 

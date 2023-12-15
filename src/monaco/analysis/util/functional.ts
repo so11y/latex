@@ -29,24 +29,6 @@ export function nomadizeMarkers(
   return markers;
 }
 
-export function isSafeOperators(operator: string) {
-  if (!operators[operator as keyof typeof operators]) {
-    return {
-      through: false,
-      message: ErrorMessage.Unknown.UnknownOperator,
-    };
-  }
-  return {
-    through: true,
-  };
-}
-
-export function isLogicalOperators(operator: string) {
-  return (
-    operators[operator as keyof typeof operators]?.name ===
-    AstType.LogicalExpression
-  );
-}
 
 
 export function extractTokenAndNumbers(str: string) {
