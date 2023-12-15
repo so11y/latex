@@ -8,7 +8,7 @@ import { LiteralSchema } from "./analysisAst/literal";
 import { LogicalExpressionSchema } from "./analysisAst/logicalExpression";
 import { NumberLiteralSchema } from "./analysisAst/numberLiteral";
 import { ProgramSchema } from "./analysisAst/program";
-import { AstType, ValidateSchemaBase, ValidateSchemaGuardMate } from "./types";
+import { AstType, ValidateSchemaBase, ValidateGuardFalseMate } from "./types";
 import { parse } from "./parse";
 import { Program } from "acorn";
 import { CallExpression, Node } from "estree";
@@ -24,7 +24,8 @@ export class Latex {
   static instance: Latex;
 
   static getInstance() {
-    if (!Latex.instance) {
+    //测试的情况下，每次都会创建新的实例
+    if (!Latex.instance || __Test__) {
       Latex.instance = new Latex();
     }
     return Latex.instance;
@@ -53,14 +54,17 @@ export class Latex {
     ]);
   }
 
-  validate(value: string) {
-    const diagnosisNodes: Array<ValidateSchemaGuardMate> = [];
+  validate(value: string, ast?: Program | null) {
+    const diagnosisNodes: Array<ValidateGuardFalseMate> = [];
     try {
-      this.ast = parse.parse(value, {
-        ecmaVersion: "latest",
-        sourceType: "script",
-        locations: true,
-      });
+      this.ast =
+        ast ||
+        parse.parse(value, {
+          ecmaVersion: "latest",
+          sourceType: "script",
+          locations: true,
+        });
+
       this.walk(this.ast as Node, diagnosisNodes);
     } catch (error) {
       if (diagnosisNodes.length === 0) {
@@ -80,24 +84,39 @@ export class Latex {
     };
   }
 
-  walk(ast: Node, diagnosisNodes: Array<ValidateSchemaGuardMate>) {
+  walk(ast: Node, diagnosisNodes: Array<ValidateGuardFalseMate>) {
     const _this = this;
     walk(ast as any, {
       enter(node, parent, prop, index) {
         _this.isNeedInlayHints(node);
-        if (!_this.syntax.typeKeys.includes(node.type)) {
+        const schemas = _this.syntax.mappings.get(node.type)!;
+        const validate = schemas.validate(node, parent, prop, index);
+        if (validate.through === false) {
+          diagnosisNodes.push(validate);
+          this.skip();
+          return;
+        }
+        if (validate.through === true && validate.eatKeys) {
+          validate.eatKeys.forEach((key) => {
+            const nestAst = (node as any)[key];
+            if (Array.isArray(nestAst)) {
+              (nestAst as Array<Node>).forEach((node) => {
+                node.isEat = true;
+              });
+            } else {
+              (nestAst as Node).isEat = true;
+            }
+          });
+        }
+      },
+      leave(node) {
+        if (!_this.syntax.typeKeys.includes(node.type) && !!node.isEat) {
           diagnosisNodes.push({
             node: node as Node,
             through: false,
           });
           this.skip();
           return;
-        }
-        const schemas = _this.syntax.mappings.get(node.type)!;
-        const validate = schemas.validate(node, parent, prop, index);
-        if (validate && validate.through === false) {
-          diagnosisNodes.push(validate);
-          this.skip();
         }
       },
     });
@@ -129,8 +148,8 @@ export class Latex {
     }
   }
 
-  getMarkers(value: string) {
-    let { diagnosisNodes } = Latex.getInstance().validate(value);
+  getMarkers(value: string, ast?: Program | null) {
+    let { diagnosisNodes } = this.validate(value, ast);
     const markers: monaco.editor.IMarkerData[] = nomadizeMarkers(
       diagnosisNodes,
       []

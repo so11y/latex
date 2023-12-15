@@ -1,13 +1,26 @@
 import { Node } from "estree";
 import { SyncHandler } from "estree-walker";
 import { isObject, isString } from "lodash-es";
-import * as monaco from "monaco-editor"
-export interface ValidateSchemaGuardMate<T = Node> {
-  node: T;
+import * as monaco from "monaco-editor";
+
+interface ValidateGuarMate {
   through: boolean;
+}
+
+export interface ValidateGuardFalseMate<T extends Node = Node>
+  extends ValidateGuarMate {
+  node: T;
+  through: false;
   message?: string | null | undefined;
-  errorNodes?: Array<ValidateSchemaGuardMate>;
+  errorNodes?: Array<ValidateGuardFalseMate>;
   severity?: monaco.MarkerSeverity;
+}
+
+export interface ValidateGuardTrueMate<T extends Node = Node>
+  extends ValidateGuarMate {
+  through: true;
+  node: T;
+  eatKeys?: Array<string>;
 }
 
 type ValidateHandle = SyncHandler extends (
@@ -20,7 +33,7 @@ type ValidateHandle = SyncHandler extends (
       node: any,
       parent?: any,
       ...args: [...Args]
-    ) => ValidateSchemaGuardMate | undefined
+    ) => ValidateGuardFalseMate | ValidateGuardTrueMate
   : unknown;
 
 export interface ValidateSchemaBase {
@@ -28,24 +41,24 @@ export interface ValidateSchemaBase {
   validate: ValidateHandle;
 }
 
-export function cratedNotThrough<T = Node>(
+export function cratedFalseThrough<T extends Node = Node>(
   node: T,
   message: string | null,
-  errorNodes?: Array<ValidateSchemaGuardMate>
-): ValidateSchemaGuardMate<T>;
-export function cratedNotThrough<T = Node>(
+  errorNodes?: Array<ValidateGuardFalseMate>
+): ValidateGuardFalseMate<T>;
+export function cratedFalseThrough<T extends Node = Node>(
   node: T,
   message: {
     message: string;
     severity: monaco.MarkerSeverity;
   },
-  errorNodes?: Array<ValidateSchemaGuardMate>
-): ValidateSchemaGuardMate<T>;
-export function cratedNotThrough<T = Node>(
+  errorNodes?: Array<ValidateGuardFalseMate>
+): ValidateGuardFalseMate<T>;
+export function cratedFalseThrough<T extends Node = Node>(
   node: T,
   message: any,
-  errorNodes: Array<ValidateSchemaGuardMate> = []
-): ValidateSchemaGuardMate<T> {
+  errorNodes: Array<ValidateGuardFalseMate> = []
+): ValidateGuardFalseMate<T> {
   const handleMessage = function () {
     const _message = {
       message: "",
@@ -66,10 +79,15 @@ export function cratedNotThrough<T = Node>(
     ...handleMessage(),
   };
 }
-export function cratedThrough<T = Node>(node: T) {
+
+export function cratedTrueThrough<T extends Node = Node>(
+  node: T,
+  eatKeys: Array<string> = []
+): ValidateGuardTrueMate {
   return {
     node,
     through: true,
+    eatKeys,
   };
 }
 
@@ -82,4 +100,24 @@ export enum AstType {
   ConditionalExpression = "ConditionalExpression",
   Program = "Program",
   NumberLiteral = "NumberLiteral", //不是acorn的标准，为服务端需要。
+}
+
+export function ValidateGuardMateWhere(v: {
+  falseMateGuard:
+    | ValidateGuardFalseMate
+    | Array<ValidateGuardFalseMate | undefined>
+    | undefined
+    | false;
+  trueMateGuard: ValidateGuardTrueMate;
+}): ValidateGuardFalseMate | ValidateGuardTrueMate {
+  if (!v.falseMateGuard) {
+    return v.trueMateGuard;
+  }
+  if (Array.isArray(v.falseMateGuard) && v.falseMateGuard.some(Boolean)) {
+    return v.falseMateGuard.find(Boolean)!;
+  }
+  if (!Array.isArray(v.falseMateGuard) && v.falseMateGuard.through === false) {
+    return v.falseMateGuard;
+  }
+  return v.trueMateGuard;
 }

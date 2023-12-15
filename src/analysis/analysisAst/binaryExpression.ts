@@ -1,5 +1,11 @@
 import { BinaryExpression, Node } from "estree";
-import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
+import {
+  ValidateGuardMateWhere,
+  AstType,
+  ValidateSchemaBase,
+  cratedFalseThrough,
+  cratedTrueThrough,
+} from "../types";
 import { ErrorMessage } from "../helper/errorMessage";
 import { isSafeOperators } from "../helper/defineOperators";
 
@@ -23,7 +29,7 @@ function validateValues(node: Node) {
 }
 function maybeErrorNode(node: Node) {
   if (!validateValues(node)) {
-    return cratedNotThrough(node, ErrorMessage.BinaryExpression.EqNumberOrCall);
+    return cratedFalseThrough(node, ErrorMessage.BinaryExpression.EqNumberOrCall);
   }
 }
 export const BinaryExpressionSchema: ValidateSchemaBase = {
@@ -33,9 +39,14 @@ export const BinaryExpressionSchema: ValidateSchemaBase = {
 
     const { through, message } = isSafeOperators(node.operator);
     if (through === false) {
-      return cratedNotThrough(node, message!);
+      return cratedFalseThrough(node, message!);
     }
-
-    return [maybeErrorNode(left), maybeErrorNode(right)].find(Boolean);
+    const falseMateGuard = [maybeErrorNode(left), maybeErrorNode(right)].find(
+      Boolean
+    );
+    return ValidateGuardMateWhere({
+      falseMateGuard,
+      trueMateGuard: cratedTrueThrough(node, ["left", "right"]),
+    });
   },
 };

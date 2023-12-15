@@ -8,10 +8,8 @@
     "value": "1 * 1 + 1  != 2 ? Min('a') : Max('a')",
     "expect": true
   },
-  { "title": "<= 号运算 作为Root", "value": "1 * 1 + 1  >= 2", "expect": false },
-  { "title": ">= 号运算 作为Root", "value": "1 * 1 + 1  <= 2", "expect": false },
-  { "title": "!= 号运算 作为Root", "value": "1 * 1 + 1  != 2", "expect": false },
   { "title": "&  不支持的运算符", "value": "1 & 1", "expect": false },
   { "title": "|  不支持的运算符", "value": "1 | 1", "expect": false },
-  { "title": "**  不支持的运算符", "value": "1 ** 1", "expect": false }
+  { "title": "**  不支持的运算符", "value": "1 ** 1", "expect": false },
+  { "title": "1 + '1'", "value": "1 + '1'", "expect": false }
 ]

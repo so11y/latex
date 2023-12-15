@@ -1,5 +1,5 @@
 import { Node } from "estree";
-import { AstType, ValidateSchemaGuardMate } from "../types";
+import { AstType, ValidateGuardFalseMate } from "../types";
 import { operators } from "../helper/defineOperators";
 import { ErrorMessage } from "../helper/errorMessage";
 
@@ -8,7 +8,7 @@ export function NOOP() {
 }
 
 export function nomadizeMarkers(
-  nodes: ValidateSchemaGuardMate<Node>[],
+  nodes: ValidateGuardFalseMate<Node>[],
   markers: Array<any>
 ) {
   for (const node of nodes) {
@@ -18,7 +18,7 @@ export function nomadizeMarkers(
       const { loc } = node.node;
       markers.push({
         message: node.message ?? "未知字符",
-        severity: node.severity ?? 4,
+        severity: node.severity ?? 8,
         startLineNumber: loc!.start.line,
         startColumn: loc!.start.column + 1,
         endLineNumber: loc!.end.line,

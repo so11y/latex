@@ -1,6 +1,12 @@
 import { CallExpressionSchema } from "./callExpression";
 import { LatexNames } from "../helper/latexConfig";
-import { ValidateSchemaBase } from "../types";
+import {
+  AstType,
+  ValidateGuardMateWhere,
+  ValidateSchemaBase,
+  cratedFalseThrough,
+  cratedTrueThrough,
+} from "../types";
 import { Identifier } from "estree";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
 
@@ -9,11 +15,9 @@ export const IdentifierSchema: ValidateSchemaBase = {
   validate(node: Identifier, parent) {
     const maybeKnow = LatexNames.includes(node.name);
     const parentIsCallExpression =
-      !!parent && CallExpressionSchema.type === parent.type;
+      !!parent && AstType.CallExpression === parent.type;
+
     function handleMessage() {
-      if (maybeKnow && parentIsCallExpression) {
-        return null;
-      }
       if (maybeKnow === false) {
         return ErrorMessage.Unknown.UnknownIdentifier;
       }
@@ -22,10 +26,16 @@ export const IdentifierSchema: ValidateSchemaBase = {
       }
       return ErrorMessage.Unknown.UnknownIdentifier;
     }
-    return {
-      message: handleMessage(),
-      through: maybeKnow && parentIsCallExpression,
-      node,
-    };
+
+    let falseMateGuard = undefined;
+
+    if ([maybeKnow, parentIsCallExpression].some((item) => item === false)) {
+      falseMateGuard = cratedFalseThrough(node, handleMessage());
+    }
+
+    return ValidateGuardMateWhere({
+      falseMateGuard,
+      trueMateGuard: cratedTrueThrough(node),
+    });
   },
 };

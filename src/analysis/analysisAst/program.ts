@@ -1,7 +1,15 @@
-import { NOOP } from "../util/functional";
-import { ValidateSchemaBase } from "../types";
+import {
+  ValidateGuardMateWhere,
+  ValidateSchemaBase,
+  cratedTrueThrough,
+} from "../types";
 
 export const ProgramSchema: ValidateSchemaBase = {
   type: "Program",
-  validate: NOOP,
+  validate(node) {
+    return ValidateGuardMateWhere({
+      falseMateGuard: undefined,
+      trueMateGuard: cratedTrueThrough(node, ["body"]),
+    });
+  },
 };

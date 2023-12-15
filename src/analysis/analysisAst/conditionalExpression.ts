@@ -1,5 +1,11 @@
 import { Node, ConditionalExpression, BinaryExpression } from "estree";
-import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "../types";
+import {
+  AstType,
+  ValidateGuardFalseMate,
+  ValidateGuardMateWhere,
+  cratedFalseThrough,
+  cratedTrueThrough,
+} from "../types";
 
 import { ValidateSchemaBase } from "../types";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
@@ -12,9 +18,9 @@ import {
 function trueAndFalseResult(
   node: Node,
   message: string
-): true | ValidateSchemaGuardMate {
+): true | ValidateGuardFalseMate {
   if (node.type !== AstType.CallExpression) {
-    return cratedNotThrough(node, message);
+    return cratedFalseThrough(node, message);
   }
   return true;
 }
@@ -22,9 +28,9 @@ function trueAndFalseResult(
 //LogicalExpression | BinaryExpression | CallExpression
 export function validateIsLogicalNode(
   node: Node
-): true | ValidateSchemaGuardMate {
+): true | ValidateGuardFalseMate {
   if (node.type === AstType.ConditionalExpression) {
-    return cratedNotThrough(
+    return cratedFalseThrough(
       node,
       ErrorMessage.ConditionalExpression.NotNestConditionalExpression
     );
@@ -36,7 +42,7 @@ export function validateIsLogicalNode(
   ].every((type) => node.type !== type);
 
   if (notLogicOrBinary) {
-    return cratedNotThrough(
+    return cratedFalseThrough(
       node,
       formatterError`${
         ErrorMessage.ConditionalExpression.OnlyLogical
@@ -49,11 +55,11 @@ export function validateIsLogicalNode(
       (node as BinaryExpression).operator
     );
     if (through === false) {
-      return cratedNotThrough(node, message!);
+      return cratedFalseThrough(node, message!);
     }
     //如果是二元表达式那么它的操作符必须是逻辑表达式
     if (isLogicalOperators((node as BinaryExpression).operator) === false) {
-      return cratedNotThrough(
+      return cratedFalseThrough(
         node,
         ErrorMessage.ConditionalExpression.OnlyLogical
       );
@@ -69,7 +75,7 @@ export const ConditionalExpressionSchema: ValidateSchemaBase = {
     const { test, consequent, alternate } = node;
 
     if (![test, consequent, alternate].every(Boolean)) {
-      return cratedNotThrough(node, "需要三个参数");
+      return cratedFalseThrough(node, "需要三个参数");
     }
 
     const errorNodes = [
@@ -86,12 +92,21 @@ export const ConditionalExpressionSchema: ValidateSchemaBase = {
       .map((result) => {
         return result === true
           ? null
-          : cratedNotThrough(result.node, result.message!);
+          : cratedFalseThrough(result.node, result.message!);
       })
-      .filter(Boolean) as Array<ValidateSchemaGuardMate<Node>>;
+      .filter(Boolean) as Array<ValidateGuardFalseMate<Node>>;
 
-    if (errorNodes.length) {
-      return cratedNotThrough(node, null, errorNodes);
-    }
+    return ValidateGuardMateWhere({
+      //是可以直接返回errorNodes,但是这样错误的话是一个一个在界面显示
+      //这和前置代码设计有关系，把错误节点放置在一个数组中，这样可以一次性的显示
+      falseMateGuard: errorNodes.length
+        ? cratedFalseThrough(node, null, errorNodes)
+        : false,
+      trueMateGuard: cratedTrueThrough(node, [
+        "test",
+        "consequent",
+        "alternate",
+      ]),
+    });
   },
 };

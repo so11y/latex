@@ -1,28 +1,44 @@
-import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
+import {
+  AstType,
+  ValidateSchemaBase,
+  cratedFalseThrough,
+  cratedTrueThrough,
+} from "../types";
 import { ExpressionStatement } from "estree";
-import * as monaco from "monaco-editor";
 import { ErrorMessage } from "../helper/errorMessage";
-import { isLogicalOperators } from "../helper/defineOperators";
+import { isLogicalOperators, isSafeOperators } from "../helper/defineOperators";
 
 export const ExpressionStatementSchema: ValidateSchemaBase = {
   type: "ExpressionStatement",
   validate(node: ExpressionStatement, parent) {
     const isProgram = parent.type === AstType.Program;
     const { expression } = node;
+
     if (isProgram === false) {
-      return cratedNotThrough(node, ErrorMessage.Unknown.UnknownSyntax);
+      return cratedFalseThrough(node, ErrorMessage.Unknown.UnknownSyntax);
     }
 
-    const isLogicalExpression = expression.type === AstType.LogicalExpression;
-    const isRealOperatorLogical =
-      expression.type === AstType.BinaryExpression &&
-      isLogicalOperators(expression.operator);
-
-    if (isLogicalExpression || isRealOperatorLogical) {
-      return cratedNotThrough(node, {
-        message: ErrorMessage.Expression.RootNotBool,
-        severity: monaco.MarkerSeverity.Warning,
-      });
+    if (expression.type === AstType.BinaryExpression) {
+      if (isLogicalOperators(expression.operator)) {
+        return cratedFalseThrough(node, ErrorMessage.Expression.RootNotBool);
+      }
+      const { through, message } = isSafeOperators(expression.operator);
+      if (through === false) {
+        return cratedFalseThrough(node, message!);
+      }
     }
+
+    const isNotCanRootType =
+      [
+        AstType.BinaryExpression,
+        AstType.ConditionalExpression,
+        AstType.CallExpression,
+        AstType.NumberLiteral,
+      ].some((type) => expression.type === type) === false;
+    if (isNotCanRootType) {
+      return cratedFalseThrough(node, ErrorMessage.Expression.NotCanRootAst);
+    }
+
+    return cratedTrueThrough(node, ["expression"]);
   },
 };

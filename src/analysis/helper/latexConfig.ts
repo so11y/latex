@@ -1,4 +1,4 @@
-import { ValidateSchemaGuardMate } from "../types";
+import { ValidateGuardFalseMate } from "../types";
 import { DefaultAccept } from "../callAccept/defaultAccept";
 
 interface ConfigRecord {
@@ -11,7 +11,7 @@ export interface LatexValidateCallAccept {
     node: any,
     parent: any,
     index: number
-  ) => true | ValidateSchemaGuardMate;
+  ) => true | ValidateGuardFalseMate;
 }
 
 export interface LatexCallConfig {

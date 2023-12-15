@@ -5,7 +5,7 @@
 import renderMathInElement from "katex/contrib/auto-render";
 import { computed, nextTick, ref, watch } from "vue";
 import { Program } from "estree";
-import { toLatexString } from "../monaco/analysis/astToString";
+import { toLatexString } from "../analysis/astToString";
 
 const props = defineProps<{
   ast?: Program;

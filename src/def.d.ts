@@ -6,6 +6,10 @@ declare module "estree" {
   interface NodeMap {
     NumberLiteral: NumberLiteral;
   }
+
+  interface BaseNode {
+    isEat?: boolean;
+  }
 }
 
 export {};

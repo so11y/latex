@@ -27,6 +27,7 @@ export const ErrorMessage = {
   },
   Expression: {
     RootNotBool: "当前最终运算得出的可能是一个布尔值，请检查",
+    NotCanRootAst: "最外层只能是函数调用或者运算或者三元表达在或者是数值",
   },
   Identifier: {
     CallKeyCode: "需要调用函数的方式写$0(word)",

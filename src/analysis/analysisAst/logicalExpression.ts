@@ -1,5 +1,10 @@
 import { LogicalExpression, Node } from "estree";
-import { ValidateSchemaBase, cratedNotThrough } from "../types";
+import {
+  ValidateGuardMateWhere,
+  ValidateSchemaBase,
+  cratedFalseThrough,
+  cratedTrueThrough,
+} from "../types";
 import { validateIsLogicalNode } from "./conditionalExpression";
 import { ErrorMessage } from "../helper/errorMessage";
 
@@ -12,9 +17,17 @@ export const LogicalExpressionSchema: ValidateSchemaBase = {
       if (validateIsLogicalNode(node) === true) {
         return;
       }
-      return cratedNotThrough(node, ErrorMessage.LogicalExpression.OnlyLogical);
+      return cratedFalseThrough(
+        node,
+        ErrorMessage.LogicalExpression.OnlyLogical
+      );
     };
 
-    return [handleErrorNode(left), handleErrorNode(right)].find(Boolean);
+    return ValidateGuardMateWhere({
+      falseMateGuard: [handleErrorNode(left), handleErrorNode(right)].find(
+        Boolean
+      ),
+      trueMateGuard: cratedTrueThrough(node, ["left", "right"]),
+    });
   },
 };

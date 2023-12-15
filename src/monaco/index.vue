@@ -6,13 +6,13 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, PropType } from "vue";
 import { useMonacoEditor } from "./index.hook";
-import { handleValidate } from "./analysis";
-import { Latex } from "./analysis/validate";
+import { handleValidate } from "../analysis";
+import { Latex } from "../analysis/validate";
 import EditorWorker from "./editorWorker.vue";
 import * as monaco from "monaco-editor";
 import { Program } from "estree";
 import { useMessage } from "naive-ui";
-import { walkLocalAstToServerAst } from "./analysis/astToServer";
+import { walkLocalAstToServerAst } from "../analysis/astToServer";
 
 const props = defineProps({
   width: {
