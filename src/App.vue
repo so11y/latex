@@ -379,14 +379,6 @@ function decode(v: string) {
       </NMessageProvider>
     </NNotificationProvider>
   </NDialogProvider>
-  <monaco-editor
-    v-model:modelValue="content"
-    language="latex"
-    :editorOptions="{
-      lineNumbers: 'on',
-      minimap: { enabled: true },
-    }"
-  />
 </template>
 
 <style lang="scss">
