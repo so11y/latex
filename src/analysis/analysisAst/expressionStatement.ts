@@ -14,10 +14,6 @@ export const ExpressionStatementDefine: ValidateDefineBase = {
     const isProgram = parent.type === AstType.Program;
     const { expression } = node;
 
-    if (isProgram === false) {
-      return cratedFalseThrough(node, ErrorMessage.Unknown.UnknownSyntax);
-    }
-
     if (expression.type === AstType.BinaryExpression) {
       if (isLogicalOperators(expression.operator)) {
         return cratedFalseThrough(node, ErrorMessage.Expression.RootNotBool);

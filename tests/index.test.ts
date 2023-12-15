@@ -6,6 +6,7 @@ import binaryExpressionText from "./text/binaryExpression.json";
 import logicalExpressionText from "./text/logicalExpression.json";
 import conditionalExpression from "./text/conditionalExpression.json";
 import expressionStatement from "./text/expressionStatement.json";
+import identifier from "./text/identifier.json";
 import { getNotParseRootParser, getParseRootParser } from "./helper";
 
 function builderTest(name, json: Array<any>, praseFn = getNotParseRootParser) {
@@ -26,5 +27,6 @@ function builderTest(name, json: Array<any>, praseFn = getNotParseRootParser) {
 builderTest("literal", LiteralText);
 builderTest("binaryExpression", binaryExpressionText);
 builderTest("logicalExpression", logicalExpressionText);
+builderTest("identifier", identifier);
 builderTest("expressionStatement", expressionStatement, getParseRootParser);
 builderTest("conditionalExpression", conditionalExpression);

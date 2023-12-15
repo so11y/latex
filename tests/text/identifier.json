@@ -1,0 +1,6 @@
+[
+  { "title": "未知标识符", "value": "aaa", "expect": false },
+  { "title": "已知道标识符但不是函数调用", "value": "Min", "expect": false },
+  { "title": "Max + Min", "value": "Min", "expect": false },
+  { "title": "完全错误的语法", "value": "asd asdasd2~是的水电费 asd ", "expect": false }
+]
