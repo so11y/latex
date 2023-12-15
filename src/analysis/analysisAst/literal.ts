@@ -1,18 +1,18 @@
 import {
   ValidateGuardMateWhere,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
 import { Literal, Node } from "estree";
-import { CallExpressionSchema } from "./callExpression";
+import { CallExpressionDefine } from "./callExpression";
 import { ErrorMessage } from "../helper/errorMessage";
 
-export const LiteralSchema: ValidateSchemaBase = {
+export const LiteralDefine: ValidateDefineBase = {
   type: "Literal",
   validate(node: Literal, parent: Node) {
     let falseMateGuard = undefined;
-    if (parent.type !== CallExpressionSchema.type) {
+    if (parent.type !== CallExpressionDefine.type) {
       falseMateGuard = cratedFalseThrough(
         node,
         ErrorMessage.Literal.OnlyInCall

@@ -1,6 +1,6 @@
 import {
   AstType,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
@@ -8,7 +8,7 @@ import { ExpressionStatement } from "estree";
 import { ErrorMessage } from "../helper/errorMessage";
 import { isLogicalOperators, isSafeOperators } from "../helper/defineOperators";
 
-export const ExpressionStatementSchema: ValidateSchemaBase = {
+export const ExpressionStatementDefine: ValidateDefineBase = {
   type: "ExpressionStatement",
   validate(node: ExpressionStatement, parent) {
     const isProgram = parent.type === AstType.Program;

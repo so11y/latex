@@ -4,7 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "vite"
+    "dev": "vite",
+    "test": "vitest",
+    "coverage": "vitest --coverage"
   },
   "author": {
     "name": "zrrz",
@@ -17,6 +19,7 @@
     "@types/lodash-es": "^4.17.12",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vitejs/plugin-vue-jsx": "^3.1.0",
+    "@vitest/coverage-v8": "^1.0.4",
     "@vue/test-utils": "^2.4.3",
     "acorn": "^8.11.2",
     "astring": "^1.8.6",

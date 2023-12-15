@@ -2,7 +2,7 @@ import { BinaryExpression, Node } from "estree";
 import {
   ValidateGuardMateWhere,
   AstType,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
@@ -32,7 +32,7 @@ function maybeErrorNode(node: Node) {
     return cratedFalseThrough(node, ErrorMessage.BinaryExpression.EqNumberOrCall);
   }
 }
-export const BinaryExpressionSchema: ValidateSchemaBase = {
+export const BinaryExpressionDefine: ValidateDefineBase = {
   type: "BinaryExpression",
   validate(node: BinaryExpression) {
     const { left, right } = node;

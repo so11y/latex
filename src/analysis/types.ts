@@ -36,7 +36,7 @@ type ValidateHandle = SyncHandler extends (
     ) => ValidateGuardFalseMate | ValidateGuardTrueMate
   : unknown;
 
-export interface ValidateSchemaBase {
+export interface ValidateDefineBase {
   type: string;
   validate: ValidateHandle;
 }

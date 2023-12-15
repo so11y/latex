@@ -1,11 +1,5 @@
 import { Node } from "estree";
-import { AstType, ValidateGuardFalseMate } from "../types";
-import { operators } from "../helper/defineOperators";
-import { ErrorMessage } from "../helper/errorMessage";
-
-export function NOOP() {
-  return undefined;
-}
+import { ValidateGuardFalseMate } from "../types";
 
 export function nomadizeMarkers(
   nodes: ValidateGuardFalseMate<Node>[],

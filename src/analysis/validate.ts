@@ -1,14 +1,14 @@
-import { BinaryExpressionSchema } from "./analysisAst/binaryExpression";
-import { CallExpressionSchema } from "./analysisAst/callExpression";
+import { BinaryExpressionDefine } from "./analysisAst/binaryExpression";
+import { CallExpressionDefine } from "./analysisAst/callExpression";
 import * as monaco from "monaco-editor";
-import { ConditionalExpressionSchema } from "./analysisAst/conditionalExpression";
-import { ExpressionStatementSchema } from "./analysisAst/expressionStatement";
-import { IdentifierSchema } from "./analysisAst/identifier";
-import { LiteralSchema } from "./analysisAst/literal";
-import { LogicalExpressionSchema } from "./analysisAst/logicalExpression";
-import { NumberLiteralSchema } from "./analysisAst/numberLiteral";
-import { ProgramSchema } from "./analysisAst/program";
-import { AstType, ValidateSchemaBase, ValidateGuardFalseMate } from "./types";
+import { ConditionalExpressionDefine } from "./analysisAst/conditionalExpression";
+import { ExpressionStatementDefine } from "./analysisAst/expressionStatement";
+import { IdentifierDefine } from "./analysisAst/identifier";
+import { LiteralDefine } from "./analysisAst/literal";
+import { LogicalExpressionDefine } from "./analysisAst/logicalExpression";
+import { NumberLiteralDefine } from "./analysisAst/numberLiteral";
+import { ProgramDefine } from "./analysisAst/program";
+import { AstType, ValidateDefineBase, ValidateGuardFalseMate } from "./types";
 import { parse } from "./parse";
 import { Program } from "acorn";
 import { CallExpression, Node } from "estree";
@@ -32,7 +32,7 @@ export class Latex {
   }
 
   declare syntax: {
-    mappings: Map<string, ValidateSchemaBase>;
+    mappings: Map<string, ValidateDefineBase>;
     typeKeys: string[];
   };
 
@@ -42,15 +42,15 @@ export class Latex {
 
   constructor() {
     this.syntax = buildTypeNames([
-      CallExpressionSchema,
-      ExpressionStatementSchema,
-      IdentifierSchema,
-      LiteralSchema,
-      ProgramSchema,
-      BinaryExpressionSchema,
-      LogicalExpressionSchema,
-      ConditionalExpressionSchema,
-      NumberLiteralSchema,
+      CallExpressionDefine,
+      ExpressionStatementDefine,
+      IdentifierDefine,
+      LiteralDefine,
+      ProgramDefine,
+      BinaryExpressionDefine,
+      LogicalExpressionDefine,
+      ConditionalExpressionDefine,
+      NumberLiteralDefine,
     ]);
   }
 
@@ -162,12 +162,12 @@ export class Latex {
 }
 
 function buildTypeNames(
-  types: Array<Array<ValidateSchemaBase> | ValidateSchemaBase>
+  types: Array<Array<ValidateDefineBase> | ValidateDefineBase>
 ) {
-  const mappings: Map<string, ValidateSchemaBase> = new Map();
+  const mappings: Map<string, ValidateDefineBase> = new Map();
 
   for (const value of types) {
-    let current: ValidateSchemaBase = value as ValidateSchemaBase;
+    let current: ValidateDefineBase = value as ValidateDefineBase;
     mappings.set(current.type, current);
   }
 

@@ -1,14 +1,14 @@
 import { LogicalExpression, Node } from "estree";
 import {
   ValidateGuardMateWhere,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
 import { validateIsLogicalNode } from "./conditionalExpression";
 import { ErrorMessage } from "../helper/errorMessage";
 
-export const LogicalExpressionSchema: ValidateSchemaBase = {
+export const LogicalExpressionDefine: ValidateDefineBase = {
   type: "LogicalExpression",
   validate(node: LogicalExpression) {
     const { left, right } = node;

@@ -1,6 +1,6 @@
 import {
   AstType,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   // cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
@@ -8,7 +8,7 @@ import { Node, NumberLiteral } from "estree";
 // import { BinaryExpressionSchema } from "./binaryExpression";
 // import { ErrorMessage } from "../helper/errorMessage";
 
-export const NumberLiteralSchema: ValidateSchemaBase = {
+export const NumberLiteralDefine: ValidateDefineBase = {
   type: "NumberLiteral",
   validate(node: NumberLiteral, parent: Node) {
     //感觉数值不需要约束，因为已经在父级中已经约束了

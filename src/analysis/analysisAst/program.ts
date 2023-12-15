@@ -1,10 +1,10 @@
 import {
   ValidateGuardMateWhere,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedTrueThrough,
 } from "../types";
 
-export const ProgramSchema: ValidateSchemaBase = {
+export const ProgramDefine: ValidateDefineBase = {
   type: "Program",
   validate(node) {
     return ValidateGuardMateWhere({

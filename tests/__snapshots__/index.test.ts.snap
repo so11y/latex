@@ -8,25 +8,9 @@ exports[`binaryExpression > &  不支持的运算符__(5) 1`] = `
 ]
 `;
 
-exports[`binaryExpression > &  不支持的运算符__(8) 1`] = `
-[
-  {
-    "message": "不支持位运算等符号",
-  },
-]
-`;
-
 exports[`binaryExpression > * 号运算__(2) 1`] = `[]`;
 
 exports[`binaryExpression > **  不支持的运算符__(7) 1`] = `
-[
-  {
-    "message": "不支持位运算等符号",
-  },
-]
-`;
-
-exports[`binaryExpression > **  不支持的运算符__(10) 1`] = `
 [
   {
     "message": "不支持位运算等符号",
@@ -39,14 +23,6 @@ exports[`binaryExpression > + 号运算__(0) 1`] = `[]`;
 exports[`binaryExpression > / 号运算__(3) 1`] = `[]`;
 
 exports[`binaryExpression > |  不支持的运算符__(6) 1`] = `
-[
-  {
-    "message": "不支持位运算等符号",
-  },
-]
-`;
-
-exports[`binaryExpression > |  不支持的运算符__(9) 1`] = `
 [
   {
     "message": "不支持位运算等符号",
@@ -107,27 +83,9 @@ exports[`conditionalExpression > 支持三元表达式嵌套搭配逻辑表达�
 
 exports[`expressionStatement > 作为root的三元表达__(4) 1`] = `[]`;
 
-exports[`expressionStatement > 作为root的条件表达式__(0) 1`] = `[]`;
-
-exports[`expressionStatement > 作为root的条件表达式__(1) 1`] = `
-[
-  {
-    "message": "字符串只能出现在调用里",
-  },
-]
-`;
-
 exports[`expressionStatement > 作为root的条件表达式-1__(0) 1`] = `[]`;
 
 exports[`expressionStatement > 作为root的条件表达式-2__(1) 1`] = `
-[
-  {
-    "message": "最外层只能是函数调用或者运算或者三元表达在或者是数值",
-  },
-]
-`;
-
-exports[`expressionStatement > 作为root的条件表达式-3__(0) 1`] = `
 [
   {
     "message": "最外层只能是函数调用或者运算或者三元表达在或者是数值",
@@ -142,8 +100,6 @@ exports[`expressionStatement > 作为root的条件表达式-3__(2) 1`] = `
   },
 ]
 `;
-
-exports[`expressionStatement > 作为root的运算__(4) 1`] = `[]`;
 
 exports[`expressionStatement > 作为root的运算-1__(5) 1`] = `[]`;
 

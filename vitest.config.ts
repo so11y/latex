@@ -7,14 +7,19 @@ export default mergeConfig(
   defineConfig({
     resolve: {
       alias: {
-        "monaco-editor": "monaco-editor/esm/vs/editor/editor.api.js"
-      }
+        "monaco-editor": "monaco-editor/esm/vs/editor/editor.api.js",
+      },
     },
     define: {
       __Test__: true,
     },
     test: {
       environment: "happy-dom",
+      coverage: {
+        reporter: ["text"],
+        include: ["src/analysis"],
+        exclude: ["src/analysis/index.ts"],
+      },
     },
   })
 );

@@ -7,7 +7,7 @@ import {
   cratedTrueThrough,
 } from "../types";
 
-import { ValidateSchemaBase } from "../types";
+import { ValidateDefineBase } from "../types";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
 import {
   LogicalOperators,
@@ -69,7 +69,7 @@ export function validateIsLogicalNode(
   return true;
 }
 
-export const ConditionalExpressionSchema: ValidateSchemaBase = {
+export const ConditionalExpressionDefine: ValidateDefineBase = {
   type: "ConditionalExpression",
   validate(node: ConditionalExpression) {
     const { test, consequent, alternate } = node;

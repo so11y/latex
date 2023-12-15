@@ -1,16 +1,16 @@
-import { CallExpressionSchema } from "./callExpression";
+import { CallExpressionDefine } from "./callExpression";
 import { LatexNames } from "../helper/latexConfig";
 import {
   AstType,
   ValidateGuardMateWhere,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   cratedFalseThrough,
   cratedTrueThrough,
 } from "../types";
 import { Identifier } from "estree";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
 
-export const IdentifierSchema: ValidateSchemaBase = {
+export const IdentifierDefine: ValidateDefineBase = {
   type: "Identifier",
   validate(node: Identifier, parent) {
     const maybeKnow = LatexNames.includes(node.name);

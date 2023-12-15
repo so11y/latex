@@ -1,6 +1,6 @@
 import {
   AstType,
-  ValidateSchemaBase,
+  ValidateDefineBase,
   ValidateGuardFalseMate,
   cratedFalseThrough,
   cratedTrueThrough,
@@ -85,7 +85,7 @@ function validateArguments(
   }
 }
 
-export const CallExpressionSchema: ValidateSchemaBase = {
+export const CallExpressionDefine: ValidateDefineBase = {
   type: "CallExpression",
   validate(node: CallExpression) {
     const { callee, arguments: _arguments } = node;
