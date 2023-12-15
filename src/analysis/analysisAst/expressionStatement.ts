@@ -11,7 +11,6 @@ import { isLogicalOperators, isSafeOperators } from "../helper/defineOperators";
 export const ExpressionStatementDefine: ValidateDefineBase = {
   type: "ExpressionStatement",
   validate(node: ExpressionStatement, parent) {
-    const isProgram = parent.type === AstType.Program;
     const { expression } = node;
 
     if (expression.type === AstType.BinaryExpression) {
