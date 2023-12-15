@@ -1,0 +1,21 @@
+[
+  {
+    "title": "一个数值",
+    "value": "1",
+    "expect": true,
+    "tips": "因为已经在父级中已经约束了"
+  },
+  {
+    "title": "一个字符",
+    "value": "'1'",
+    "expect": false
+  },
+  { "title": "数值在 !=  逻辑符中", "value": "1 != 1", "expect": true },
+  { "title": "数值在函数中作为数值", "value": "Max(1)", "expect": false },
+  { "title": "数值在 +  运算符中", "value": "1 + 1", "expect": true },
+  { "title": "数值在 -  运算符中", "value": "1 - 1", "expect": true },
+  { "title": "数值在 /  运算符中", "value": "1 / 1", "expect": true },
+  { "title": "数值在 *  运算符中", "value": "1 * 1", "expect": true },
+  { "title": "数值在括号中", "value": "1 * (1 - 1)", "expect": true },
+  { "title": "函数中作为字符串", "value": "Max('1')", "expect": true }
+]

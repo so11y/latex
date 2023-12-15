@@ -1,0 +1,15 @@
+[
+  { "title": "+ 号运算", "value": "1 + 1 + 1", "expect": true },
+  { "title": "- 号运算", "value": "1 - 1 + 1", "expect": true },
+  { "title": "* 号运算", "value": "1 * 1 + 1", "expect": true },
+  { "title": "/ 号运算", "value": "1 * 1 + 1  / 2", "expect": true },
+  {
+    "title": "复杂运算在三元表达式中",
+    "value": "1 * 1 + 1  != 2 ? Min('a') : Max('a')",
+    "expect": true
+  },
+  { "title": "&  不支持的运算符", "value": "1 & 1", "expect": false },
+  { "title": "|  不支持的运算符", "value": "1 | 1", "expect": false },
+  { "title": "**  不支持的运算符", "value": "1 ** 1", "expect": false },
+  { "title": "1 + '1'", "value": "1 + '1'", "expect": false }
+]

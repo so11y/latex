@@ -1,0 +1,32 @@
+[
+  {
+    "title": "作为root的条件表达式-1",
+    "value": "1",
+    "expect": true
+  },
+  {
+    "title": "作为root的条件表达式-2",
+    "value": "'1'",
+    "expect": false
+  },
+  {
+    "title": "作为root的条件表达式-3",
+    "value": "1>1 && 1<1",
+    "expect": false
+  },
+  {
+    "title": "作为root的逻辑-2",
+    "value": "1 + 1 * 2 > 5",
+    "expect": false
+  },
+  {
+    "title": "作为root的三元表达",
+    "value": "Conditional( 1>2 , Max('a') ,Max('a'))",
+    "expect": true
+  },
+  {
+    "title": "作为root的运算-1",
+    "value": "1 + 1 * 2",
+    "expect": true
+  }
+]
