@@ -5,7 +5,7 @@ interface ConfigRecord {
   [key: string]: LatexCallConfig;
 }
 
-export interface LatexValidateConfig {
+export interface LatexValidateCallAccept {
   validate: (
     this: Omit<LatexCallConfig["config"], "accept">,
     node: any,
@@ -19,7 +19,7 @@ export interface LatexCallConfig {
   alias: string;
   astName?: string;
   config: {
-    accept: Array<LatexValidateConfig>;
+    accept: Array<LatexValidateCallAccept>;
   };
 }
 

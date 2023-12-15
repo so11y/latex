@@ -1,8 +1,8 @@
 import { Literal } from "estree";
-import { LatexValidateConfig } from "../helper/latexConfig";
+import { LatexValidateCallAccept } from "../helper/latexConfig";
 import { AstType, cratedNotThrough } from "../types";
 
-export const DefaultAccept: Array<LatexValidateConfig> = [
+export const DefaultAccept: Array<LatexValidateCallAccept> = [
   {
     validate(node: any) {
       const notSameType = node.type !== AstType.Literal;

@@ -43,4 +43,4 @@ watch(astToLatexString, async () => {
   });
 });
 </script>
-../monaco/analysis/astToString
+../monaco/analysis/astToString../analysis/astToString
