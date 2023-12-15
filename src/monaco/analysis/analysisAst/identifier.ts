@@ -2,6 +2,7 @@ import { CallExpressionSchema } from "./callExpression";
 import { LatexNames } from "../helper/latexConfig";
 import { ValidateSchemaBase } from "../types";
 import { Identifier } from "estree";
+import { ErrorMessage, formatterError } from "../helper/errorMessage"
 
 export type IdentifierSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "Identifier";
@@ -17,12 +18,12 @@ export const IdentifierSchema: IdentifierSchemeType = {
         return null;
       }
       if (maybeKnow === false) {
-        return "未知字符";
+        return ErrorMessage.Unknown.UnknownIdentifier;
       }
       if (parentIsCallExpression === false) {
-        return `需要调用函数方式书写${node.name}(word)`;
+        return formatterError`${ErrorMessage.Identifier.CallKeyCode} ${node.name}`
       }
-      return "未知字符";
+      return ErrorMessage.Unknown.UnknownIdentifier;
     }
     return {
       message: handleMessage(),

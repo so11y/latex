@@ -1,7 +1,8 @@
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
 import { ExpressionStatement } from "estree";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api.js"
+import * as monaco from "monaco-editor"
 import { isLogicalOperators } from "../helper/operators";
+import { ErrorMessage } from "../helper/errorMessage";
 
 export type ExpressionStatementSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "ExpressionStatement";
@@ -13,7 +14,7 @@ export const ExpressionStatementSchema: ExpressionStatementSchemeType = {
     const isProgram = parent.type === AstType.Program;
     const { expression } = node;
     if (isProgram === false) {
-      return cratedNotThrough(node, "未知语法");
+      return cratedNotThrough(node, ErrorMessage.Unknown.UnknownSyntax);
     }
 
     const isLogicalExpression = expression.type === AstType.LogicalExpression;
@@ -23,7 +24,7 @@ export const ExpressionStatementSchema: ExpressionStatementSchemeType = {
 
     if (isLogicalExpression || isRealOperatorLogical) {
       return cratedNotThrough(node, {
-        message: "当前最终运算得出的可能是一个布尔值，请检查",
+        message: ErrorMessage.Expression.RootNotBool,
         severity: monaco.MarkerSeverity.Warning,
       });
     }

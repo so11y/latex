@@ -1,4 +1,5 @@
 import { AstType } from "../types";
+import { ErrorMessage } from "./errorMessage";
 
 export const operators = {
   "+": {
@@ -54,12 +55,12 @@ export const operators = {
   "&&": {
     latexOperator: "\\&\\&",
     name: AstType.LogicalExpression,
-    alias:"And"
+    alias: "And"
   },
   "||": {
     latexOperator: "\\|",
     name: AstType.LogicalExpression,
-    alias:"Or"
+    alias: "Or"
   },
 };
 
@@ -71,7 +72,7 @@ export function isSafeOperators(operator: string) {
   if (!operators[operator as keyof typeof operators]) {
     return {
       through: false,
-      message: "不支持位运算等符号",
+      message: ErrorMessage.Unknown.UnknownOperator,
     };
   }
   return {

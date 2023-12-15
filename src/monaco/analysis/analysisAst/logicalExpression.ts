@@ -1,6 +1,7 @@
 import { LogicalExpression, Node } from "estree";
 import { ValidateSchemaBase, cratedNotThrough } from "../types";
 import { validateIsLogicalNode } from "./conditionalExpression";
+import { ErrorMessage } from "../helper/errorMessage";
 export type LogicalExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "LogicalExpression";
 };
@@ -16,7 +17,7 @@ export const LogicalExpressionSchema: LogicalExpressionSchemeType = {
       }
       return cratedNotThrough(
         node,
-        "逻辑表达式两边需要是条件表达式 使用 && 或者 || 连接 "
+        ErrorMessage.LogicalExpression.OnlyLogical
       );
     };
 

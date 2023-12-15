@@ -3,10 +3,10 @@ import { AstType, ValidateSchemaGuardMate, cratedNotThrough } from "../types";
 
 import { ValidateSchemaBase } from "../types";
 import {
-  LogicalOperators,
   isLogicalOperators,
   isSafeOperators,
 } from "../helper/operators";
+import { ErrorMessage } from "../helper/errorMessage"
 
 export type ConditionalExpressionSchemeType = Omit<
   ValidateSchemaBase,
@@ -15,12 +15,12 @@ export type ConditionalExpressionSchemeType = Omit<
   type: "ConditionalExpression";
 };
 
-const ErrorMessage: Array<string> = [
-  `只能是使用三元和逻辑表达式符号 ${LogicalOperators.join(" ")}`,
-  "真结果需要是函数调用并且不能再返回逻辑表达式了",
-  "假结果需要是函数调用并且不能再返回逻辑表达式了",
-  `不支持在直接嵌套Conditional函数和三元表达式,但是可以在搭配逻辑表达式使用`,
-];
+// const ErrorMessage: Array<string> = [
+//   `只能是使用三元和逻辑表达式符号 ${LogicalOperators.join(" ")}`,
+//   "真结果需要是函数调用并且不能再返回逻辑表达式了",
+//   "假结果需要是函数调用并且不能再返回逻辑表达式了",
+//   `不支持在直接嵌套Conditional函数和三元表达式,但是可以在搭配逻辑表达式使用`,
+// ];
 
 function trueAndFalseResult(
   node: Node,
@@ -41,17 +41,16 @@ export function validateIsLogicalNode(
   node: Node
 ): true | ValidateSchemaGuardMate {
   if (node.type === AstType.ConditionalExpression) {
-    return cratedNotThrough(node, ErrorMessage[3]);
+    return cratedNotThrough(node, ErrorMessage.ConditionalExpression.NotNestConditionalExpression);
   }
 
-  const notLogicOrBinaryOrConditional = [
+  const notLogicOrBinary = [
     AstType.BinaryExpression,
     AstType.LogicalExpression,
-    AstType.ConditionalExpression,
   ].every((type) => node.type !== type);
 
-  if (notLogicOrBinaryOrConditional) {
-    return cratedNotThrough(node, ErrorMessage[0]);
+  if (notLogicOrBinary) {
+    return cratedNotThrough(node, ErrorMessage.ConditionalExpression.OnlyLogical);
   }
 
   if (AstType.BinaryExpression === node.type) {
@@ -63,7 +62,7 @@ export function validateIsLogicalNode(
     }
     //如果是二元表达式那么它的操作符必须是逻辑表达式
     if (isLogicalOperators((node as BinaryExpression).operator) === false) {
-      return cratedNotThrough(node, ErrorMessage[0]);
+      return cratedNotThrough(node, ErrorMessage.ConditionalExpression.OnlyLogical);
     }
   }
 
@@ -81,8 +80,8 @@ export const ConditionalExpressionSchema: ConditionalExpressionSchemeType = {
 
     const errorNodes = [
       validateIsLogicalNode(test),
-      trueAndFalseResult(consequent, ErrorMessage[1]),
-      trueAndFalseResult(alternate, ErrorMessage[2]),
+      trueAndFalseResult(consequent, ErrorMessage.ConditionalExpression.OnlyTrueCall),
+      trueAndFalseResult(alternate, ErrorMessage.ConditionalExpression.OnlyFalseCall),
     ]
       .map((result) => {
         return result === true

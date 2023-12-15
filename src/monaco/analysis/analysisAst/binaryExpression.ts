@@ -1,6 +1,7 @@
 import { BinaryExpression, Node } from "estree";
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
 import { isSafeOperators } from "../helper/operators";
+import { ErrorMessage } from "../helper/errorMessage";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };
@@ -27,7 +28,7 @@ function maybeErrorNode(node: Node) {
   if (!validateValues(node)) {
     return cratedNotThrough(
       node,
-      "运算两边需要是数值或者函数调用表达式或者运算"
+      ErrorMessage.BinaryExpression.EqNumberOrCall
     );
   }
 }

@@ -1,4 +1,5 @@
 import {
+  AstType,
   ValidateSchemaBase,
   ValidateSchemaGuardMate,
   cratedNotThrough,
@@ -13,6 +14,7 @@ import {
   Node,
 } from "estree";
 import { LatexCallConfig, LatexNames } from "../helper/latexConfig";
+import { ErrorMessage, formatterError } from "../helper/errorMessage"
 
 export type CallExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "CallExpression";
@@ -23,10 +25,10 @@ export function validateCalleeName(
   names = LatexNames
 ): ValidateSchemaGuardMate<Identifier> {
   if (n.type !== "Identifier") {
-    return cratedNotThrough(n as any, "未知语法调用");
+    return cratedNotThrough(n as any, ErrorMessage.Unknown.UnknownSyntax);
   }
   if (!names.includes(n.name)) {
-    return cratedNotThrough(n, "未知调用函数");
+    return cratedNotThrough(n, ErrorMessage.Unknown.UnKnownCall);
   }
   return cratedThrough(n);
 }
@@ -40,7 +42,8 @@ function validateArguments(
   if (n.length !== config.accept.length) {
     return cratedNotThrough(
       parent,
-      `参数个数不匹配需要${config.accept.length}个参数`
+
+      formatterError`${ErrorMessage.CallExpression.ArgLengthExpect} ${config.accept.length}`
     );
   }
   //标准化accept参数
@@ -98,7 +101,7 @@ export const CallExpressionSchema: CallExpressionSchemeType = {
     if (safeCalleeName.through) {
       const config =
         LatexCallConfig[
-          safeCalleeName.node.name as keyof typeof LatexCallConfig
+        safeCalleeName.node.name as keyof typeof LatexCallConfig
         ];
       return validateArguments(_arguments, node, config);
     }

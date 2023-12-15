@@ -1,6 +1,14 @@
 [
-  { "title": "三元表达式", "value": "1 ? 1 : 1", "expect": false },
-  { "title": "三元表达式", "value": "1 > 2 ? 1 : 1", "expect": false },
+  {
+    "title": "三元表达式",
+    "value": "1 ? 1 : 1",
+    "expect": false
+  },
+  {
+    "title": "三元表达式",
+    "value": "1 > 2 ? 1 : 1",
+    "expect": false
+  },
   {
     "title": "三元表达式",
     "value": "1 > 2 ? Max('a') : Max('a')",
