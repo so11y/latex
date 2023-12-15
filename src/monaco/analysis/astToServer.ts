@@ -1,8 +1,9 @@
 import { walk, SyncHandler } from "estree-walker";
 import { Program, BinaryExpression, LogicalExpression } from "estree";
 import { AstType } from "./types";
-import { isLogicalOperators, operators } from "./helper/operators";
+import { operators } from "./helper/defineOperators";
 import { BinaryOperator } from "acorn";
+import { isLogicalOperators } from "./util/functional";
 
 type WalkHandleThis = ThisParameterType<SyncHandler>;
 

@@ -2,7 +2,7 @@ import { Node } from "estree";
 import { generate, GENERATOR } from "astring";
 import { LatexCallConfig } from "./helper/latexConfig";
 import { AstType } from "./types";
-import { operators } from "./helper/operators";
+import { operators } from "./helper/defineOperators";
 
 export function toLatexString(node: Node) {
   const code = generate(node, {

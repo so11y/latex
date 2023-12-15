@@ -1,7 +1,7 @@
 import { BinaryExpression, Node } from "estree";
 import { AstType, ValidateSchemaBase, cratedNotThrough } from "../types";
-import { isSafeOperators } from "../helper/operators";
 import { ErrorMessage } from "../helper/errorMessage";
+import { isSafeOperators } from "../util/functional";
 export type BinaryExpressionSchemeType = Omit<ValidateSchemaBase, "type"> & {
   type: "BinaryExpression";
 };

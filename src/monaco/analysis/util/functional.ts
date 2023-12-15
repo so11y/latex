@@ -1,5 +1,7 @@
 import { Node } from "estree";
-import { ValidateSchemaGuardMate } from "../types";
+import { AstType, ValidateSchemaGuardMate } from "../types";
+import { operators } from "../helper/defineOperators";
+import { ErrorMessage } from "../helper/errorMessage";
 
 export function NOOP() {
   return undefined;
@@ -25,4 +27,39 @@ export function nomadizeMarkers(
     }
   }
   return markers;
+}
+
+export function isSafeOperators(operator: string) {
+  if (!operators[operator as keyof typeof operators]) {
+    return {
+      through: false,
+      message: ErrorMessage.Unknown.UnknownOperator,
+    };
+  }
+  return {
+    through: true,
+  };
+}
+
+export function isLogicalOperators(operator: string) {
+  return (
+    operators[operator as keyof typeof operators]?.name ===
+    AstType.LogicalExpression
+  );
+}
+
+
+export function extractTokenAndNumbers(str: string) {
+  const regex = /\((\d+):(\d+)\)$/;
+  const match = str.match(regex);
+  if (match) {
+    const extracted = {
+      token: match[0],
+      line: parseInt(match[1]),
+      column: parseInt(match[2]),
+    };
+    return extracted;
+  } else {
+    return null;
+  }
 }

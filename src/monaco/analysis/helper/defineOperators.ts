@@ -1,5 +1,5 @@
 import { AstType } from "../types";
-import { ErrorMessage } from "./errorMessage";
+import { isLogicalOperators } from "../util/functional";
 
 export const operators = {
   "+": {
@@ -55,34 +55,14 @@ export const operators = {
   "&&": {
     latexOperator: "\\&\\&",
     name: AstType.LogicalExpression,
-    alias: "And"
+    alias: "And",
   },
   "||": {
     latexOperator: "\\|",
     name: AstType.LogicalExpression,
-    alias: "Or"
+    alias: "Or",
   },
 };
 
-export const LogicalOperators = Object.keys(operators).filter((node) => {
-  return isLogicalOperators(node);
-});
-
-export function isSafeOperators(operator: string) {
-  if (!operators[operator as keyof typeof operators]) {
-    return {
-      through: false,
-      message: ErrorMessage.Unknown.UnknownOperator,
-    };
-  }
-  return {
-    through: true,
-  };
-}
-
-export function isLogicalOperators(operator: string) {
-  return (
-    operators[operator as keyof typeof operators]?.name ===
-    AstType.LogicalExpression
-  );
-}
+export const LogicalOperators =
+  Object.keys(operators).filter(isLogicalOperators);

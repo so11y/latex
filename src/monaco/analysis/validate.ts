@@ -12,8 +12,8 @@ import { walk } from "estree-walker";
 import { Program } from "acorn";
 import { AstType, ValidateSchemaBase, ValidateSchemaGuardMate } from "./types";
 import { LatexNames, macroLatexCallConfig } from "./helper/latexConfig";
-import { extractTokenAndNumbers } from "./util";
 import { parse } from "./parse";
+import { extractTokenAndNumbers } from "./util/functional";
 
 function buildTypeNames(
   types: Array<Array<ValidateSchemaBase> | ValidateSchemaBase>
