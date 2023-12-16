@@ -38,10 +38,7 @@ export class LatexConfig {
   } satisfies ConfigRecord;
 
   get LatexNames() {
-    return Object.keys({
-      ...this.LatexCallConfig,
-      ...macroLatexCallConfig,
-    });
+    return Object.values(this.AllLatex).map((latex) => latex.name);
   }
 
   get AllLatex() {

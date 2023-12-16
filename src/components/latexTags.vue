@@ -7,7 +7,7 @@
   <div class="tag-layout">
     <n-space>
       <n-tag
-        @click="handleDialog(tag)"
+        @click="openDialog(tag, false)"
         v-for="tag in callConfigs"
         :key="tag.name"
         @close="handleRemove(tag)"
@@ -15,57 +15,108 @@
       >
         {{ tag.alias }} {{ tag.name }}
       </n-tag>
-      <n-tag @click="handleAddLatexCall">+</n-tag>
+      <n-tag @click="openDialog(null, true)">+</n-tag>
     </n-space>
+
+    <n-modal v-model:show="showModal" preset="dialog" :title="title">
+      <LatexDialog
+        v-model="config"
+        @confirm="handleUpdateLatexCall"
+        @close="showModal = false"
+      />
+    </n-modal>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="tsx">
 import { Latex } from "../analysis/latex";
-import {
-  NTag,
-  NSpace,
-  useDialog,
-  NMessageProvider,
-  useMessage,
-} from "naive-ui";
+import { NModal, NTag, NSpace, useDialog, useMessage } from "naive-ui";
 import LatexDialog from "./latexDialog.vue";
-import { h, ref } from "vue";
-import { LatexCallConfigType } from "../analysis/helper/latexConfig";
+import { ref } from "vue";
+import {
+  LatexCallConfigType,
+  LatexValidateCallAccept,
+} from "../analysis/helper/latexConfig";
 import { EditorHelper } from "../monaco/editorHelper/index";
-import * as monaco from "monaco-editor";
 const message = useMessage();
 
 const callConfigs = ref(Latex.getInstance().LatexConfig.LatexCallConfig);
 
 const dialog = useDialog();
 
-function handleDialog(config: LatexCallConfigType) {
-  const { accept } = config.config;
-  const shallowAccept = ref(accept.slice());
-  dialog.success({
-    title: config.alias,
-    content: () => {
-      return h(NMessageProvider, null, {
-        default: () => {
-          return h(LatexDialog, {
-            modelValue: shallowAccept.value,
-          });
-        },
-      });
-    },
-    onPositiveClick: () => {
-      config.config.accept = shallowAccept.value;
-      EditorHelper.getInstance()
-        .editor!.getAction("LatexValidateEditorMarkers")
-        ?.run();
-      message.success("参数修改成功！");
-    },
-    positiveText: "确认",
-  });
-}
+const { openDialog, title, config, handleUpdateLatexCall, showModal } =
+  useHandleCallFnConfig();
 
-function handleAddLatexCall() {}
+function useHandleCallFnConfig() {
+  const builderConfig = () => ({
+    accept: [] as Array<LatexValidateCallAccept>,
+    alias: "",
+    name: "",
+  });
+  const config = ref(builderConfig());
+  const isCreate = ref(false);
+  const showModal = ref(false);
+  const title = ref("");
+  let currentConfig: LatexCallConfigType | null = null;
+
+  const openDialog = (
+    owenConfig: LatexCallConfigType | null,
+    owenIsCreate = false
+  ) => {
+    config.value = builderConfig();
+    if (owenConfig) {
+      config.value.accept = owenConfig.config.accept.slice();
+      title.value = owenConfig.alias;
+      config.value.alias = owenConfig.alias;
+      config.value.name = owenConfig.name;
+      currentConfig = owenConfig;
+    } else {
+      title.value = "新增标签";
+    }
+    showModal.value = true;
+    isCreate.value = owenIsCreate;
+  };
+
+  const handleUpdateLatexCall = () => {
+    //这里后面把参数传递优化一下，两个组件参数格式没统一
+    if (isCreate.value) {
+      const { name, alias, accept } = config.value;
+      if (Reflect.has(callConfigs.value, name)) {
+        message.warning("已存在该标签，请修改名称");
+        return;
+      }
+      (callConfigs.value as any)[name] = {
+        name,
+        alias,
+        config: {
+          accept,
+        },
+      };
+
+      const editorHelper = EditorHelper.getInstance();
+      editorHelper.editor!.getAction("LatexValidateEditorMarkers")?.run();
+      editorHelper.setupTokensProvider();
+      message.success("新增标签成功！");
+    } else {
+      currentConfig!.config.accept = config.value.accept;
+      currentConfig!.alias = config.value.alias;
+      currentConfig!.name = config.value.name;
+      const editorHelper = EditorHelper.getInstance();
+      editorHelper.editor!.getAction("LatexValidateEditorMarkers")?.run();
+      editorHelper.setupTokensProvider();
+      message.success("参数修改成功！");
+    }
+  };
+
+  return {
+    config,
+    isCreate,
+    showModal,
+    openDialog,
+    handleUpdateLatexCall,
+    title,
+  };
+}
 
 function handleRemove(config: LatexCallConfigType) {
   dialog.warning({
