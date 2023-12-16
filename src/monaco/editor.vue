@@ -34,6 +34,7 @@ import * as monaco from "monaco-editor";
 import { Program } from "estree";
 import { useMessage } from "naive-ui";
 import { walkLocalAstToServerAst } from "../analysis/astToServer";
+import { EditorHelper } from "./editorHelper";
 
 const props = defineProps({
   modelValue: {
@@ -48,11 +49,12 @@ const props = defineProps({
 const message = useMessage();
 const emits = defineEmits(["blur", "update:modelValue", "update:ast"]);
 
-const { el, updateVal, createEditor } = useMonacoEditor("latex");
+const { el, updateVal, createEditor, getEditor } = useMonacoEditor("latex");
 
 const stopTestCommand = monaco.editor.addCommand({
   id: "LatexTest",
   run() {
+    console.log("io99");
     const { diagnosisNodes, ast } = Latex.getInstance().validate(
       props.modelValue
     );
@@ -67,11 +69,23 @@ const stopTestCommand = monaco.editor.addCommand({
 });
 
 onMounted(() => {
-  const { model, monacoEditor } = createEditor()!;
+  const { monacoEditor } = createEditor()!;
+  //后面再优化这个editor的存放
+  EditorHelper.getInstance().editor = monacoEditor;
+  monacoEditor.addAction({
+    id: "LatexValidateEditorMarkers",
+    label: "LatexValidateEditorMarkers",
+    run() {
+      const { ast } = handleValidate(
+        getEditor()!.getValue(),
+        getEditor()!.getModel()!
+      );
+      emits("update:ast", ast);
+    },
+  });
 
   monacoEditor!.onDidChangeModelContent(() => {
-    const { ast } = handleValidate(monacoEditor!.getValue(), model);
-    emits("update:ast", ast);
+    monacoEditor.getAction("LatexValidateEditorMarkers")?.run();
     emits("update:modelValue", monacoEditor!.getValue());
   });
 
@@ -85,5 +99,3 @@ onUnmounted(() => {
   stopTestCommand.dispose();
 });
 </script>
-./useEditor
-../analysis/latex

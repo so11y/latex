@@ -32,12 +32,13 @@ import {
 import LatexDialog from "./latexDialog.vue";
 import { h, ref } from "vue";
 import { LatexCallConfigType } from "../analysis/helper/latexConfig";
+import { EditorHelper } from "../monaco/editorHelper/index";
+import * as monaco from "monaco-editor";
 const message = useMessage();
 
-const callConfigs = Latex.getInstance().LatexConfig.LatexCallConfig;
+const callConfigs = ref(Latex.getInstance().LatexConfig.LatexCallConfig);
 
 const dialog = useDialog();
-console.log(Latex.getInstance().syntax, callConfigs);
 
 function handleDialog(config: LatexCallConfigType) {
   const { accept } = config.config;
@@ -63,6 +64,19 @@ function handleDialog(config: LatexCallConfigType) {
 
 function handleAddLatexCall() {}
 
-function handleRemove(config: LatexCallConfigType) {}
+function handleRemove(config: LatexCallConfigType) {
+  dialog.warning({
+    title: "删除确认",
+    content: "确认删除该标签吗？",
+    onPositiveClick: () => {
+      Reflect.deleteProperty(callConfigs.value, config.name);
+      const editorHelper = EditorHelper.getInstance();
+      editorHelper.setupTokensProvider();
+      EditorHelper.getInstance()
+        .editor!.getAction("LatexValidateEditorMarkers")
+        ?.run();
+    },
+    positiveText: "确认",
+  });
+}
 </script>
-../analysis/latex

@@ -1,6 +1,6 @@
 import * as monaco from "monaco-editor";
 import { Latex } from "../../analysis/latex";
-export const tokenProvide: monaco.languages.IMonarchLanguage = {
+export const tokenProvide: () => monaco.languages.IMonarchLanguage = () => ({
   operators: ["+", "-", "*", "/"],
   keywords: Latex.getInstance().LatexConfig.LatexNames,
   escapes:
@@ -34,4 +34,4 @@ export const tokenProvide: monaco.languages.IMonarchLanguage = {
       { include: "root" },
     ],
   },
-};
+});

@@ -88,6 +88,7 @@ export class Latex {
 
   walk(ast: Node, diagnosisNodes: Array<ValidateGuardFalseMate>) {
     const _this = this;
+    this.hintsCallExpressionNodes = [];
     walk(ast as any, {
       enter(node, parent, prop, index) {
         _this.isNeedInlayHints(node);
@@ -126,7 +127,6 @@ export class Latex {
 
   isNeedInlayHints(node: Node) {
     //提供編輯器類型的嵌入提示
-    this.hintsCallExpressionNodes = [];
     if (
       node.type === AstType.CallExpression &&
       node.callee.type === AstType.Identifier

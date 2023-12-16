@@ -1,10 +1,10 @@
 import { ref, onBeforeUnmount, nextTick } from "vue";
-import * as monaco from "monaco-editor"
-import { setup } from "./editorHelper/index";
-
-setup();
+import * as monaco from "monaco-editor";
+import { EditorHelper } from "./editorHelper/index";
 
 export const useMonacoEditor = (language: string, value: string = "") => {
+  EditorHelper.getInstance().disposable();
+  EditorHelper.getInstance().setup();
   let monacoEditor: monaco.editor.IStandaloneCodeEditor | null = null;
   let initReadOnly = false;
   const el = ref<HTMLElement | null>(null);
@@ -31,13 +31,13 @@ export const useMonacoEditor = (language: string, value: string = "") => {
     // 创建
     monacoEditor = monaco.editor.create(el.value, {
       model,
-      fontSize:18,
+      fontSize: 18,
       theme: "vs-dark",
       automaticLayout: true,
-      contextmenu:false,
-      minimap:{
-        enabled:false
-      }
+      contextmenu: false,
+      minimap: {
+        enabled: false,
+      },
     });
 
     return {
