@@ -7,7 +7,7 @@
   <div class="tag-layout">
     <n-space>
       <n-tag
-        @click="openDialog(tag, false)"
+        @click="openDialog(tag)"
         v-for="tag in callConfigs"
         :key="tag.name"
         @close="handleRemove(tag)"
@@ -15,7 +15,7 @@
       >
         {{ tag.alias }} {{ tag.name }}
       </n-tag>
-      <n-tag @click="openDialog(null, true)">+</n-tag>
+      <n-tag @click="openDialog(null)">+</n-tag>
     </n-space>
 
     <n-modal v-model:show="showModal" preset="dialog" :title="title">
@@ -59,10 +59,7 @@ function useHandleCallFnConfig() {
   const title = ref("");
   let currentConfig: LatexCallConfigType | null = null;
 
-  const openDialog = (
-    owenConfig: LatexCallConfigType | null,
-    owenIsCreate = false
-  ) => {
+  const openDialog = (owenConfig: LatexCallConfigType | null) => {
     if (owenConfig) {
       config.value = cloneDeep(owenConfig!);
       title.value = owenConfig.alias;
@@ -72,7 +69,7 @@ function useHandleCallFnConfig() {
       config.value = builderConfig();
     }
     showModal.value = true;
-    isCreate.value = owenIsCreate;
+    isCreate.value = !!owenConfig;
   };
 
   const handleUpdateLatexCall = () => {
