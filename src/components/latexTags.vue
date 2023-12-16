@@ -32,11 +32,8 @@
 import { Latex } from "../analysis/latex";
 import { NModal, NTag, NSpace, useDialog, useMessage } from "naive-ui";
 import LatexDialog from "./latexDialog.vue";
-import { ref, toRaw, triggerRef } from "vue";
-import {
-  LatexCallConfigType,
-  LatexValidateCallAccept,
-} from "../analysis/helper/latexConfig";
+import { Ref, ref, toRaw, triggerRef } from "vue";
+import { LatexCallConfigType } from "../analysis/helper/latexConfig";
 import { EditorHelper } from "../monaco/editorHelper/index";
 import { cloneDeep } from "lodash-es";
 const message = useMessage();
@@ -56,7 +53,7 @@ function useHandleCallFnConfig() {
     alias: "",
     name: "",
   });
-  const config = ref(builderConfig());
+  const config = ref() as Ref<LatexCallConfigType>;
   const isCreate = ref(false);
   const showModal = ref(false);
   const title = ref("");
@@ -66,13 +63,13 @@ function useHandleCallFnConfig() {
     owenConfig: LatexCallConfigType | null,
     owenIsCreate = false
   ) => {
-    config.value = builderConfig();
     if (owenConfig) {
       config.value = cloneDeep(owenConfig!);
       title.value = owenConfig.alias;
       currentConfig = owenConfig;
     } else {
       title.value = "新增标签";
+      config.value = builderConfig();
     }
     showModal.value = true;
     isCreate.value = owenIsCreate;
@@ -81,7 +78,7 @@ function useHandleCallFnConfig() {
   const handleUpdateLatexCall = () => {
     if (isCreate.value) {
       const inst = Latex.getInstance().LatexConfig;
-      inst.putCallExpression(toRaw(config.value));
+      inst.putCallExpression(toRaw(config.value!));
       triggerRef(callConfigs);
       EditorHelper.getInstance().reValidate();
       message.success("新增标签成功！");
