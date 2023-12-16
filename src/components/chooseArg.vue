@@ -1,24 +1,26 @@
 <template>
-  <n-tag
-    type="success"
-    v-for="(tag, index) in modelValue"
-    :key="tag.key"
-    @close="handleClose(index)"
-    closable
-  >
-    <n-dropdown
-      trigger="hover"
-      label-field="describe"
-      :options="(AllLatexCallAccept as any[])"
-      @select="handleSelect($event, index)"
+  <n-space>
+    <n-tag
+      type="success"
+      v-for="(tag, index) in modelValue"
+      :key="tag.key"
+      @close="handleClose(index)"
+      closable
     >
-      {{ tag.describe }}
-    </n-dropdown>
-  </n-tag>
+      <n-dropdown
+        trigger="hover"
+        label-field="describe"
+        :options="(AllLatexCallAccept as any[])"
+        @select="handleSelect($event, index)"
+      >
+        {{ tag.describe }}
+      </n-dropdown>
+    </n-tag>
+  </n-space>
 </template>
 
 <script lang="ts" setup>
-import { NTag, NDropdown } from "naive-ui";
+import { NSpace, NTag, NDropdown } from "naive-ui";
 import { LatexValidateCallAccept } from "../analysis/helper/latexConfig";
 import { AllLatexCallAccept } from "../analysis/callAccept/defaultAccept";
 
