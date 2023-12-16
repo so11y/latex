@@ -35,7 +35,7 @@ import LatexDialog from "./latexDialog.vue";
 import { Ref, ref, toRaw, triggerRef } from "vue";
 import { LatexCallConfigType } from "../analysis/helper/latexConfig";
 import { EditorHelper } from "../monaco/editorHelper/index";
-import { cloneDeep } from "lodash-es";
+import { cloneDeep, isNull } from "lodash-es";
 const message = useMessage();
 
 const callConfigs = ref(Latex.getInstance().LatexConfig.LatexCallConfig);
@@ -69,7 +69,7 @@ function useHandleCallFnConfig() {
       config.value = builderConfig();
     }
     showModal.value = true;
-    isCreate.value = !!owenConfig;
+    isCreate.value = isNull(owenConfig);
   };
 
   const handleUpdateLatexCall = () => {
