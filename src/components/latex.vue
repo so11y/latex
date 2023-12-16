@@ -1,5 +1,13 @@
+<style scoped lang="scss">
+.latex {
+  padding: 20px 10px;
+}
+</style>
+
 <template>
-  <div ref="el">${{ astToLatexString }}$</div>
+  <div class="latex">
+    <div ref="el">${{ astToLatexString }}$</div>
+  </div>
 </template>
 <script setup lang="ts">
 import renderMathInElement from "katex/contrib/auto-render";

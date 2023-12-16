@@ -33,6 +33,11 @@ export const useMonacoEditor = (language: string, value: string = "") => {
       model,
       fontSize:18,
       theme: "vs-dark",
+      automaticLayout: true,
+      contextmenu:false,
+      minimap:{
+        enabled:false
+      }
     });
 
     return {

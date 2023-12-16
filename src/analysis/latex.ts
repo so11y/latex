@@ -10,15 +10,15 @@ import { NumberLiteralDefine } from "./analysisAst/numberLiteral";
 import { ProgramDefine } from "./analysisAst/program";
 import { AstType, ValidateDefineBase, ValidateGuardFalseMate } from "./types";
 import { parse } from "./parse";
-import { Program } from "acorn";
 import { CallExpression, Node } from "estree";
 import {
   cratedFakeNodeError,
   extractTokenAndNumbers,
   nomadizeMarkers,
 } from "./util/functional";
-import { LatexNames, macroLatexCallConfig } from "./helper/latexConfig";
+import { LatexConfig, macroLatexCallConfig } from "./helper/latexConfig";
 import { walk } from "estree-walker";
+import { Program } from "acorn";
 
 export class Latex {
   static instance: Latex;
@@ -35,6 +35,8 @@ export class Latex {
     mappings: Map<string, ValidateDefineBase>;
     typeKeys: string[];
   };
+
+  LatexConfig = new LatexConfig();
 
   ast: Program | null = null;
 
@@ -129,7 +131,7 @@ export class Latex {
       node.type === AstType.CallExpression &&
       node.callee.type === AstType.Identifier
     ) {
-      if (LatexNames.includes(node.callee.name)) {
+      if (this.LatexConfig.LatexNames.includes(node.callee.name)) {
         this.hintsCallExpressionNodes.push(node as CallExpression);
       }
     }

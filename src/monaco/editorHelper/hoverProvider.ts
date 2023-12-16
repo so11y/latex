@@ -1,9 +1,10 @@
-import * as monaco from "monaco-editor"
-import { AllLatex, LatexNames } from "../../analysis/helper/latexConfig";
+import * as monaco from "monaco-editor";
+import { Latex } from "../../analysis/latex";
 
 export const hoverProvider: monaco.languages.HoverProvider = {
   provideHover: function (model, position) {
     const world = model.getWordAtPosition(position);
+    const { LatexNames, AllLatex } = Latex.getInstance().LatexConfig;
     if (world && LatexNames.includes(world.word)) {
       return {
         contents: [

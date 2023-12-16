@@ -1,8 +1,8 @@
-import * as monaco from "monaco-editor"
-import { LatexNames } from "../../analysis/helper/latexConfig";
+import * as monaco from "monaco-editor";
+import { Latex } from "../../analysis/latex";
 export const tokenProvide: monaco.languages.IMonarchLanguage = {
   operators: ["+", "-", "*", "/"],
-  keywords: LatexNames,
+  keywords: Latex.getInstance().LatexConfig.LatexNames,
   escapes:
     /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
   digits: /\d+(_+\d+)*/,

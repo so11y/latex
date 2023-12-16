@@ -1,5 +1,5 @@
 import * as monaco from "monaco-editor";
-import { Latex } from "./validate";
+import { Latex } from "./latex";
 
 export function handleValidate(value: string, model: monaco.editor.ITextModel) {
   let { ast, markers } = Latex.getInstance().getMarkers(value);

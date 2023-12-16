@@ -1,13 +1,34 @@
+<style lang="scss" scoped>
+.editor-layout {
+  flex: 1;
+  position: relative;
+  .editor-layout__position {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .monaco {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+</style>
 <template>
-  <div ref="el" :style="{ width, height }"></div>
+  <div class="editor-layout">
+    <div class="editor-layout__position">
+      <div class="monaco" ref="el"></div>
+    </div>
+  </div>
   <EditorWorker />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, PropType } from "vue";
-import { useMonacoEditor } from "./index.hook";
+import { useMonacoEditor } from "./useEditor";
 import { handleValidate } from "../analysis";
-import { Latex } from "../analysis/validate";
+import { Latex } from "../analysis/latex";
 import EditorWorker from "./editorWorker.vue";
 import * as monaco from "monaco-editor";
 import { Program } from "estree";
@@ -15,29 +36,9 @@ import { useMessage } from "naive-ui";
 import { walkLocalAstToServerAst } from "../analysis/astToServer";
 
 const props = defineProps({
-  width: {
-    type: String as PropType<string>,
-    default: "100%",
-  },
-  height: {
-    type: String as PropType<string>,
-    default: "90vh",
-  },
-  language: {
-    type: String as PropType<string>,
-    default: "typescript",
-  },
-  preComment: {
-    type: String as PropType<string>,
-    default: "",
-  },
   modelValue: {
     type: String as PropType<string>,
     default: "",
-  },
-  editorOptions: {
-    type: Object as PropType<object>,
-    default: () => ({}),
   },
   ast: {
     type: Object as PropType<Program>,
@@ -47,9 +48,7 @@ const props = defineProps({
 const message = useMessage();
 const emits = defineEmits(["blur", "update:modelValue", "update:ast"]);
 
-const { el, updateVal, getEditor, createEditor } = useMonacoEditor(
-  props.language
-);
+const { el, updateVal, createEditor } = useMonacoEditor("latex");
 
 const stopTestCommand = monaco.editor.addCommand({
   id: "LatexTest",
@@ -68,7 +67,7 @@ const stopTestCommand = monaco.editor.addCommand({
 });
 
 onMounted(() => {
-  const { model, monacoEditor } = createEditor(props.editorOptions)!;
+  const { model, monacoEditor } = createEditor()!;
 
   monacoEditor!.onDidChangeModelContent(() => {
     const { ast } = handleValidate(monacoEditor!.getValue(), model);
@@ -86,4 +85,5 @@ onUnmounted(() => {
   stopTestCommand.dispose();
 });
 </script>
-../analysis../analysis/validate../analysis/astToServer
+./useEditor
+../analysis/latex

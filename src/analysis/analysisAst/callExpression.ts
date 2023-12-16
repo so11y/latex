@@ -15,12 +15,13 @@ import {
   Super,
   Node,
 } from "estree";
-import { LatexCallConfig, LatexNames } from "../helper/latexConfig";
+import { LatexCallConfigType } from "../helper/latexConfig";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
+import { Latex } from "../latex";
 
 export function validateCalleeName(
   n: Expression | Super,
-  names = LatexNames
+  names: string[]
 ): ValidateGuardFalseMate<Identifier> | ValidateGuardTrueMate<Identifier> {
   if (n.type !== AstType.Identifier) {
     return cratedFalseThrough(n as any, ErrorMessage.Unknown.UnknownSyntax);
@@ -34,7 +35,7 @@ export function validateCalleeName(
 function validateArguments(
   n: Array<Expression | SpreadElement>,
   parent: Node,
-  latexConfig: LatexCallConfig
+  latexConfig: LatexCallConfigType
 ) {
   const { config } = latexConfig;
   if (n.length !== config.accept.length) {
@@ -89,14 +90,16 @@ export const CallExpressionDefine: ValidateDefineBase = {
   type: "CallExpression",
   validate(node: CallExpression) {
     const { callee, arguments: _arguments } = node;
-    const safeCalleeName = validateCalleeName(callee);
+    const names = Latex.getInstance().LatexConfig.LatexNames;
+    const safeCalleeName = validateCalleeName(callee, names);
 
     if (safeCalleeName.through === false) {
       return safeCalleeName;
     }
 
-    const config =
-      LatexCallConfig[safeCalleeName.node.name as keyof typeof LatexCallConfig];
+    const config = (Latex.getInstance().LatexConfig.LatexCallConfig as any)[
+      safeCalleeName.node.name
+    ];
 
     return ValidateGuardMateWhere({
       falseMateGuard: validateArguments(_arguments, node, config),

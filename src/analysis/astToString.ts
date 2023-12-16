@@ -1,6 +1,6 @@
 import { Node } from "estree";
 import { generate, GENERATOR } from "astring";
-import { LatexCallConfig } from "./helper/latexConfig";
+import { Latex } from "./latex";
 import { AstType } from "./types";
 import { operators } from "./helper/defineOperators";
 
@@ -26,7 +26,9 @@ export function toLatexString(node: Node) {
         GENERATOR.Program.call(this, node, state);
       },
       [AstType.CallExpression](this: any, node: any, state: any) {
-        const config = (LatexCallConfig as any)[node.callee.name];
+        const config = (Latex.getInstance().LatexConfig.LatexCallConfig as any)[
+          node.callee.name
+        ];
         const currentNode = {
           ...node,
           callee: {

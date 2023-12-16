@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import Latex from "./features/latex.vue";
+import Latex from "./components/latex.vue";
 import {
   NDialogProvider,
   NNotificationProvider,
   NMessageProvider,
 } from "naive-ui";
 import { ref, shallowRef } from "vue";
-import MonacoEditor from "./monaco/index.vue";
-// const content = ref(`Conditional(
-//     1==1 && 2 >= 3 ? Max("1") : Max("b"),
-//     Max("aa"),
-//     Min("1")
-// )`);
+import MonacoEditor from "./monaco/editor.vue";
+import latexTags from "./components/latexTags.vue";
 
 const content = ref(`1==1 && 2 >= 3`);
 
@@ -22,23 +18,10 @@ const ast = shallowRef();
   <NDialogProvider>
     <NNotificationProvider>
       <NMessageProvider>
-        <div class="latex">
+        <div class="root">
           <Latex :ast="ast" />
-        </div>
-        <div class="buttons"></div>
-        <div class="main">
-          <div class="slider"></div>
-          <div class="editor">
-            <monaco-editor
-              v-model="content"
-              v-model:ast="ast"
-              language="latex"
-              :editorOptions="{
-                lineNumbers: 'on',
-                minimap: { enabled: true },
-              }"
-            />
-          </div>
+          <latexTags />
+          <monaco-editor v-model="content" v-model:ast="ast" />
         </div>
       </NMessageProvider>
     </NNotificationProvider>
@@ -50,7 +33,13 @@ const ast = shallowRef();
   padding: 0;
   margin: 0;
 }
-.latex {
-  padding: 20px 10px;
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  .main {
+    display: flex;
+    flex: 1;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
-import * as monaco from "monaco-editor"
-import { LatexNames, AllLatex } from "../../analysis/helper/latexConfig";
+import * as monaco from "monaco-editor";
+import { Latex } from "../../analysis/latex";
 export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
   provideCompletionItems: (model, position) => {
     const word = model.getWordUntilPosition(position);
@@ -9,6 +9,7 @@ export const provideCompletionItems: monaco.languages.CompletionItemProvider = {
       startColumn: word.startColumn,
       endColumn: word.endColumn,
     };
+    const { LatexNames, AllLatex } = Latex.getInstance().LatexConfig;
     const suggestions = LatexNames.map((key) => {
       return {
         label: key,
