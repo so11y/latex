@@ -56,6 +56,9 @@ function handleDialog(config: LatexCallConfigType) {
     },
     onPositiveClick: () => {
       config.config.accept = shallowAccept.value;
+      EditorHelper.getInstance()
+        .editor!.getAction("LatexValidateEditorMarkers")
+        ?.run();
       message.success("参数修改成功！");
     },
     positiveText: "确认",
