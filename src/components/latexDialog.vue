@@ -16,11 +16,11 @@
         />
       </n-form-item>
     </n-space>
-    <n-form-item label="参数" path="accept">
+    <n-form-item label="参数" path="config.accept">
       <n-space>
         <ChooseArg
-          v-if="modelValue.accept.length"
-          v-model="modelValue.accept"
+          v-if="modelValue.config.accept.length"
+          v-model="modelValue.config.accept"
         />
         <n-tag @click="handleAppend">+</n-tag>
       </n-space>
@@ -41,23 +41,16 @@ import {
   NInput,
   NSpace,
   NTag,
-  useMessage,
   FormRules,
 } from "naive-ui";
-import { LatexValidateCallAccept } from "../analysis/helper/latexConfig";
+import { LatexCallConfigType } from "../analysis/helper/latexConfig";
 import ChooseArg from "./chooseArg.vue";
 import { AllLatexCallAccept } from "../analysis/callAccept/defaultAccept";
 import { ref } from "vue";
 
-interface Props {
-  accept: Array<LatexValidateCallAccept>;
-  alias: string;
-  name: string;
-}
-
 const props = withDefaults(
   defineProps<{
-    modelValue: Props;
+    modelValue: LatexCallConfigType;
     isCreated?: boolean;
   }>(),
   {
@@ -66,8 +59,8 @@ const props = withDefaults(
 );
 
 const emit = defineEmits<{
-  (e: "update:modelValue", config: Props): void;
-  (e: "confirm", config: Props): void;
+  (e: "update:modelValue", config: LatexCallConfigType): void;
+  (e: "confirm", config: LatexCallConfigType): void;
   (e: "close"): void;
 }>();
 
@@ -83,17 +76,19 @@ const rules: FormRules = {
     message: "请输入别名",
     trigger: "blur",
   },
-  accept: {
-    required: true,
-    type: "array",
-    key: "key",
-    min: 1,
-    message: "请至少添加一个参数",
+  config: {
+    accept: {
+      required: true,
+      type: "array",
+      key: "key",
+      min: 1,
+      message: "请至少添加一个参数",
+    },
   },
 };
 
 function handleAppend() {
-  props.modelValue.accept.push(AllLatexCallAccept[0]);
+  props.modelValue.config.accept.push(AllLatexCallAccept[0]);
   formRef.value?.validate(
     () => {},
     (e) => {

@@ -68,4 +68,9 @@ export class EditorHelper {
     this._disposable.inlayHintsProviderDisposable?.dispose();
     this._disposable.codeLensProviderDisposable?.dispose();
   }
+
+  reValidate() {
+    this.editor!.getAction("LatexValidateEditorMarkers")?.run();
+    this.setupTokensProvider();
+  }
 }

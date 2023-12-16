@@ -32,12 +32,13 @@
 import { Latex } from "../analysis/latex";
 import { NModal, NTag, NSpace, useDialog, useMessage } from "naive-ui";
 import LatexDialog from "./latexDialog.vue";
-import { ref } from "vue";
+import { ref, toRaw, triggerRef } from "vue";
 import {
   LatexCallConfigType,
   LatexValidateCallAccept,
 } from "../analysis/helper/latexConfig";
 import { EditorHelper } from "../monaco/editorHelper/index";
+import { cloneDeep } from "lodash-es";
 const message = useMessage();
 
 const callConfigs = ref(Latex.getInstance().LatexConfig.LatexCallConfig);
@@ -48,8 +49,10 @@ const { openDialog, title, config, handleUpdateLatexCall, showModal } =
   useHandleCallFnConfig();
 
 function useHandleCallFnConfig() {
-  const builderConfig = () => ({
-    accept: [] as Array<LatexValidateCallAccept>,
+  const builderConfig = (): LatexCallConfigType => ({
+    config: {
+      accept: [],
+    },
     alias: "",
     name: "",
   });
@@ -65,10 +68,8 @@ function useHandleCallFnConfig() {
   ) => {
     config.value = builderConfig();
     if (owenConfig) {
-      config.value.accept = owenConfig.config.accept.slice();
+      config.value = cloneDeep(owenConfig!);
       title.value = owenConfig.alias;
-      config.value.alias = owenConfig.alias;
-      config.value.name = owenConfig.name;
       currentConfig = owenConfig;
     } else {
       title.value = "新增标签";
@@ -78,32 +79,15 @@ function useHandleCallFnConfig() {
   };
 
   const handleUpdateLatexCall = () => {
-    //这里后面把参数传递优化一下，两个组件参数格式没统一
     if (isCreate.value) {
-      const { name, alias, accept } = config.value;
-      if (Reflect.has(callConfigs.value, name)) {
-        message.warning("已存在该标签，请修改名称");
-        return;
-      }
-      (callConfigs.value as any)[name] = {
-        name,
-        alias,
-        config: {
-          accept,
-        },
-      };
-
-      const editorHelper = EditorHelper.getInstance();
-      editorHelper.editor!.getAction("LatexValidateEditorMarkers")?.run();
-      editorHelper.setupTokensProvider();
+      const inst = Latex.getInstance().LatexConfig;
+      inst.putCallExpression(toRaw(config.value));
+      triggerRef(callConfigs);
+      EditorHelper.getInstance().reValidate();
       message.success("新增标签成功！");
     } else {
-      currentConfig!.config.accept = config.value.accept;
-      currentConfig!.alias = config.value.alias;
-      currentConfig!.name = config.value.name;
-      const editorHelper = EditorHelper.getInstance();
-      editorHelper.editor!.getAction("LatexValidateEditorMarkers")?.run();
-      editorHelper.setupTokensProvider();
+      Object.assign(currentConfig!, toRaw(config.value));
+      EditorHelper.getInstance().reValidate();
       message.success("参数修改成功！");
     }
   };
@@ -124,11 +108,7 @@ function handleRemove(config: LatexCallConfigType) {
     content: "确认删除该标签吗？",
     onPositiveClick: () => {
       Reflect.deleteProperty(callConfigs.value, config.name);
-      const editorHelper = EditorHelper.getInstance();
-      editorHelper.setupTokensProvider();
-      EditorHelper.getInstance()
-        .editor!.getAction("LatexValidateEditorMarkers")
-        ?.run();
+      EditorHelper.getInstance().reValidate();
     },
     positiveText: "确认",
   });

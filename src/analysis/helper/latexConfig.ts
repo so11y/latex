@@ -47,6 +47,10 @@ export class LatexConfig {
       ...macroLatexCallConfig,
     };
   }
+
+  putCallExpression(config: LatexCallConfigType) {
+    Reflect.set(this.LatexCallConfig, config.name, config);
+  }
 }
 
 export const macroLatexCallConfig = {
