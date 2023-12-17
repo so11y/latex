@@ -28,7 +28,7 @@
   </n-form>
 
   <n-space justify="end">
-    <n-button size="small">取消</n-button>
+    <n-button size="small" @click="emit('close')">取消</n-button>
     <n-button size="small" @click="handleConfirm">确定</n-button>
   </n-space>
 </template>
