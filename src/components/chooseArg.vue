@@ -21,10 +21,10 @@
 
 <script lang="ts" setup>
 import { NSpace, NTag, NDropdown } from "naive-ui";
-import { LatexValidateCallAccept } from "../analysis/helper/latexConfig";
+import { LatexValidateAccept } from "../analysis/helper/latexConfig";
 import { AllLatexCallAccept } from "../analysis/callAccept/defaultAccept";
 
-const props = defineProps<{ modelValue: Array<LatexValidateCallAccept> }>();
+const props = defineProps<{ modelValue: Array<LatexValidateAccept> }>();
 
 function handleSelect(key: string, index: number) {
   const accept = AllLatexCallAccept.find((accept) => accept.key === key)!;

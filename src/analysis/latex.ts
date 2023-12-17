@@ -100,6 +100,7 @@ export class Latex {
           diagnosisNodes.push(cratedFakeNodeError(position));
         } else {
           console.error(error);
+          this.ast = null;
         }
       }
       console.log("ignore parse error");
