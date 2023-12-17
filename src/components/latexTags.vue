@@ -80,9 +80,7 @@ function useHandleCallFnConfig() {
       EditorHelper.getInstance().reValidate();
       message.success("新增标签成功！");
     } else {
-      Reflect.deleteProperty(callConfigs.value, currentConfig!.name);
-      Reflect.set(callConfigs.value, config.value.name, toRaw(config.value));
-      triggerRef(callConfigs);
+      Object.assign(currentConfig!, toRaw(config.value));
       EditorHelper.getInstance().reValidate();
       message.success("参数修改成功！");
     }

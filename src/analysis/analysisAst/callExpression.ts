@@ -34,9 +34,17 @@ export const CallExpressionDefine: ValidateDefineBase = {
       return safeCalleeName;
     }
 
-    const { config } = (this.LatexConfig.LatexCallConfig as any)[
-      safeCalleeName.node.name
-    ];
+    const maybeConfig = Object.values(this.LatexConfig.LatexCallConfig).find(
+      (config) => {
+        return config.name === safeCalleeName.node.name;
+      }
+    );
+
+    if (!maybeConfig) {
+      return cratedFalseThrough(node, ErrorMessage.Unknown.UnKnownCall);
+    }
+
+    const { config } = maybeConfig;
 
     const result = validateArguments.call(
       this,
