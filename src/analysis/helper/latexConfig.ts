@@ -1,17 +1,24 @@
-import { ValidateGuardFalseMate } from "../types";
+import { AstType, ValidateGuardFalseMate } from "../types";
 import { StringAccept } from "../callAccept/defaultAccept";
+import { Node } from "estree";
+import { Latex } from "../latex";
 
 export interface ConfigRecord {
   [key: string]: LatexCallConfigType;
 }
 
-export interface LatexValidateCallAccept {
+export interface LatexValidateAccept {
   key: string;
   describe: string;
+  fork?: Array<AstType>;
+  data?: Record<string, any>;
+  child?: {
+    accept: Array<LatexValidateAccept>;
+  };
   validate: (
-    this: Omit<LatexCallConfigType["config"], "accept">,
-    node: any,
-    parent: any,
+    this: Latex,
+    node: Node,
+    parent: Node,
     index: number
   ) => true | ValidateGuardFalseMate;
 }
@@ -21,7 +28,7 @@ export interface LatexCallConfigType {
   alias: string;
   astName?: string;
   config: {
-    accept: Array<LatexValidateCallAccept>;
+    accept: Array<LatexValidateAccept>;
   };
 }
 

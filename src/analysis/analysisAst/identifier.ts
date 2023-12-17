@@ -7,12 +7,11 @@ import {
 } from "../types";
 import { Identifier } from "estree";
 import { ErrorMessage, formatterError } from "../helper/errorMessage";
-import { Latex } from "../latex";
 
 export const IdentifierDefine: ValidateDefineBase = {
   type: "Identifier",
   validate(node: Identifier, parent) {
-    const { LatexNames } = Latex.getInstance().LatexConfig;
+    const { LatexNames } = this.LatexConfig;
     const maybeKnow = LatexNames.includes(node.name);
     const parentIsCallExpression =
       !!parent && AstType.CallExpression === parent.type;

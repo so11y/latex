@@ -1,5 +1,5 @@
 import { Node } from "estree";
-import { ValidateGuardFalseMate } from "../types";
+import { ValidateDefineBase, ValidateGuardFalseMate } from "../types";
 
 export function nomadizeMarkers(
   nodes: ValidateGuardFalseMate<Node>[],
@@ -47,4 +47,18 @@ export function cratedFakeNodeError(position: any) {
       },
     },
   } as any;
+}
+
+export function buildTypeNames(types: Array<ValidateDefineBase>) {
+  const mappings: Map<string, ValidateDefineBase> = new Map();
+
+  for (const value of types) {
+    let current: ValidateDefineBase = value as ValidateDefineBase;
+    mappings.set(current.type, current);
+  }
+
+  return {
+    mappings,
+    typeKeys: Array.from(mappings.keys()),
+  };
 }

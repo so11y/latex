@@ -2,6 +2,7 @@ import { Node } from "estree";
 import { SyncHandler } from "estree-walker";
 import { isObject, isString } from "lodash-es";
 import * as monaco from "monaco-editor";
+import { Latex } from "./latex";
 
 interface ValidateGuarMate {
   through: boolean;
@@ -20,6 +21,7 @@ export interface ValidateGuardTrueMate<T extends Node = Node>
   extends ValidateGuarMate {
   through: true;
   node: T;
+  isBreak: boolean;
   eatKeys?: Array<string>;
 }
 
@@ -30,6 +32,7 @@ type ValidateHandle = SyncHandler extends (
   ...args: infer Args
 ) => any
   ? (
+      this: Latex,
       node: any,
       parent?: any,
       ...args: [...Args]
@@ -82,12 +85,14 @@ export function cratedFalseThrough<T extends Node = Node>(
 
 export function cratedTrueThrough<T extends Node = Node>(
   node: T,
-  eatKeys: Array<string> = []
+  eatKeys: Array<string> = [],
+  isBreak: boolean = false
 ): ValidateGuardTrueMate {
   return {
     node,
     through: true,
     eatKeys,
+    isBreak,
   };
 }
 
@@ -99,6 +104,7 @@ export enum AstType {
   Identifier = "Identifier",
   ConditionalExpression = "ConditionalExpression",
   Program = "Program",
+  ArrayExpression = "ArrayExpression",
   NumberLiteral = "NumberLiteral", //不是acorn的标准，为服务端需要。
 }
 

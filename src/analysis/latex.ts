@@ -12,13 +12,24 @@ import { AstType, ValidateDefineBase, ValidateGuardFalseMate } from "./types";
 import { parse } from "./parse";
 import { CallExpression, Node } from "estree";
 import {
+  buildTypeNames,
   cratedFakeNodeError,
   extractTokenAndNumbers,
   nomadizeMarkers,
 } from "./util/functional";
-import { LatexConfig, macroLatexCallConfig } from "./helper/latexConfig";
+import {
+  LatexConfig,
+  LatexValidateAccept,
+  macroLatexCallConfig,
+} from "./helper/latexConfig";
 import { walk } from "estree-walker";
-import { Program } from "acorn";
+import { Node as AcornNode } from "acorn";
+import { isString } from "lodash-es";
+
+interface LatexSyntax {
+  mappings: Map<string, ValidateDefineBase>;
+  typeKeys: string[];
+}
 
 export class Latex {
   static instance: Latex;
@@ -26,46 +37,60 @@ export class Latex {
   static getInstance() {
     //测试的情况下，每次都会创建新的实例
     if (!Latex.instance || __Test__) {
-      Latex.instance = new Latex();
+      Latex.instance = new Latex(
+        buildTypeNames([
+          CallExpressionDefine,
+          ExpressionStatementDefine,
+          IdentifierDefine,
+          LiteralDefine,
+          ProgramDefine,
+          BinaryExpressionDefine,
+          LogicalExpressionDefine,
+          ConditionalExpressionDefine,
+          NumberLiteralDefine,
+        ])
+      );
     }
     return Latex.instance;
   }
 
-  declare syntax: {
-    mappings: Map<string, ValidateDefineBase>;
-    typeKeys: string[];
-  };
+  declare syntax: LatexSyntax;
 
   LatexConfig = new LatexConfig();
 
-  ast: Program | null = null;
+  ast: AcornNode | null = null;
 
   hintsCallExpressionNodes: Array<CallExpression> = [];
 
-  constructor() {
-    this.syntax = buildTypeNames([
-      CallExpressionDefine,
-      ExpressionStatementDefine,
-      IdentifierDefine,
-      LiteralDefine,
-      ProgramDefine,
-      BinaryExpressionDefine,
-      LogicalExpressionDefine,
-      ConditionalExpressionDefine,
-      NumberLiteralDefine,
-    ]);
+  constructor(syntax: LatexSyntax) {
+    this.syntax = syntax;
   }
 
-  validate(value: string, ast?: Program | null) {
+  fork(syntax: LatexSyntax, ast: AcornNode) {
+    return new ForkLatex(syntax).validate(null, ast);
+  }
+
+  validate(value: string | null, ast?: AcornNode | null) {
     const diagnosisNodes: Array<ValidateGuardFalseMate> = [];
+    if (isString(value) && value.length === 0) {
+      return {
+        diagnosisNodes,
+        ast: null,
+      };
+    }
+
     try {
-      this.ast =
-        ast ||
-        parse.parse(value, {
+      if (ast) {
+        this.ast = ast;
+      } else if (value) {
+        this.ast = parse.parse(value, {
           ecmaVersion: "latest",
           sourceType: "script",
           locations: true,
         });
+      } else {
+        throw new Error("value or ast must be provided");
+      }
 
       this.walk(this.ast as Node, diagnosisNodes);
     } catch (error) {
@@ -73,6 +98,8 @@ export class Latex {
         const position = extractTokenAndNumbers((error as Error).message);
         if (position) {
           diagnosisNodes.push(cratedFakeNodeError(position));
+        } else {
+          console.error(error);
         }
       }
       console.log("ignore parse error");
@@ -92,8 +119,8 @@ export class Latex {
     walk(ast as any, {
       enter(node, parent, prop, index) {
         _this.isNeedInlayHints(node);
-        const schemas = _this.syntax.mappings.get(node.type)!;
-        const validate = schemas.validate(node, parent, prop, index);
+        const define = _this.syntax.mappings.get(node.type)!;
+        const validate = define.validate.call(_this, node, parent, prop, index);
         if (validate.through === false) {
           diagnosisNodes.push(validate);
           this.skip();
@@ -110,6 +137,11 @@ export class Latex {
               (nestAst as Node).isEat = true;
             }
           });
+        }
+
+        if (validate.isBreak) {
+          this.skip();
+          return;
         }
       },
       leave(node) {
@@ -150,7 +182,7 @@ export class Latex {
     }
   }
 
-  getMarkers(value: string, ast?: Program | null) {
+  getMarkers(value: string, ast?: AcornNode | null) {
     let { diagnosisNodes } = this.validate(value, ast);
     const markers: monaco.editor.IMarkerData[] = nomadizeMarkers(
       diagnosisNodes,
@@ -163,18 +195,9 @@ export class Latex {
   }
 }
 
-function buildTypeNames(
-  types: Array<Array<ValidateDefineBase> | ValidateDefineBase>
-) {
-  const mappings: Map<string, ValidateDefineBase> = new Map();
-
-  for (const value of types) {
-    let current: ValidateDefineBase = value as ValidateDefineBase;
-    mappings.set(current.type, current);
+export class ForkLatex extends Latex {
+  declare currentAcceptConfig: LatexValidateAccept["child"];
+  forkValidate(syntax: LatexSyntax, ast: AcornNode) {
+    return new Latex(syntax).validate(null, ast);
   }
-
-  return {
-    mappings,
-    typeKeys: Array.from(mappings.keys()),
-  };
 }

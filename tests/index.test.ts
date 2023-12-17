@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { Latex } from "../src/analysis/validate";
+import { Latex } from "../src/analysis/latex";
 import LiteralText from "./text/literal.json";
 import { pick } from "lodash-es";
 import binaryExpressionText from "./text/binaryExpression.json";
